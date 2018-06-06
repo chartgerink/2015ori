@@ -37,6 +37,7 @@ tabnr <- 1
 fignr <- 1
 ```
 
+<!-- 10.1016/j.jclinepi.2017.03.018 -->
 
 # Introduction
 
@@ -90,41 +91,38 @@ names(df) <- c("Study",
 <!-- consistency of data fabrication v data anomalies -->
 
 Any field of empirical inquiry is faced with cases of scientific misconduct at some point, either in the form of fabrication, falsification or plagiarism (FFP). 
-Psychology faced Stapel; medical sciences faced Poldermans and Macchiarini; life sciences faced Voignet; physical sciences faced Sch&ouml;n --- these are just a few examples of misconduct cases in the last decade. 
+Psychology faced Stapel; medical sciences faced Poldermans and Macchiarini; life sciences faced Voignet; physical sciences faced Sch&ouml;n --- these are just a few examples of research misconduct cases in the last decade. 
 Overall, an estimated 2\% of all scholars admit to falsifying or fabricating research results at least once [@10.1371/journal.pone.0005738], which due to its self-report nature is likely to be an underestimate. 
 The detection rate of data fabrication is likely to be even lower; for example, only around a dozen cases become public in the United States and the Netherlands, despite that there are several hundreds of thousands of researchers in these countries. 
 At best, this suggests a detection rate below 1\% of those 2\% who admit to fabricating data --- the tip of a seemingly much larger iceberg.
 
 In order to stifle attempts at data fabrication, improved detection of fabricated data is considered to deter such behavior. 
-This idea is based on deterrence theory [@leviathan], which stipulates that increased risk of detection decreases the utility of scientific misconduct, hence, fewer people will engage in it. 
+This idea is based on deterrence theory [@leviathan], which stipulates that increased risk of detection decreases the expected utility of scientific misconduct, hence, fewer people will engage in it. 
 Detection techniques have developed to varying degrees for fabrication, falsification, and plagiarism.
-Plagiarism scanners have been around the longest [e.g., @10.1109/13.28038] and are widely implemented not only at journals but also in student evaluation. 
-For data fabrication, developments around detecting image manipulation are more recent and these methods are being implemented at journals. 
-For example, the Journal of Cell Biology and the EMBO journal scan each submitted image for potential manipulation [@The_Journal_of_Cell_Biology2015-vh;@10.1038/546575a], which supposedly increases the risk of (blatant) image manipulation. 
+Plagiarism scanners have been around the longest [e.g., @10.1109/13.28038] and are widely implemented not only at journals but also in the evaluation of student theses (e.g., with commercial services such as Turnitin). 
+For data fabrication, developments around detecting image manipulation are more recent, with some tools even being implemented at journals. 
+For example, the Journal of Cell Biology and the EMBO journal scan each submitted image for potential manipulation [@The_Journal_of_Cell_Biology2015-vh;@10.1038/546575a], which supposedly increases the risk of detecting (blatant) image manipulation. 
 More recently, algorithms are being developed to automate the scanning of images for such manipulations [@10.1007/s11948-016-9841-7]. 
 Moreover, the application of such tools can also help researchers systematically evaluate research articles in order to estimate the extent to which image manipulation occurs [4\% of all papers are estimated to contain manipulated images, @10.1128/mBio.00809-16] or what factors are predictive of image manipulation [@10.1007/s11948-018-0023-7]. 
 
 Detection methods for data fabrication in empirical research are often based on a mix of psychology theory and statistics theory. 
-Because humans are notoriously bad at understanding and estimating randomness [@10.1126/science.185.4157.1124;@10.1037/h0031322;@10.1037/1082-989X.5.2.241], this could manifest itself in the fundamentally probabilistic data they try to fabricate. 
-As such, when data are fabricated, principles of statistics and randomness could easily be violated at various dimension of the data [@Haldane1948-nm]. 
-Based on this idea, statistical methods can be used to detect anomalies in investigations. Whether data are in line with the reported probabilistic processes and their theoretically expected outcomes (e.g., random assignment) can indicate deviations from the reported protocol, potentially even data fabrication. 
+Because humans are notoriously bad at understanding and estimating randomness [@Haldane1948-nm;@10.1126/science.185.4157.1124;@10.1037/h0031322;@10.1037/1082-989X.5.2.241], this could manifest itself in the fundamentally probabilistic data they try to fabricate. 
+Whether the data and outcomes of analyses based on these data are in line with the (at least partly probabilistic) processes that are assumed to underlie them, may indicate deviations from the reported protocol, potentially even data fabrication. 
 <!-- ref naar wagenaar 1972? in l21 -->
 
 Statistical methods have proven to be of importance in initiating data fabrication investigations or in assessing scope of potential data fabrication. 
 For example, Kranke, Apfel, and Roewer skeptically perceived Fuji's "incredibly nice" data [@10.1213/00000539-200004000-00053] and used statistical methods to contextualize their skepticism.
-At the time, a reviewer perceived them to be on a "crusade  against Fujii and his colleagues" [@@10.1111/j.1365-2044.2012.07318.x] and further investigation was absent. 
-Only when Carlisle extended the systematic investigation to 168 of Fuji's papers [@10.1111/j.1365-2044.2012.07128.x;@10.1111/anae.13650;@10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 peer-reviewed papers [@oransky2015;@10.1016/j.ijoa.2012.10.00]. 
-In another example, the Stapel case, statistical evaluation of his oeuvre  occurred after he had already confessed to fabricating data [@Levelt2012].
-This resulted in 58 retractions [@oransky2015] and cleared all PhD students of wrongdoing [@Levelt2012].
+At the time, a reviewer perceived them to be on a "crusade  against Fujii and his colleagues" [@10.1111/j.1365-2044.2012.07318.x] and further investigation was absent. 
+Only when Carlisle extended the systematic investigation to 168 of Fuji's papers [@10.1111/j.1365-2044.2012.07128.x;@10.1111/anae.13650;@10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 of Fuji's peer-reviewed papers [@oransky2015;@10.1016/j.ijoa.2012.10.001]. 
+In another example, the Stapel case, statistical evaluation of his oeuvre  occurred after he had already confessed to fabricating data, which resulted in 58 retractions of papers (co-)authored by Stapel [@Levelt2012;@oransky2015].
 
-In order to determine whether generic application of statistical methods to detect data anomalies is responsible, their diagnostic value requires further investigation. 
-After all, accusations of data fabrication have grave consequences for the people involved [regretfully, the STAP case brings this to the fore very clearly; @10.1038/520600a]. 
-Many of these statistical methods to detect data anomalies are quantifications of initial suspicions by researchers.
-Hence, until validated, these should be considered proposed methods.
-In some cases, convergent evidence is provided by testing the underlying psychological premises in the general population [@10.1080/08989629508573866;@10.1080/08989620212969] but the question remains whether this premise also applies for data fabricators.
-Considering we hardly know how researchers might go about fabricating data, this seems especially problematic. 
-Known cases provide relatively few and biased insights into the mind of the data fabricator. 
-Relatively extensive descriptions in rare and partial autobiogrophical accounts provide little insight into the actual data fabrication process, except for the setting where it might take place [e.g., late at night when no one is around; @stapel_book].
+In order to determine whether the application of statistical methods to detect data anomalies is responsible, their diagnostic value requires further investigation to inform decisions about the utility of these methods. 
+Specifically, many of the developed statistical methods to detect data anomalies are quantifications of case specific suspicions by researchers.
+Hence, these could be considered mere proposals and their diagnostic value (i.e., sensitivity and specificity) unknown until they are thoroughly validated outside of those specific cases. 
+Side-by-side comparisons of these proposed statistical methods is also difficult through the in-casu origin of these methods.
+Moreover, the efficacy of these methods based on known cases is likely to be biased, considering that the unknown amount of undetected cases are not included. 
+With respect to the utility of these statistical methods, questions about whether the sensitivity and specificity are permissible in light of the severe professional- and personal consequences of potential research misconduct need to be asked [regretfully, the STAP case brings this to the fore very clearly; @10.1038/520600a].
+These methods might have utility in misconduct investigations, but not in large-scale applications to screen the literature, depending on the diagnostic values resulting from a controlled investigation.
 
 <!-- Carlisle tested whether Fuji's Randomized Clinical Trials (RCTs) baseline measurements were identically distributed across groups. 
 If random assignment occurred, this should be the case. 
@@ -136,8 +134,9 @@ The mean $p$-value for the true randomized design Set 1 is `r round(mean(ex1_1tp
  -->
  
 <!-- insert code for the r bits in the next paragraph here -->
-
-We present two studies investigating the diagnostic performance of statistical methods to detect data fabrication.
+In this article, we investigate the diagnostic performance of statistical methods to detect data fabrication. 
+These statistical methods (outlined below) have not previously been validated using both genuine- and fabricated data.
+To that end, we present two studies where we try to distinguish assumably genuine- from known fabricated data.
 These studies investigate methods to detect data fabrication in summary statistics (Study 1) or in raw data (Study 2). 
 In Study 1, we invited researchers to fabricate summary statistics for a set of four anchoring studies, for which we also had genuine data from the Many Labs 1 initiative [[https://osf.io/pqf9r](https://osf.io/pqf9r); @10.1027/1864-9335/a000178].
 In Study 2, we invited researchers to fabricate raw data for a Stroop experiment, for which we also had genuine data from the Many Labs 3 initiative [[https://osf.io/n8xa7/](https://osf.io/n8xa7/); @10.1016/j.jesp.2015.10.012]. 
@@ -147,7 +146,7 @@ Before presenting these studies, we expand on the theoretical framework of the i
 # Theoretical framework
 
 In the current paper, we differentiate between statistical methods to detect potential data fabrication based on reported summary statistics or raw data. 
-Below, we expand on the theoretical underpininings of these methods and provide sample code to run these, where appropriate (implemented in the `ddfab` package for R). 
+Below, we expand on the theoretical underpininings of these methods and provide sample code to apply these methods. 
 <!-- worth thinking about whether this is ethical if methods prove irresponsible -->
 For summary statistics, we review $p$-value analysis, variance analysis, and effect size analysis as potential ways to detect data fabrication. 
 $P$-value analyses can be applied whenever a set of nonsignificant $p$-values are reported; variance analysis can be applied whenever a set of variances and accompanying sample sizes are reported for independent, randomly assigned groups; effect size analysis can be used whenever the effect size is reported or can be computed [e.g., an APA reported t- or F-statistic; @10.1525/collabra.71]. 
@@ -165,7 +164,7 @@ As such, the $p$-value distribution of a set of independent $p$-values is unifor
 
 When assumptions underlying the computation of a $p$-value are violated, $p$-value distributions can take on a variety of shapes. 
 For example, when optional stopping occurs and the null hypothesis is true, $p$-values just below .05 become more frequent [@10.1080/17470218.2014.982664;@10.7717/peerj.1935]. 
-However, when optional stopping occurs under the alternative hypothesis or when other researcher degrees of freedom are used, a right-skewed distribution for significant $p$-values can still occur [@10.1037/xge0000086;@10.7717/peerj.1935/fig-1].
+However, when optional stopping occurs under the alternative hypothesis or when other researcher degrees of freedom are used, a right-skewed distribution for significant $p$-values can still occur [@10.1037/xge0000086;@10.7717/peerj.1935].
 
 When independent $p$-values are not right-skewed or uniformly distributed (as would be theoretically expected), it can indicate potential data fabrication. 
 For example, in the Fuji case, supposedly randomly assigned groups were fabricated. 
@@ -321,6 +320,8 @@ if(!file.exists('../data/study_01/study1_res.csv'))
 {
  set.seed(123);suppressMessages(source('../functions/concatenate_analyze_01.R')) 
 }
+
+ set.seed(123);suppressMessages(source('../functions/concatenate_analyze_01.R')) 
 
 dat_summary <- read.csv(dat_summary_file)
 
@@ -497,7 +498,7 @@ Using nonsignificant $p$-values to detect data fabrication is hardly better than
 We asked researchers to fabricate data for nonsignificant effect sizes across four anchoring studies, thinking they might be unable to produce uniformly distributed $p$-values due to misunderstanding of what a $p$-value means [@;@]. 
 <!-- add p-value interpretation from ej, sijtsma p value paper -->
 Our results indicate that the $p$-values for the gender effect and interaction effect perform only slightly above chance level for detecting fabricated data, $AUROC=`r round(AUC$gender_fish_p$auc[1], 3)`$ and $AUROC=`r round(AUC$interaction_fish_p$auc[1], 3)`$, respectively. 
-In other words, widespread detection based on nonsignificant $p$-values does not seem promising. 
+In other words, detection of fabricated data with nonsignificant $p$-values does not seem promising based on results from this sample. 
 
 ### Variance analysis
 
@@ -556,16 +557,16 @@ dfvar <- data.frame(Method = c("Homogeneous, all studies combined",
             AUC$maxmin_p_study4_low$auc,
             AUC$maxmin_p_study4_high$auc
             ))
-
+dfcopy <- dfvar
 names(dfvar) <- c('Method', 'AUROC $SD_z$', 'AUROC $max-min_z$')
 knitr::kable(dfvar, row.names = FALSE, digits = 3, caption = "_Table XX._ Diagnosticity of using variance analyses to detect data fabrication, depicted with the AUROC-value. We assumed fabricated results would show ")
 tabnr <- tabnr + 1
 ```
 
 Results indicate that (1) heterogeneity of population variances directly affect the effectiveness of detecting data fabrication, (2) the different operationalizations of variance analyses show minimal differences, and (3) that the combined analysis of standard deviations across anchoring conditions in the four studies is a preferred method. 
-When comparing the combined variance analyses, we see that the homogeneity assumption drastically decreases the performance ($SD_z$; homogeneity: $AUROC=`r round(AUC$variance_sd_p_overall_homo$auc, 3))`$, heterogeneity: AUROC=`r round(AUC$variance_sd_p_overall_hetero$auc, 3))`). 
+When comparing the combined variance analyses, we see that the homogeneity assumption drastically decreases the performance ($SD_z$; homogeneity: $AUROC=`r round(AUC$variance_sd_p_overall_homo$auc, 3)`$, heterogeneity: AUROC=`r round(AUC$variance_sd_p_overall_hetero$auc, 3)`). 
 This assumption has not previously been explicated [@] and we also did not preregister analyses that took into account this assumption. 
-Moreover, the maximum absolute difference between the $SD_z$ and $max-min_z$ operationalizations is `r round(max(abs(dfvar$SD_z - dfvar$max_min_z)), 3)` and there is no reason to deviate from the original $SD_z$ operationalization as proposed by @. 
+Moreover, the maximum absolute difference between the $SD_z$ and $max-min_z$ operationalizations is `r round(max(abs(dfcopy$SD_z - dfcopy$max_min_z)), 3)` and there is no reason to deviate from the original $SD_z$ operationalization as proposed by @. 
 Lastly, we see that variance analyses separated per study or anchoring condition within a study are quite variable, which suggests that the combined analysis is preferred because selecting a priori selection of a specific subset is unfeasible in practice.
 
 ### Effect sizes
@@ -574,7 +575,27 @@ By simply comparing effect sizes of the main anchoring effect, results indicate 
 
 ### Combination of p-value and variance analysis
 
+We combined the results from the different variance analyses with the $p$-value analyses of the nonsignificant gender- and interaction effects. Because we conducted combined and subsetted variance analyses under two different assumptions (homogeneous- or heterogeneous variances across anchoring conditions), we also conducted a set of combinations. Table `r tabnr` depicts the results for each. In the first two rows, we depict the combination of the $p$-value analyses of the nonsignificant gender effect, the nonsignificant interaction effect, and the overall variance analyses under homogeneity of variances (first row) or heterogeneity of variances (second row). Subsequently we also show the results where we analyzed the variances of each study separately (third row) or where we analyzed the variances of each anchoring condition in each study separately (fourth row).
+
+```{r table_combined, echo = FALSE}
+dfcomb <- data.frame(Method = c("Nonsignificant effects (2) and homogeneous variance analysis across studies (1)",
+                "Nonsignificant effects (2) and heterogeneous variance analysis across studies (1)",
+                "Nonsignificant effects (2) and variance analysis per study (4)",
+                "Nonsignificant effects (2) and variance analysis per anchoring condition per study (8)"),
+          combined = c(
+            AUC$fish_combine_3_homo_p$auc,
+            AUC$fish_combine_3_hetero_p$auc,
+            AUC$fish_combine_6_homo_p$auc,
+            AUC$fish_combine_10_hetero_p$auc
+            ))
+names(dfcomb) <- c('Method', 'AUROC')
+knitr::kable(dfcomb, row.names = FALSE, digits = 3, caption = "_Table XX._ Diagnosticity of combining variance analyses and $p$-value analyses to detect data fabrication, depicted with the AUROC-value.")
+tabnr <- tabnr + 1
+```
+
 ## Discussion
+
+
 
 # Study 2 - detecting fabricated raw data
 
