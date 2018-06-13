@@ -14,15 +14,13 @@ bibliography: ../bibliography/library2.bib
 
 ```{r echo = FALSE}
 library(ggplot2)
-
+# devtools::install_github('chartgerink/ddfab')
+library(ddfab)
 
 source('../functions/digit_analysis.R')
 source('../functions/std_var.R')
 source('../functions/fisher_method.R')
 
-ml_file <- '../data/study_01/ml_summary_stats.csv'
-qualtrics_file <- '../data/study_01/qualtrics_processed.csv'
-dat_summary_file <- '../data/study_01/study1_res.csv'
 file <- '../data/study_01/raw_summary_results_fabrication_qualtrics.csv'
 res_file <- '../data/study_01/qualtrics_processed.csv'
 ml_dat_file <- '../data/study_01/anchoring_ml/chjh ml1_anchoring cleaned.sav'
@@ -88,32 +86,30 @@ names(df) <- c("Study",
         "P-value [S2]")
 ```
 
-<!-- consistency of data fabrication v data anomalies -->
-
 Any field of empirical inquiry is faced with cases of scientific misconduct at some point, either in the form of fabrication, falsification or plagiarism (FFP). 
 Psychology faced Stapel; medical sciences faced Poldermans and Macchiarini; life sciences faced Voignet; physical sciences faced Sch&ouml;n --- these are just a few examples of research misconduct cases in the last decade. 
-Overall, an estimated 2\% of all scholars admit to falsifying or fabricating research results at least once [@10.1371/journal.pone.0005738], which due to its self-report nature is likely to be an underestimate. 
+Overall, an estimated 2\% of all scholars admit to falsifying or fabricating research results at least once [@doi:10.1371/journal.pone.0005738], which due to its self-report nature is likely to be an underestimate. 
 The detection rate of data fabrication is likely to be even lower; for example, only around a dozen cases become public in the United States and the Netherlands, despite that there are several hundreds of thousands of researchers in these countries. 
 At best, this suggests a detection rate below 1\% of those 2\% who admit to fabricating data --- the tip of a seemingly much larger iceberg.
 
 In order to stifle attempts at data fabrication, improved detection of fabricated data is considered to deter such behavior. 
 This idea is based on deterrence theory [@leviathan], which stipulates that increased risk of detection decreases the expected utility of scientific misconduct, hence, fewer people will engage in it. 
 Detection techniques have developed to varying degrees for fabrication, falsification, and plagiarism.
-Plagiarism scanners have been around the longest [e.g., @10.1109/13.28038] and are widely implemented not only at journals but also in the evaluation of student theses (e.g., with commercial services such as Turnitin). 
+Plagiarism scanners have been around the longest [e.g., @doi:10.1109/13.28038] and are widely implemented not only at journals but also in the evaluation of student theses (e.g., with commercial services such as Turnitin). 
 For data fabrication, developments around detecting image manipulation are more recent, with some tools even being implemented at journals. 
-For example, the Journal of Cell Biology and the EMBO journal scan each submitted image for potential manipulation [@The_Journal_of_Cell_Biology2015-vh;@10.1038/546575a], which supposedly increases the risk of detecting (blatant) image manipulation. 
-More recently, algorithms are being developed to automate the scanning of images for such manipulations [@10.1007/s11948-016-9841-7]. 
-Moreover, the application of such tools can also help researchers systematically evaluate research articles in order to estimate the extent to which image manipulation occurs [4\% of all papers are estimated to contain manipulated images, @10.1128/mBio.00809-16] or what factors are predictive of image manipulation [@10.1007/s11948-018-0023-7]. 
+For example, the Journal of Cell Biology and the EMBO journal scan each submitted image for potential manipulation [@The_Journal_of_Cell_Biology2015-vh;@doi:10.1038/546575a], which supposedly increases the risk of detecting (blatant) image manipulation. 
+More recently, algorithms are being developed to automate the scanning of images for such manipulations [@doi:10.1007/s11948-016-9841-7]. 
+Moreover, the application of such tools can also help researchers systematically evaluate research articles in order to estimate the extent to which image manipulation occurs [4\% of all papers are estimated to contain manipulated images, @doi:10.1128/mBio.00809-16] or what factors are predictive of image manipulation [@doi:10.1007/s11948-018-0023-7]. 
 
 Detection methods for data fabrication in empirical research are often based on a mix of psychology theory and statistics theory. 
-Because humans are notoriously bad at understanding and estimating randomness [@Haldane1948-nm;@10.1126/science.185.4157.1124;@10.1037/h0031322;@10.1037/1082-989X.5.2.241], this could manifest itself in the fundamentally probabilistic data they try to fabricate. 
+Because humans are notoriously bad at understanding and estimating randomness [@Haldane1948-nm;@doi:10.1126/science.185.4157.1124;@doi:10.1037/h0031322;@doi:10.1037/1082-989X.5.2.241], this could manifest itself in the fundamentally probabilistic data they try to fabricate. 
 Whether the data and outcomes of analyses based on these data are in line with the (at least partly probabilistic) processes that are assumed to underlie them, may indicate deviations from the reported protocol, potentially even data fabrication. 
 <!-- ref naar wagenaar 1972? in l21 -->
 
 Statistical methods have proven to be of importance in initiating data fabrication investigations or in assessing scope of potential data fabrication. 
-For example, Kranke, Apfel, and Roewer skeptically perceived Fuji's "incredibly nice" data [@10.1213/00000539-200004000-00053] and used statistical methods to contextualize their skepticism.
-At the time, a reviewer perceived them to be on a "crusade  against Fujii and his colleagues" [@10.1111/j.1365-2044.2012.07318.x] and further investigation was absent. 
-Only when Carlisle extended the systematic investigation to 168 of Fuji's papers [@10.1111/j.1365-2044.2012.07128.x;@10.1111/anae.13650;@10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 of Fuji's peer-reviewed papers [@oransky2015;@10.1016/j.ijoa.2012.10.001]. 
+For example, Kranke, Apfel, and Roewer skeptically perceived Fuji's "incredibly nice" data [@doi:10.1213/00000539-200004000-00053] and used statistical methods to contextualize their skepticism.
+At the time, a reviewer perceived them to be on a "crusade  against Fujii and his colleagues" [@doi:10.1111/j.1365-2044.2012.07318.x] and further investigation was absent. 
+Only when Carlisle extended the systematic investigation to 168 of Fuji's papers [@doi:10.1111/j.1365-2044.2012.07128.x;@doi:10.1111/anae.13650;@doi:10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 of Fuji's peer-reviewed papers [@oransky2015;@doi:10.1016/j.ijoa.2012.10.001]. 
 In another example, the Stapel case, statistical evaluation of his oeuvre  occurred after he had already confessed to fabricating data, which resulted in 58 retractions of papers (co-)authored by Stapel [@Levelt2012;@oransky2015].
 
 In order to determine whether the application of statistical methods to detect data anomalies is responsible, their diagnostic value requires further investigation to inform decisions about the utility of these methods. 
@@ -121,7 +117,7 @@ Specifically, many of the developed statistical methods to detect data anomalies
 Hence, these could be considered mere proposals and their diagnostic value (i.e., sensitivity and specificity) unknown until they are thoroughly validated outside of those specific cases. 
 Side-by-side comparisons of these proposed statistical methods is also difficult through the in-casu origin of these methods.
 Moreover, the efficacy of these methods based on known cases is likely to be biased, considering that the unknown amount of undetected cases are not included. 
-With respect to the utility of these statistical methods, questions about whether the sensitivity and specificity are permissible in light of the severe professional- and personal consequences of potential research misconduct need to be asked [regretfully, the STAP case brings this to the fore very clearly; @10.1038/520600a].
+With respect to the utility of these statistical methods, questions about whether the sensitivity and specificity are permissible in light of the severe professional- and personal consequences of potential research misconduct need to be asked [regretfully, the STAP case brings this to the fore very clearly; @doi:10.1038/520600a].
 These methods might have utility in misconduct investigations, but not in large-scale applications to screen the literature, depending on the diagnostic values resulting from a controlled investigation.
 
 <!-- Carlisle tested whether Fuji's Randomized Clinical Trials (RCTs) baseline measurements were identically distributed across groups. 
@@ -138,10 +134,10 @@ In this article, we investigate the diagnostic performance of statistical method
 These statistical methods (outlined below) have not previously been validated using both genuine- and fabricated data.
 To that end, we present two studies where we try to distinguish assumably genuine- from known fabricated data.
 These studies investigate methods to detect data fabrication in summary statistics (Study 1) or in raw data (Study 2). 
-In Study 1, we invited researchers to fabricate summary statistics for a set of four anchoring studies, for which we also had genuine data from the Many Labs 1 initiative [[https://osf.io/pqf9r](https://osf.io/pqf9r); @10.1027/1864-9335/a000178].
-In Study 2, we invited researchers to fabricate raw data for a Stroop experiment, for which we also had genuine data from the Many Labs 3 initiative [[https://osf.io/n8xa7/](https://osf.io/n8xa7/); @10.1016/j.jesp.2015.10.012]. 
+In Study 1, we invited researchers to fabricate summary statistics for a set of four anchoring studies, for which we also had genuine data from the Many Labs 1 initiative [[https://osf.io/pqf9r](https://osf.io/pqf9r); @doi:10.1027/1864-9335/a000178].
+In Study 2, we invited researchers to fabricate raw data for a Stroop experiment, for which we also had genuine data from the Many Labs 3 initiative [[https://osf.io/n8xa7/](https://osf.io/n8xa7/); @doi:10.1016/j.jesp.2015.10.012]. 
 Before presenting these studies, we expand on the theoretical framework of the investigated statistical methods to detect data fabrication.
-<!-- We note that the reviewed methods are not exhaustive of all methods available to test for potential data fabrication in empirical data [see also, @buyse1999;@10.7287/peerj.preprints.2400v1;@10.7287/peerj.preprints.2064v1;@sprite-heathers]. -->
+<!-- We note that the reviewed methods are not exhaustive of all methods available to test for potential data fabrication in empirical data [see also, @buyse1999;@doi:10.7287/peerj.preprints.2400v1;@doi:10.7287/peerj.preprints.2064v1;@sprite-heathers]. -->
 
 # Theoretical framework
 
@@ -149,35 +145,35 @@ In the current paper, we differentiate between statistical methods to detect pot
 Below, we expand on the theoretical underpininings of these methods and provide sample code to apply these methods. 
 <!-- worth thinking about whether this is ethical if methods prove irresponsible -->
 For summary statistics, we review $p$-value analysis, variance analysis, and effect size analysis as potential ways to detect data fabrication. 
-$P$-value analyses can be applied whenever a set of nonsignificant $p$-values are reported; variance analysis can be applied whenever a set of variances and accompanying sample sizes are reported for independent, randomly assigned groups; effect size analysis can be used whenever the effect size is reported or can be computed [e.g., an APA reported t- or F-statistic; @10.1525/collabra.71]. 
+$P$-value analyses can be applied whenever a set of nonsignificant $p$-values are reported; variance analysis can be applied whenever a set of variances and accompanying sample sizes are reported for independent, randomly assigned groups; effect size analysis can be used whenever the effect size is reported or can be computed [e.g., an APA reported t- or F-statistic; @doi:10.1525/collabra.71]. 
 For raw data, we review digit analyses (i.e., the Newcomb-Benford law and terminal digit analysis) and multivariate associations as potential ways to detect data fabrication. 
-The Newcomb-Benford law can be applied when untruncated ratio- or count scale measures are present [@10.1016/j.spa.2005.05.003]; terminal digit analysis can be applied whenever there are sufficient digits [see also @10.1080/08989629508573866]. 
-Multivariate associations can be investigated whenever there are two or more variables available and data on that same relation is available from (assumably) genuine data sources.
+The Newcomb-Benford law can be applied on ratio- or count scale measures that have sufficient digits and that are not truncated [@doi:10.1016/j.spa.2005.05.003]; terminal digit analysis can be applied whenever measures have sufficient digits [see also @doi:10.1080/08989629508573866]. 
+Multivariate associations can be investigated whenever there are two or more numerical variables available and data on that same relation is available from (assumably) genuine data sources.
 
 ## Detecting data fabrication in summary statistics
 
 ### P-value analysis
 
-The distribution of a single- or a set of $p$-values is uniform if the null hypothesis is true; it is right-skewed if the alternative hypothesis is true [@fisher1925]. 
-The distribution of one $p$-value is the result of the population effect size, the precision of the estimate, and the observed effect size, whose properties carry over to a set of independent $p$-values if those $p$-values are independent. 
-As such, the $p$-value distribution of a set of independent $p$-values is uniform when the null hypothesis is true, or right-skewed when the alternative hypothesis is true. 
+The distribution of a single or a set of independent $p$-values is uniform if the null hypothesis is true; it is right-skewed if the alternative hypothesis is true [@fisher1925]. 
+If the model assumptions of the underlying process hold, the distribution of one $p$-value is the result of the population effect size, the precision of the estimate, and the observed effect size, whose properties carry over to a set of $p$-values if those $p$-values are independent.
 
-When assumptions underlying the computation of a $p$-value are violated, $p$-value distributions can take on a variety of shapes. 
-For example, when optional stopping occurs and the null hypothesis is true, $p$-values just below .05 become more frequent [@10.1080/17470218.2014.982664;@10.7717/peerj.1935]. 
-However, when optional stopping occurs under the alternative hypothesis or when other researcher degrees of freedom are used, a right-skewed distribution for significant $p$-values can still occur [@10.1037/xge0000086;@10.7717/peerj.1935].
+When assumptions underlying the model used to compute a $p$-value are violated, $p$-value distributions can take on a variety of shapes. 
+For example, when optional stopping occurs and the null hypothesis is true, $p$-values just below .05 become more frequent [@doi:10.1080/17470218.2014.982664;@doi:10.7717/peerj.1935]. 
+However, when optional stopping occurs under the alternative hypothesis or when other researcher degrees of freedom are used, a right-skewed distribution for significant $p$-values can still occur [@doi:10.1037/xge0000086;@doi:10.7717/peerj.1935].
 
 When independent $p$-values are not right-skewed or uniformly distributed (as would be theoretically expected), it can indicate potential data fabrication. 
-For example, in the Fuji case, supposedly randomly assigned groups were fabricated. 
-In truly randomly assigned groups, the measurements are statistically identical (prior to an intervention). 
-However, in the Fuji case Carlisle observed many large $p$-values, which ultimately led to the identification of potential data fabrication [@]. 
-In Table xxxx we illustrate the difference between expected data under the null distribution (Set 1) and excessively consistent and potentially fabricated data (Set 2). 
+For example, in the Fuji case, data of supposedly randomly assigned groups were fabricated. 
+In truly randomly assigned groups, the measurements of different groups (prior to an intervention) can be assumed to be generated by the same probabilistic process, resulting in uniformly distributed $p$-values when comparing these groups using statistical tests. 
+However, in the Fuji case Carlisle observed many large $p$-values, which ultimately led to the identification of potential data fabrication [@doi:10.1111/j.1365-2044.2012.07128.x]. 
+The cause of these large $p$-values is that Fuji, when fabricating the data,  underappreciated the effect of randomness, thereby creating groups of data that were too similar conditional on the null hypothesis of no differences between the groups.
+In Table `r tabnr` we illustrate the difference between expected data under the null distribution (Set 1) and excessively consistent and potentially fabricated data (Set 2). 
 More specifically, the expected value of a uniform $p$-value distribution is .5, but the fabricated data from our illustration have a mean $p$-value of `r round(mean(ex2_1tp), 3)`.
 
 ```{r table_excess, echo = FALSE}
 knitr::kable(df, digits = 3, caption = "Examples of means and standard deviations for a continuous outcome in genuine- and fabricated randomized clinical trials. Set 1 (S1) is randomly generated data under the null hypothesis of random assignment (assumed to be the genuine process), whereas Set 2 (S2) is generated under excessive consistency with equal groups. Each trial condition contains 100 participants. The $p$-values are the result of independent $t$-tests comparing the experimental and control conditions within each respective set.")
 ```
 
-In order to test whether a distribution of independent $p$-values might be fabricated, we previously proposed using the Fisher method [@fisher1925;@10.1186/s41073-016-0012-9]. 
+In order to test whether a distribution of independent $p$-values might be fabricated, we previously proposed using the Fisher method [@fisher1925;@doi:10.1186/s41073-016-0012-9]. 
 The Fisher method originally was intended as a meta-analytic tool, which tests whether there is sufficient evidence for an effect (i.e., right-skewed $p$-value distribution). 
 This test is computed as
 $$
@@ -191,7 +187,7 @@ $$
 where it now tests for more larger $p$-values than smaller $p$-values across the $k$ number of $p$-values that fall above the threshold $t$ (i.e., the Fisher method now tests for left-skew). 
 When $t=0$, all $p$-values are selected. 
 When $t>0$ the remaining $p$-values are rescaled to fit the original 0-1 range (i.e., dividing by $1-t$). 
-This test is similar (but not equivalent) to Carlisle's method testing for excessive homogeneity across baseline measurements in RCTs [@10.1111/anae.13938;@10.1111/j.1365-2044.2012.07128.x;@10.1111/anae.13126].
+This test is similar (but not equivalent) to Carlisle's method testing for excessive homogeneity across baseline measurements in RCTs [@doi:10.1111/anae.13938;@doi:10.1111/j.1365-2044.2012.07128.x;@doi:10.1111/anae.13126].
 
 ```{r, echo = FALSE}
 threshold <- .05
@@ -209,7 +205,10 @@ p_chi <- pchisq(q = chi, df = 2 * length(pval), lower.tail = FALSE)
 ```
 
 As an example, we apply the reversed Fisher method to both the genuine- and fabricated results. 
-Using the threshold $t=`r threshold`$ to only select the nonsignificant results from Table xxxx, we retain $k=`r length(genuine_p)`$ genuine $p$-values and $k=`r length(fab_p)`$ fabricated $p$-values. This results in $\chi^2_{2\times`r length(genuine_p)`}=`r round(genuine_chi, 3)`,p=`r round(genuine_chi_p, 3)`$ for the genuine data from Table xxxx; $\chi^2_{2\times`r length(fab_p)`}=`r round(fab_chi, 3)`,p=`r round(fab_chi_p, 3)`$ for the fabricated data from Table xxxx. Another more practical example directly from the Fuji case [@10.1111/j.1365-2044.2012.07128.x], anecdotally illustrates that actual fabricated data can result in significant findings with the reversed Fisher method. For example, $p$-values extracted from the original Table 3 [fentanyl dose; @10.1111/j.1365-2044.2012.07128.x] for five independent comparisons show excessively high $p$-values, $\chi^2_{2\times`r length(pval)`}=`r round(chi, 3)`, p=`r round(p_chi, 3)`$.
+Using the threshold $t=`r threshold`$ to only select the nonsignificant results from Table `r tabnr`, we retain $k=`r length(genuine_p)`$ genuine $p$-values and $k=`r length(fab_p)`$ fabricated $p$-values. This results in $\chi^2_{2\times`r length(genuine_p)`}=`r round(genuine_chi, 3)`,p=`r round(genuine_chi_p, 3)`$ for the genuine data from Table xxxx, and $\chi^2_{2\times`r length(fab_p)`}=`r round(fab_chi, 3)`,p=`r round(fab_chi_p, 7)`$ for the fabricated data from Table `r tabnr`. 
+Another more practical example directly from the Fuji case [@doi:10.1111/j.1365-2044.2012.07128.x], anecdotally illustrates that actual fabricated data can result in significant findings with the reversed Fisher method. 
+For example, $p$-values extracted from the original Table 3 [fentanyl dose; @doi:10.1111/j.1365-2044.2012.07128.x] for five independent comparisons also show excessively high $p$-values, $\chi^2_{2\times`r length(pval)`}=`r round(chi, 3)`, p=`r round(p_chi, 3)`$.
+However, based on this anecdotal evidence little can be said about the sensitivity, specifity, and utility of this method.
 
 We note that misspecified one-tailed tests can also result in excessive amounts of large $p$-values.
 For correctly specified one-tailed tests, the $p$-value distribution is right-skewed if the alternative hypothesis is true. 
@@ -219,32 +218,39 @@ In the studies we present in this manuscript, misspecification of one-tailed hyp
 
 ### Variance analysis
 
-Sample variance- or standard deviation estimates are typically reported to indicate dispersion, but just like the mean there should be sampling error in this estimate proportional to the sample size [i.e., $\sigma/\sqrt{2n}$ under the assumption of normality, p. 351,@yule1922]. 
-If an observed random variable $x$ is normally distributed, the variance of $x$ is $\chi^2$-distributed [p. 445; @hogg-tanis]; that is
+Sample variance or standard deviation estimates are typically reported to indicate dispersion in the data. As is common in many empirical research papers, the mean is reported alongside its SD because it is a valuable tool in determining how diverse participants are on a specific measure. For example, if a sample has a reported age of $M(SD)=21.05(2.11)$ we know this group is both younger *and* more homogeneous than another group with reported $M(SD)=42.78(17.83)$. For this section, we will talk about standard deviations and variances in the data across various groups as is common in an experimental design.
+
+Similar to the estimate of the mean in the data, there is sampling error in the estimated variance in the data (i.e., the dispersion of the variance). 
+The sampling error of the estimated variance is inversely related to the sample size.
+For example, under the assumption of normality the sampling error of a given  standard deviation can be estimated as $\sigma/\sqrt{2n}$ [p. 351,@yule1922], where $n$ is the sample size of the group. 
+Additionally, if an observed random variable $x$ is normally distributed, the standardized variance of $x$ is $\chi^2$-distributed [p. 445; @hogg-tanis]; that is
 $$
 var(x)\sim\frac{\chi^2_{N_j-1}}{N_j-1}
 $$
 where $N$ is the sample size of the $j$th group. 
-Using the reported summary statistics, we can compute the Mean Squares within ($MS_w$) each condition as
+We can compute the unstandardized variance by computing the Mean Squares within ($MS_w$) as
 $$
 MS_w=\frac{\sum\limits^k_{j=1}(N_j-1)s^2_j}{\sum\limits^k_{j=1}(N_j-1)}
 $$
-where $s^2_j$ is the variance in the $j$th group. 
-The reported variances can be standardized by dividing the observed variances by the $MS_w$; we denote standardized variances with $z^2$.
+where $s^2_j$ is the reported variance and $N_j$ the reported sample size in group $j$.
+When calculating $MS_w$, equality of variances across $j$ groups is assumed.
+As such, under normality and equality of variances, we can simulate the expected distribution of variances in the data by multiplying the results of the $\chi^2$ distribution with $MS_w$. 
+Conversely, the variances reported in a paper can be standardized by dividing the observed variances by $MS_w$; we denote standardized variances with $z^2$ below.
 
-By standardizing the reported variances observed dispersion across measures can be calculated. 
-Observed dispersion of the standardized variances can be operationalized as the standard deviation of the variances [denoted in this paper as $SD_z$, @10.1177/0956797613480366] or as the range of the variances (denoted as $max-min_z$). 
-Note that such comparisons are only meaningful if the reported variances originate from a homogeneous population distribution of variances (otherwise, subgroups need to be made). 
-
-In order to compute the expected dispersion, we use the distribution of the standardized variances to compute how extreme the observed dispersion of the variances is. 
-Assuming normality, the distribution of the standardized variances follows a $\chi^2$-distribution in the form of
+<!-- of the standardized variances to compute how extreme the observed dispersion of the variances is -->
+In order to compute the dispersion of the standard deviation, we simulate the distribution of expected variances under the null model.
+The null model is that the data and its subsequent standard deviations arise from a true probabilistic process, when assuming normality and equality of variances.
+In each iteration $i$ of the simulation, we generate standardized variances for each group $j$. 
+Combining the distribution of $var(x)$ and $MS_w$, the distribution of the standardized variances in group $j$ follows a $\chi^2$-distribution in the form of
 $$
 z^2_j\sim\left(\frac{\chi^2_{N_j-1}}{N_j-1}\right)/MS_w
 $$
-which is the result of the distribution of $var(x)$ as denoted earlier, divided by the $MS_w$. 
-From this distribution, fictitious variances can be generated for each group under investigation. These are subsequently used to compute one of the measures for dispersion proposed in the previous paragraph (e.g., standard deviation of the variances). 
-Repeating this across $i$ iterations provides an estimate of the density function for the expected dispersion of the variances. By comparing the observed dispersion of the variances with the expected variances, we can estimate how extreme our observations are. 
-For our purposes, too little dispersion in the variances indicates potential fabrication in the reported data [@10.1177/0956797613480366].
+Upon simulating standardized variances for all $j$ groups, we compute two dispersion measures of those variances. 
+
+For each iteration, we calculate the standard deviation and range of the estimated variances in the data. Repeating this process across $i$ iterations provides an estimated density function for the expected dispersion of the variances (either in its range or SD). By comparing the observed dispersion of the variances with the expected dispersion of variances, we can estimate how extreme our observations are. More specifically, we can compute how many iterations show equally- or more extreme consistency in the data to compute a bootstrapped $p$-value.
+For our purposes, too little dispersion in the variances may indicate potential fabrication in the reported data [@doi:10.1177/0956797613480366].
+This could be the result of the fabricator underestimating sampling fluctuations due to intuitively misunderstanding probabilistic processes, resulting in generating too little randomness (i.e., error) in data [@doi:10.1080/08989629508573866].
+Observed dispersion of the standardized variances can be operationalized as the standard deviation of the variances [denoted in this paper as $SD_z$, @doi:10.1177/0956797613480366] or as the range of the variances (denoted as $max_z-min_z$). 
 
 ```{r, echo = FALSE}
 sd1 <- c(ex1_1esd, ex1_1csd)
@@ -255,24 +261,28 @@ res1 <- std_var(n = rep(100, length(sd1)), sds = sd1, iter = iterate)
 res2 <- std_var(n = rep(100, length(sd2)), sds = sd2, iter = iterate)
 ```
 
-As an example, we apply the variance analysis to the illustration from Table xxxx and the Smeesters case. 
-For the reported standard deviations in Table xxxx, we apply the variance analysis across those in the genuine- and fabricated sets separately. 
+As an example, we apply the variance analysis to the illustration from Table `r tabnr` and the Smeesters case. 
+For the reported standard deviations in Table `r tabnr`, we apply the variance analysis across both the experimental and control conditions, separating the genuine- and fabricated sets. 
 For the genuine data (Set 1), we find that the reported mean standard deviation is `r mean(sd1)` with a standard deviation of `r sd(sd1)`; for the fabricated data (Set 2), we find that the reported mean standard deviation is `r mean(sd2)` with a standard deviation of `r sd(sd2)`. 
 These summary statistics of the summary statistics already indicate there is a difference between the genuine- and fabricated data.
-Variance analysis helps us quantify this: Set 1 has no excessive consistency (`r round(res1, 3)`), whereas Set 2 does show excessive consistency (`r round(res2, 3)`). 
-In words, out of `r iterate` theoretically expected samples, `r res1 * iterate` showed more consistency for Set 1, whereas only `r res2 * iterate` showed more consistency for Set 2. 
+Variance analysis, as explained previously, helps us quantify how extreme this difference is: Set 1 has no excessive consistency in the dispersion of the standard deviations ($p=`r round(res1, 3)`$), whereas Set 2 does show excessive consistency in the dispersion of the standard deviations ($p=`r round(res2, 3)`$). 
+In words, out of `r iterate` theoretically expected samples under the null model of independent groups with equal variances on a normally distributed measure, `r res1 * iterate` showed less variation in standard deviations for Set 1, whereas only `r res2 * iterate` showed less variation in standard deviations for Set 2. 
 As a non-fictional example, three independent conditions from the same study ($n_k=15$) were reported to have standard deviations 25.09, 24.58, and 25.65 in the Smeesters case. 
 The standard deviation of these standard deviations is `r round(sd(c(25.09, 24.58, 25.65)), 2)` (i.e., $SD_z$). 
-Such consistency (or even more) would only be observed in `r round(std_var(n = rep(15, 3), sds = c(25.09, 24.58, 25.65), iter = iterate) * 100, 2)`% of 100,000 simulated replications [@10.1177/0956797613480366]. 
+Such consistency in standard deviations (or even more) would only be observed in `r round(std_var(n = rep(15, 3), sds = c(25.09, 24.58, 25.65), iter = iterate) * 100, 2)`% of 100,000 simulated replications [@doi:10.1177/0956797613480366]. 
+
+```{r echo = FALSE}
+tabnr <- tabnr + 1
+```
 
 ### Effect sizes
 
-Large effects have previously been opted to arise from dubious origins [@10.1111/j.1745-6924.2009.01128.x], but there is sufficient evidence that large effects arise from data fabrication. 
+Large effects have previously been opted to arise from dubious origins [@doi:10.1111/j.1745-6924.2009.01128.x], but there is sufficient evidence that large effects arise from data fabrication. 
 For example, in the misconduct investigations in the Stapel case, effect sizes were one particular indicator of data fabrication in certain papers [@Levelt2012]. 
 Some papers showed extreme explained variances of up to 95%. 
-Moreover, @10.1186/1471-2288-3-18 asked faculty members from three universities to fabricate data sets and found that the fabricated data showed much larger effect sizes than the genuine data. 
+Moreover, @doi:10.1186/1471-2288-3-18 asked faculty members from three universities to fabricate data sets and found that the fabricated data showed much larger effect sizes than the genuine data. 
 From our own anecdotal experience, we have found that large effect sizes raised initial suspicions of data fabrication (e.g., $d>20$). 
-In clinical trials, extreme effect sizes are also used to identify potentially fabricated data in multi-site trials while the study is still being conducted [@10.1016/0197-24569190037-M].
+In clinical trials, extreme effect sizes are also used to identify potentially fabricated data in multi-site trials while the study is still being conducted [@doi:10.1016/0197-24569190037-M].
 
 ```{r, echo = FALSE}
 tval <- 3.55
@@ -283,8 +293,8 @@ Effect sizes can be reported in research reports in various ways.
 For example, the most commons ways effect sizes are reported in papers are as a standardized mean difference (e.g., $d$), as an explained variance (e.g., $R^2$), or as a test statistic. 
 A test statistic is also a measure of effect size, albeit in a not directly interpretable form. 
 A test result such as $t(
-`r df`)=`r tval`$ corresponds to d=`r round(2*tval / sqrt(df), 3)` and r=`r round((tval^2 / df) / ((tval^2 / df) + 1), 3)` [@10.1525/collabra.71]. 
-These effect sizes can readily be recomputed based on data extracted with `statcheck` across thousands of results [@10.3758/s13428-015-0664-2;@10.3390/data1030014].
+`r df`)=`r tval`$ corresponds to d=`r round(2*tval / sqrt(df), 3)` and r=`r round((tval^2 / df) / ((tval^2 / df) + 1), 3)` [@doi:10.1525/collabra.71]. 
+These effect sizes can readily be recomputed based on data extracted with `statcheck` across thousands of results [@doi:10.3758/s13428-015-0664-2;@doi:10.3390/data1030014].
 
 Observed effect sizes can subsequently be compared with the effect distribution of other studies investigating the same effect. 
 For example, if a study on the 'foot-in-the-door' technique yields an effect size of $r=.8$, we can collect other studies that investigate the 'foot-in-the-door' effect and compare how extreme that $r=.8$ is in comparison to the other studies. 
@@ -292,21 +302,25 @@ If the largest observed effect size in the literature is $r=.2$ and a reasonable
 This method specifically looks at situations where fabricators would want to fabricate the existence of an effect (not the absence of one).
 
 Collecting the effect distribution to compare with requires some attention, however. 
-Considering published research is biased towards statistically significant results [e.g., @10.1007/bf01173636] and results in inflated effect sizes [@10.1037/gpr0000034], effect distributions from published literature will tend to be conservative in detecting potential extreme effects due to data fabrication. 
-Unbiased effect size distributions for an effect can be collected from large-scale replication projects, such as Registered Replication Reports [e.g., @10.1177/1745691616664694].
+Considering published research is biased towards statistically significant results [e.g., @doi:10.1007/bf01173636] and results in inflated effect sizes [@doi:10.1037/gpr0000034], effect distributions from published literature will tend to be conservative in detecting potential extreme effects due to data fabrication. 
+Unbiased effect size distributions for an effect can be collected from large-scale replication projects, such as Registered Replication Reports [e.g., @doi:10.1177/1745691616664694].
 
 ## Detecting data fabrication in raw data
 
+PLACEHOLDER
 
 # Study 1 - detecting fabricated summary statistics
 
-We tested the performance of statistical methods to detect data fabrication in summary statistics with genuine- and fabricated summary statistics from four anchoring studies [@10.1126/science.185.4157.1124;@10.1037/e722982011-058]. 
+We tested the performance of statistical methods to detect data fabrication in summary statistics with genuine- and fabricated summary statistics from four anchoring studies [@doi:10.1126/science.185.4157.1124;@doi:10.1037/e722982011-058]. 
 The anchoring effect is a well-known psychological heuristic that uses the information in the question as the starting point for the answer, which is then adjusted to yield a final estimate of a quantity. 
-For example 'Do you think the percentage of African countries in the UN is above or below  [10\% or 65\%]?  What do you think is the percentage of African countries in the UN?'. 
-These questions yield mean responses of 25\% and 45\%, respectively [@10.1126/science.185.4157.1124], despite essentially posing the same factual question. 
-A considerable amount of (assumably) genuine data sets on the anchoring  heuristic are freely available [[https://osf.io/pqf9r](https://osf.io/pqf9r); @10.1027/1864-9335/a000178] and we collected fabricated data sets within this study. 
-This study was approved by the Tilburg Ethical Review Board (EC-2015.50).
-<!-- link to approval -->
+For example:
+
+> Do you think the percentage of African countries in the UN is above or below  [10\% or 65\%]?  What do you think is the percentage of African countries in the UN?
+
+These questions yield mean responses of 25\% and 45\%, respectively [@doi:10.1126/science.185.4157.1124], despite essentially posing the same factual question. 
+A considerable amount of (assumably) genuine data sets on the anchoring  heuristic are freely available [[https://osf.io/pqf9r](https://osf.io/pqf9r); @doi:10.1027/1864-9335/a000178].
+In our study we also asked researchers to fabricate summary statistics on anchoring experiments.
+This study was approved by the Tilburg Ethical Review Board (EC-2015.50; [https://osf.io/7tg8g/](https://osf.io/7tg8g/)).
 
 ## Methods
 
@@ -321,47 +335,49 @@ if(!file.exists('../data/study_01/study1_res.csv'))
  set.seed(123);suppressMessages(source('../functions/concatenate_analyze_01.R')) 
 }
 
- set.seed(123);suppressMessages(source('../functions/concatenate_analyze_01.R')) 
+dat_summary <- read.csv('../data/study_01/study1_res.csv', stringsAsFactors = FALSE)
 
-dat_summary <- read.csv(dat_summary_file)
+# r2 => r
+## First set a negative effect size to zero for study 4 of R_6opw4qQURhqxT3D
+dat_summary[dat_summary$id == 'R_6opw4qQURhqxT3D' & dat_summary$study == 'Study 4' & dat_summary$test == 'Effect size (r2) interaction',]$result <- 0
 
-type_index <- which(names(dat_summary) == 'type')
-temp <- dat_summary[, c(type_index, 18:length(names(dat_summary)))] 
-dat_summary$es_gender <- sqrt(dat_summary$es2_gender)
-dat_summary$es_condition <- sqrt(dat_summary$es2_condition)
-dat_summary$es_interaction <- sqrt(dat_summary$es2_interaction)
+dat_summary$result[grepl(dat_summary$test, pattern = 'Effect size (r2)*')] <- sqrt(dat_summary$result[grepl(dat_summary$test, pattern = 'Effect size (r2)*')])
+dat_summary$test <- sub(pattern = '(r2)', replacement = 'r', dat_summary$test) 
 
-# naming just for ease of use later
-dat_summary$es_p <- 1 - dat_summary$es_condition
+# add grouping
+dat_summary$fabricated <- as.factor(ifelse(grepl(dat_summary$id, pattern = 'R_*'), 'Fabricated', 'Genuine'))
 
 # ROC
-AUC <- apply(dat_summary[, grepl(names(dat_summary), pattern = "_p")],
-   2,
-   function(x)
-   {
-    y <- pROC::roc(response = dat_summary$type, x, direction = ">")
-    return(y)
-   }
-)
+AUC <- ddply(dat_summary, .(test, study), .fun = function(x) {
+ if (grepl(x$test[1], pattern = 'Effect size *')) {
+     tmp <- pROC::roc(response = x$fabricate, x$result, direction = "<")
+ } else {
+  tmp <- pROC::roc(response = x$fabricate, x$result, direction = ">")
+}
+ return(data.frame(auc = tmp$auc))
+})
+
+AUC <- AUC[!grepl(AUC$test, pattern = 'P-value*'),]
 ```
 
-We collected genuine- and fabricated summary statistics for four anchoring studies: (i) distance from San Francisco to New York, (ii) population of Chicago, (iii) height of the Mount Everest, and (iv) the number of babies born per day in the United States [@10.1037/e722982011-058]. 
+We collected genuine- and fabricated summary statistics for four anchoring studies: (i) distance from San Francisco to New York, (ii) human population of Chicago, (iii) height of the Mount Everest, and (iv) the number of babies born per day in the United States [@doi:10.1037/e722982011-058]. 
 Each of the four studies provided us with summary statistics for a 2 (low/high anchoring) $\times$ 2 (male/female) factorial design. 
 Throughout our study, the unit of analysis is a set of summary statistics (i.e., means, standard deviations, and test results) for the four anchoring studies from one respondent. 
+The test results available to are the main effect of the anchoring condition, the main effect of gender, and the interaction effect of anchoring and gender.
 For current purposes, a respondent is defined as researcher/lab where the four anchoring studies' summary statistics originate from. 
 All materials, data, and analyses scripts are freely available on the OSF ([https://osf.io/b24pq](https://osf.io/b24pq)) and a preregistration is available at [https://osf.io/tshx8/](https://osf.io/tshx8/). 
 Throughout this report, we will indicate which facets were not preregistered or deviate from the preregistration by denoting "(not preregistered)" or "(deviation from preregistration)", respectively.
 
 ### Data collection
 
-We downloaded thirty-six genuine data sets from the publicly available Many Labs (ML) project [[https://osf.io/pqf9r](https://osf.io/pqf9r); @10.1027/1864-9335/a000178]. 
+We downloaded thirty-six genuine data sets from the publicly available Many Labs (ML) project [[https://osf.io/pqf9r](https://osf.io/pqf9r); @doi:10.1027/1864-9335/a000178]. 
 The ML project replicated several effects across thirty-six locations, including the anchoring effect in the four studies mentioned previously. 
 Considering the size of the ML project, the transparency of research results, and minimal individual gain for fabricating data, we assumed these data to be genuine. 
-For each of the thirty-six locations we computed three summary statistics (i.e., sample sizes, means, and standard deviations) for each of the four conditions in the four anchoring studies (i.e., $3\times4\times4$) for each of the thirty-six locations. 
+For each of the thirty-six locations we computed three summary statistics (i.e., sample sizes, means, and standard deviations) for each of the four conditions in the four anchoring studies (i.e., $3\times4\times4$) for each of the thirty-six locations (data: [https://osf.io/5xgcp/](https://osf.io/5xgcp/)). 
 We computed these summary statistics from the raw ML data, which were cleaned using the original analysis scripts from the ML project.
 
-The sampling frame consisted of 2,038 psychology researchers who published a peer-reviewed paper in 2015, as indexed in Web of Science (WoS) with the filter set to the U.S. 
-We sampled psychology researchers to improve familiarity with the anchoring effect [@10.1126/science.185.4157.1124;@10.1037/e722982011-058], for which summary statistics were fabricated. 
+The sampling frame for the participants asked to fabricate data consisted of 2,038 psychology researchers who published a peer-reviewed paper in 2015, as indexed in Web of Science (WoS) with the filter set to the U.S. 
+We sampled psychology researchers to improve familiarity with the anchoring effect [@doi:10.1126/science.185.4157.1124;@doi:10.1037/e722982011-058]. 
 We filtered for U.S. researchers to ensure familiarity with the imperial measurement system, which is the scale of some of the anchoring studies and in order to reduce heterogeneity across fabricators. 
 We searched WoS on October 13, 2015. In total, 2,038 unique corresponding e-mails were extracted from 2,014 papers (due to multiple corresponding authors).
 
@@ -387,7 +403,7 @@ If these results confirmed the hypotheses, a checkmark appeared as depicted in F
 We required respondents to copy-paste the yellow cells into Qualtrics, to provide a standardized response format that could be automatically processed in the analyses. 
 Technically, participants could provide a response that did not correspond to the instructions.
 
-```{r spreadsheet-study1, fig.cap="Example of a filled in template spreadsheet used in the fabrication process of Study 1. Respondents fabricated data in the yellow cells, which were used to compute the results of the hypothesis tests. If the fabricated data confirm the hypotheses, a checkmark appeared in a green cell (one of four template spreadsheets available at [https://osf.io/w6v4u/](https://osf.io/w6v4u/)).", out.width='100%', echo=FALSE}
+```{r spreadsheet-study1, fig.cap="Example of a filled in template spreadsheet used in the fabrication process of Study 1. Respondents fabricated data in the yellow cells, which were used to compute the results of the hypothesis tests. If the fabricated data confirm the hypotheses, a checkmark appeared in a green cell (one of four template spreadsheets available at https://osf.io/w6v4u).", out.width='100%', echo=FALSE}
 knitr::include_graphics('../figures/spreadsheet.png')
 
 fignr <- fignr + 1
@@ -395,7 +411,7 @@ fignr <- fignr + 1
 
 Upon completion of the data fabrication, we debriefed respondents within the Qualtrics environment ([osf.io/rg3qc/](https://osf.io/rg3qc/)). 
 Respondents answered several questions about their statistical knowledge and approach to data fabrication and finally we reminded them that data fabrication is widely condemned by professional organizations, institutions, and funding agencies alike. 
-This reminder was intended to minimize potential carry-over effects of the unethical behavior into actual research practice [@10.1509/jmkr.45.6.633]. 
+This reminder was intended to minimize potential carry-over effects of the unethical behavior into actual research practice [@doi:10.1509/jmkr.45.6.633]. 
 We rewarded participation with a \$30 Amazon gift card and the fabricated results that were most difficult to detect received a bonus \$50 Amazon gift card. 
 Using quotum sampling, we collected as many responses as possible for the available 36 rewards, resulting in 39 fabricated data sets ([https://osf.io/e6zys](https://osf.io/e6zys); `r sum(dat_summary$type == 'qualtrics' & is.na(dat_summary$bonus))` participants did not participate for a bonus).
 
@@ -417,47 +433,52 @@ In the results we differentiate between these by using 'homogeneous' (across con
 
 For each of these statistical tests to detect data fabrication we carried out sensitivity and specificity analyses using Area Under Receiving Operator Characteristic (AUROC) curves. 
 AUROC-analyses indicate the sensitivity (i.e., True Positive Rate [TPR]) and specificity (i.e., True Negative Rate [TNR]) for various decision criteria (e.g., $\alpha=0, .01, .02, ..., .99, 1$). 
-AUROC values indicate the probability that a randomly drawn fabricated- and genuine dataset can be correctly classified as fabricated and genuine [@10.1148/radiology.143.1.7063747]. 
+AUROC values indicate the probability that a randomly drawn fabricated- and genuine dataset can be correctly classified as fabricated and genuine [@doi:10.1148/radiology.143.1.7063747]. 
 In other words, if $AUROC=.5$, correctly classifying a randomly drawn dataset as fabricated (or genuine) in this sample is equal to 50%. 
-For this setting, we follow the guidelines of @10.1093/jpepsy/jst062 and regard any AUROC value $<.7$ as poor for detecting data fabrication, $.7\leq$ AUROC $<.8$ as fair, $.8\leq$ AUROC $<.9$ as good, and AUROC $\geq.9$ as excellent. 
-We conducted these analyses using the `PROC` package [@10.1186/1471-2105-12-77].
+For this setting, we follow the guidelines of @doi:10.1093/jpepsy/jst062 and regard any AUROC value $<.7$ as poor for detecting data fabrication, $.7\leq$ AUROC $<.8$ as fair, $.8\leq$ AUROC $<.9$ as good, and AUROC $\geq.9$ as excellent. 
+We conducted these analyses using the `pROC` package [@doi:10.1186/1471-2105-12-77].
 
 ## Results
 
 Figure `r fignr` shows a group-level comparison of the genuine- and fabricated $p$-values and relevant effect sizes ($r$). 
-These group-level comparisons provide an overview of the differences between the genuine- and fabricated data [see also @10.1186/1471-2288-3-18]. 
+These group-level comparisons provide an overview of the differences between the genuine- and fabricated data [see also @doi:10.1186/1471-2288-3-18]. 
 These distributions indicate little group differences between genuine- and fabricated data when nonsignificant effects are inspected (i.e., gender and interaction hypotheses). 
 However, there seem to be large group differences when we required subjects to fabricate significant summary statistics (i.e., condition hypothesis).
 
 ```{r ddfab_density, fig.cap="Overlay of density distributions for both genuine and fabricated data, per effect and type of result. We instructed respondents to fabricate nonsignificant summary statistics for the gender and interaction effects, and a significant effect for the condition effect.", out.width='100%', echo=FALSE}
-plot_p_gender <- ggplot(dat_summary, aes(x = p_gender, fill = type)) + 
- geom_density(alpha = .3) + 
- xlab(latex2exp::TeX("$P$-value")) + 
- ylab("Density") + 
- ylim(0, 1.5) + 
- scale_fill_discrete(guide=FALSE) + 
- ggtitle('Gender')
+plot_p_gender <- ggplot(dat_summary[dat_summary$test == 'P-value gender',], 
+    aes(x = result, fill = fabricated)) + 
+    geom_density(alpha = .3) + 
+    xlab(latex2exp::TeX("$P$-value")) + 
+    ylab("Density") + 
+    ylim(0, 1.5) + 
+    scale_fill_discrete(guide=FALSE) + 
+    ggtitle('Gender')
 
-plot_es_gender <- ggplot(dat_summary, aes(x = es_gender, fill = type)) + 
- geom_density(alpha = .3) + 
- xlab(latex2exp::TeX("Effect size ($r$)")) + 
- ylab("Density") + 
- scale_fill_discrete(guide=FALSE)
+plot_es_gender <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) gender',], 
+    aes(x = result, fill = fabricated)) + 
+    geom_density(alpha = .3) + 
+    xlab(latex2exp::TeX("Effect size ($r$)")) + 
+    ylab("Density") + 
+    scale_fill_discrete(guide=FALSE)
 
 # Condition
 dat_summary_tmp <- dat_summary
-dat_summary_tmp$p_condition <- log10(dat_summary_tmp$p_condition)
-plot_p_condition <- ggplot(dat_summary_tmp, aes(x = p_condition, fill = type)) +
- geom_density(alpha = .3) +
- xlab(latex2exp::TeX("log10 $P$-value")) +
- ylab("Density") +
- scale_fill_discrete(labels = c("Genuine","Fabricated")) + 
- theme(legend.position="top") +
- ggtitle('Condition')
+dat_summary_tmp$result <- log10(dat_summary_tmp$result)
+plot_p_condition <- ggplot(dat_summary_tmp[dat_summary_tmp$test == 'P-value anchoring',], 
+    aes(x = result, fill = fabricated)) +
+    geom_density(alpha = .3) +
+    xlab(latex2exp::TeX("log10 $P$-value")) +
+    ylab("Density") +
+    scale_fill_discrete(labels = c("Genuine","Fabricated")) + 
+    theme(legend.position="top") +
+    ggtitle('Condition') + 
+    scale_y_continuous(labels = seq(0, .05, .01))
 
 plot_p_condition$labels$fill <- ""
 
-plot_es_condition <- ggplot(dat_summary, aes(x = es_condition, fill = type)) + 
+plot_es_condition <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) anchoring',], 
+    aes(x = result, fill = fabricated)) + 
  geom_density(alpha = .3) + 
  xlim(0, 1) + 
  xlab(latex2exp::TeX("Effect size ($r$)")) + 
@@ -466,7 +487,8 @@ plot_es_condition <- ggplot(dat_summary, aes(x = es_condition, fill = type)) +
 
 
 # Interaction
-plot_p_interaction <- ggplot(dat_summary, aes(x = p_interaction, fill = type)) + 
+plot_p_interaction <- ggplot(dat_summary[dat_summary$test == 'P-value interaction',], 
+    aes(x = result, fill = fabricated)) + 
  geom_density(alpha = .3) + 
  xlab(latex2exp::TeX("$P$-value")) + 
  ylab("Density") + 
@@ -474,7 +496,8 @@ plot_p_interaction <- ggplot(dat_summary, aes(x = p_interaction, fill = type)) +
  ylim(0, 1.5) +
  ggtitle('Interaction')
 
-plot_es_interaction <- ggplot(dat_summary, aes(x = es_interaction, fill = type)) + 
+plot_es_interaction <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) interaction',], 
+    aes(x = result, fill = fabricated)) + 
  geom_density(alpha = .3) + 
  xlab(latex2exp::TeX("Effect size ($r$)")) + 
  ylab("Density") + 
@@ -508,7 +531,7 @@ selector_sd <- grepl(names(AUC), pattern = '(variance_)')
 selector_maxmin <- grepl(names(AUC), pattern = '(maxmin_)')
 ```
 
-We performed a total of `r sum(selector)` variance analyses across the fabricated standard deviations for the four anchoring studies, with `r sum(selector_sd)` using the $SD_z$ measure and `r sum(selector_maxmin)` using the $max-min_z$ measure. More specifically, we analyzed the standard deviations across all studies combined (assuming homogeneity across conditions), across all studies (assuming heterogeneity across anchoring conditions), within each study, and within each anchoring condition. We computed the AUROC value with the directional assumption that genuine data would show more variation than fabricated data. Results are presented in Table `r tabnr`.
+We performed a total of `r sum(selector)` variance analyses across the fabricated standard deviations for the four anchoring studies, with `r sum(selector_sd)` using the $SD_z$ measure and `r sum(selector_maxmin)` using the $max_z-min_z$ measure. More specifically, we analyzed the standard deviations across all studies combined (assuming homogeneity across conditions), across all studies (assuming heterogeneity across anchoring conditions), within each study, and within each anchoring condition. We computed the AUROC value with the directional assumption that genuine data would show more variation than fabricated data. Results are presented in Table `r tabnr`.
 
 ```{r table_variance, echo = FALSE}
 dfvar <- data.frame(Method = c("Homogeneous, all studies combined",
@@ -558,7 +581,7 @@ dfvar <- data.frame(Method = c("Homogeneous, all studies combined",
             AUC$maxmin_p_study4_high$auc
             ))
 dfcopy <- dfvar
-names(dfvar) <- c('Method', 'AUROC $SD_z$', 'AUROC $max-min_z$')
+names(dfvar) <- c('Method', 'AUROC $SD_z$', 'AUROC $max_z-min_z$')
 knitr::kable(dfvar, row.names = FALSE, digits = 3, caption = "_Table XX._ Diagnosticity of using variance analyses to detect data fabrication, depicted with the AUROC-value. We assumed fabricated results would show ")
 tabnr <- tabnr + 1
 ```
@@ -566,7 +589,7 @@ tabnr <- tabnr + 1
 Results indicate that (1) heterogeneity of population variances directly affect the effectiveness of detecting data fabrication, (2) the different operationalizations of variance analyses show minimal differences, and (3) that the combined analysis of standard deviations across anchoring conditions in the four studies is a preferred method. 
 When comparing the combined variance analyses, we see that the homogeneity assumption drastically decreases the performance ($SD_z$; homogeneity: $AUROC=`r round(AUC$variance_sd_p_overall_homo$auc, 3)`$, heterogeneity: AUROC=`r round(AUC$variance_sd_p_overall_hetero$auc, 3)`). 
 This assumption has not previously been explicated [@] and we also did not preregister analyses that took into account this assumption. 
-Moreover, the maximum absolute difference between the $SD_z$ and $max-min_z$ operationalizations is `r round(max(abs(dfcopy$SD_z - dfcopy$max_min_z)), 3)` and there is no reason to deviate from the original $SD_z$ operationalization as proposed by @. 
+Moreover, the maximum absolute difference between the $SD_z$ and $max_z-min_z$ operationalizations is `r round(max(abs(dfcopy$SD_z - dfcopy$max_min_z)), 3)` and there is no reason to deviate from the original $SD_z$ operationalization as proposed by @. 
 Lastly, we see that variance analyses separated per study or anchoring condition within a study are quite variable, which suggests that the combined analysis is preferred because selecting a priori selection of a specific subset is unfeasible in practice.
 
 ### Effect sizes
@@ -612,6 +635,8 @@ tabnr <- tabnr + 1
 #### Multivariate associations
 
 ## Discussion
+
+<!-- methods don't exclude other reasons for deviation from probabilistic processes, might be incorrect random assignment or such -->
 
 # General discussion
 
