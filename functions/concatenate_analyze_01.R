@@ -5,7 +5,7 @@ options(digits = 20)
 ml <- read.csv('../data/study_01/ml_summary_stats.csv', stringsAsFactors = FALSE)
 qualtrics <- read.csv('../data/study_01/qualtrics_processed.csv', stringsAsFactors = FALSE)
 
-iter <- 100
+iter <- 100000
 
 ml$stat_know <- NA
 ml$spss <- NA
@@ -29,11 +29,15 @@ dat <- rbind(qualtrics, ml)
 write_df <- NULL
 
 for (pp in unique(dat$referrer)) {
+  print(pp)
   sel <- dat$referrer == pp
 
 # VARIANCE ANALYSIS
   for (met in c('sd', 'maxmin')) {
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
     study = 'Overall', 
     test = sprintf('Variance analysis %s [homogeneity]', met), 
     result = std_var(method = met, n = dat$anch_n[sel], sds = dat$anch_sd[sel], 
@@ -45,6 +49,9 @@ for (pp in unique(dat$referrer)) {
       start <- selecta[i,1]
       end <- selecta[i,2]
       write_df <- rbind(write_df, data.frame(id = pp, 
+      rng = dat$rng[sel],
+      noanch = dat$noanch[sel],
+      bonus = dat$bonus[sel],
         study = sprintf('Study %s', j), 
         test = sprintf('Variance analysis %s [homogeneity]', met), 
         result = std_var(method = met, n = dat$anch_n[sel][start:end], 
@@ -54,6 +61,9 @@ for (pp in unique(dat$referrer)) {
     }
 
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
       study = 'Overall', 
       test = sprintf('Variance analysis %s [heterogeneity]', met), 
       result = std_var(method = met, n = dat$anch_n[sel], sds = dat$anch_sd[sel], 
@@ -66,6 +76,9 @@ for (pp in unique(dat$referrer)) {
       start <- selecta[i,1]
       end <- selecta[i,2]
       write_df <- rbind(write_df, data.frame(id = pp, 
+      rng = dat$rng[sel],
+      noanch = dat$noanch[sel],
+      bonus = dat$bonus[sel],
         study = sprintf('Study %s', j), 
         test = sprintf('Variance analysis %s, %s anchoring condition [heterogeneity]',
          met, ifelse(dat$anchoring[sel][start:end][1] == 0, 'low', 'high')), 
@@ -106,6 +119,9 @@ for (pp in unique(dat$referrer)) {
                                 df2 = sum(dat$anch_n[indexor]) - 4,
                                 lower.tail = FALSE)
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
       study = sprintf('Study %s', j), 
       test = 'P-value gender', 
       result = unique(dat$p_gender[indexor])))
@@ -113,6 +129,9 @@ for (pp in unique(dat$referrer)) {
       (((ms_gender / ms_error) * (2 -1)) / (sum(dat$anch_n[indexor]) - 4)) / 
       ((((ms_gender / ms_error) * (2 -1)) / (sum(dat$anch_n[indexor]) - 4)) + 1)
       write_df <- rbind(write_df, data.frame(id = pp, 
+      rng = dat$rng[sel],
+      noanch = dat$noanch[sel],
+      bonus = dat$bonus[sel],
       study = sprintf('Study %s', j), 
       test = 'Effect size (r2) gender', 
       result = unique(dat$es2_gender[indexor])))
@@ -125,6 +144,9 @@ for (pp in unique(dat$referrer)) {
                                    df2 = sum(dat$anch_n[indexor]) - 4,
                                    lower.tail = FALSE)
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
       study = sprintf('Study %s', j), 
       test = 'P-value anchoring', 
       result = unique(dat$p_condition[indexor])))
@@ -133,6 +155,9 @@ for (pp in unique(dat$referrer)) {
       (((ms_condition / ms_error) * (2 -1)) / (sum(dat$anch_n[indexor]) - 4)) / 
       ((((ms_condition / ms_error) * (2 -1)) / (sum(dat$anch_n[indexor]) - 4)) + 1)
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
     study = sprintf('Study %s', j), 
     test = 'Effect size (r2) anchoring', 
     result = unique(dat$es2_condition[indexor])))
@@ -145,6 +170,9 @@ for (pp in unique(dat$referrer)) {
                                      df2 = sum(dat$anch_n[indexor]) - 4,
                                      lower.tail = FALSE)
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
       study = sprintf('Study %s', j), 
       test = 'P-value interaction', 
       result = unique(dat$p_interaction[indexor])))
@@ -152,6 +180,9 @@ for (pp in unique(dat$referrer)) {
       (((ms_interaction / ms_error) * 1) / (sum(dat$anch_n[indexor]) - 4)) / 
       ((((ms_interaction / ms_error) * 1) / (sum(dat$anch_n[indexor]) - 4)) + 1)
     write_df <- rbind(write_df, data.frame(id = pp, 
+    rng = dat$rng[sel],
+    noanch = dat$noanch[sel],
+    bonus = dat$bonus[sel],
       study = sprintf('Study %s', j), 
       test = 'Effect size (r2) interaction', 
       result = unique(dat$es2_interaction[indexor])))
@@ -162,12 +193,18 @@ for (pp in unique(dat$referrer)) {
   int_sel <- write_df$id == pp & write_df$test == 'P-value interaction'
   
   write_df <- rbind(write_df, data.frame(id = pp,
+  rng = dat$rng[sel],
+  noanch = dat$noanch[sel],
+  bonus = dat$bonus[sel],
     study = 'Overall',
     test = 'Fisher method gender p-values',
     result = fisher_method(pval = write_df$result[gen_sel], 
       threshold = .05, 
       method = 'reversed')[3]))
   write_df <- rbind(write_df, data.frame(id = pp,
+  rng = dat$rng[sel],
+  noanch = dat$noanch[sel],
+  bonus = dat$bonus[sel],
     study = 'Overall',
     test = 'Fisher method interaction p-values',
     result = fisher_method(pval = write_df$result[int_sel],
@@ -176,35 +213,47 @@ for (pp in unique(dat$referrer)) {
   
   # COMBINING METHODS
   write_df <- rbind(write_df, data.frame(id = pp,
+  rng = dat$rng[sel],
+  noanch = dat$noanch[sel],
+  bonus = dat$bonus[sel],
     study = 'Overall',
-    test = 'Combination Fisher method (gender, interaction, variance sd [homogeneity])',
+    test = 'Combination Fisher method (gender, interaction, variance sd [homogeneity, combined])',
     result = fisher_method(pval = write_df$result[(write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method gender p-values') | 
       (write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method interaction p-values') |
       (write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Variance analysis sd [homogeneity]')],
-      threshold = .05, method = 'reversed')[3]))
+      threshold = .05)[3]))
   
   write_df <- rbind(write_df, data.frame(id = pp,
+  rng = dat$rng[sel],
+  noanch = dat$noanch[sel],
+  bonus = dat$bonus[sel],
     study = 'Overall',
-    test = 'Combination Fisher method (gender, interaction, variance sd [heterogeneity])',
+    test = 'Combination Fisher method (gender, interaction, variance sd [heterogeneity, combined])',
     result = fisher_method(pval = write_df$result[(write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method gender p-values') | 
       (write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method interaction p-values') |
       (write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Variance analysis sd [heterogeneity]')],
-      threshold = .05, method = 'reversed')[3]))
+      threshold = .05)[3]))
   
   write_df <- rbind(write_df, data.frame(id = pp,
+  rng = dat$rng[sel],
+  noanch = dat$noanch[sel],
+  bonus = dat$bonus[sel],
     study = 'Overall',
-    test = 'Combination Fisher method (gender, interaction, variance sd [homogeneity])',
+    test = 'Combination Fisher method (gender, interaction, variance sd [homogeneity, split])',
     result = fisher_method(pval = write_df$result[(write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method gender p-values') | 
       (write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method interaction p-values') |
       (write_df$id == pp & write_df$study == 'Study 1' & write_df$test == 'Variance analysis sd [homogeneity]') |
       (write_df$id == pp & write_df$study == 'Study 2' & write_df$test == 'Variance analysis sd [homogeneity]') |
       (write_df$id == pp & write_df$study == 'Study 3' & write_df$test == 'Variance analysis sd [homogeneity]') |
       (write_df$id == pp & write_df$study == 'Study 4' & write_df$test == 'Variance analysis sd [homogeneity]')],
-      threshold = .05, method = 'reversed')[3]))
+      threshold = .05)[3]))
   
   write_df <- rbind(write_df, data.frame(id = pp,
+  rng = dat$rng[sel],
+  noanch = dat$noanch[sel],
+  bonus = dat$bonus[sel],
     study = 'Overall',
-    test = 'Combination Fisher method (gender, interaction, variance sd [homogeneity])',
+    test = 'Combination Fisher method (gender, interaction, variance sd [heterogeneity, split])',
     result = fisher_method(pval = write_df$result[(write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method gender p-values') | 
       (write_df$id == pp & write_df$study == 'Overall' & write_df$test == 'Fisher method interaction p-values') |
       (write_df$id == pp & write_df$study == 'Study 1' & write_df$test == 'Variance analysis sd, low anchoring condition [heterogeneity]') |
@@ -215,7 +264,7 @@ for (pp in unique(dat$referrer)) {
       (write_df$id == pp & write_df$study == 'Study 3' & write_df$test == 'Variance analysis sd, high anchoring condition [heterogeneity]') |
       (write_df$id == pp & write_df$study == 'Study 4' & write_df$test == 'Variance analysis sd, low anchoring condition [heterogeneity]') |
       (write_df$id == pp & write_df$study == 'Study 4' & write_df$test == 'Variance analysis sd, high anchoring condition [heterogeneity]')],
-      threshold = .05, method = 'reversed')[3]))
+      threshold = .05)[3]))
 }
 
 write.csv(write_df,

@@ -70,25 +70,25 @@ names(Latency)[names(Latency)=="trial_latency"]<-"TRIAL_LATENCY"
 names(Latency)[names(Latency)=="trial_error"]<-"TRIAL_ERROR"
 names(Latency)[names(Latency)=="congruent"]<-"CONGRUENT"
 
-myTbl<-group_by(tbl_df(Latency),SESSION_ID)
+myTbl<-dplyr::group_by(dplyr::tbl_df(Latency),SESSION_ID)
 myTbl$SUBEXCL<-0
-myTblNoLong<-filter(myTbl,TRIAL_LATENCY<10000,TRIAL_LATENCY>=0)
+myTblNoLong<-dplyr::filter(myTbl,TRIAL_LATENCY<10000 & TRIAL_LATENCY>=0)
 
-myFastTbl<-filter(myTbl) %>%
+myFastTbl<-dplyr::filter(myTbl) %>%
   dplyr::summarise(FASTM=sum(TRIAL_LATENCY<300)/length(TRIAL_LATENCY))
 
-isTooFast<-filter(myFastTbl,FASTM>.10)%>%
-  select(SESSION_ID)
+isTooFast<-dplyr::filter(myFastTbl,FASTM>.10)%>%
+  dplyr::select(SESSION_ID)
 # if(nrow(isTooFast)>0){
 #   myTbl[myTbl$SESSION_ID %in% isTooFast, ]$SUBEXCL<-1
 # } # CHJH: This seems like redundant code
 # 
-myTblNotFast<-group_by(myTblNoLong,SESSION_ID,CONGRUENT)
+myTblNotFast<-dplyr::group_by(myTblNoLong,SESSION_ID,CONGRUENT)
 
 ###Replacing error trials with mean of trial type + 600ms
 #NOTE: in TRIAL_ERROR, 0=error, 1=correct
 
-meanReplace<-filter(myTblNotFast,TRIAL_ERROR==1) %>%
+meanReplace<-dplyr::filter(myTblNotFast,TRIAL_ERROR==1) %>%
   dplyr::summarise(blockMean=mean(TRIAL_LATENCY)+600)
 # meanReplace
 # head(meanReplace)
@@ -113,10 +113,10 @@ Incongruent<-subset(Corrected,Corrected$CONGRUENT=="Incongruent")
 # head(Congruent)
 # head(Incongruent)
 
-blockMeans1<-dplyr::summarise(group_by(Congruent,SESSION_ID),MC=mean(TRIAL_LATENCY),SDC=sd(TRIAL_LATENCY),NC=length(TRIAL_LATENCY))
+blockMeans1<-dplyr::summarise(dplyr::group_by(Congruent,SESSION_ID),MC=mean(TRIAL_LATENCY),SDC=sd(TRIAL_LATENCY),NC=length(TRIAL_LATENCY))
 tblM1<-blockMeans1
 
-blockMeans2<-dplyr::summarise(group_by(Incongruent,SESSION_ID),MI=mean(TRIAL_LATENCY),SDI=sd(TRIAL_LATENCY),NI=length(TRIAL_LATENCY))
+blockMeans2<-dplyr::summarise(dplyr::group_by(Incongruent,SESSION_ID),MI=mean(TRIAL_LATENCY),SDI=sd(TRIAL_LATENCY),NI=length(TRIAL_LATENCY))
 tblM2<-blockMeans2
 
 Means<-merge(tblM1,tblM2,by="SESSION_ID")
@@ -128,8 +128,8 @@ Means <- merge(Means, tmp, by="SESSION_ID")
 # list(Means$NC)
 # list(Means$NI)
 
-# myTblNotFastCorrect<-filter(Corrected, TRIAL_ERROR==1)
-# SD<-summarise(group_by(myTblNotFastCorrect,SESSION_ID),S=sd(TRIAL_LATENCY))
+# myTblNotFastCorrect<-dplyr::filter(Corrected, TRIAL_ERROR==1)
+# SD<-summarise(dplyr::group_by(myTblNotFastCorrect,SESSION_ID),S=sd(TRIAL_LATENCY))
 
 # Stroop<-merge(Means,SD,by="SESSION_ID")
 Stroop <- Means
@@ -142,4 +142,4 @@ Stroop$StroopEffect <- (Stroop$MI - Stroop$MC) / Stroop$SDPooled
 # Stroop
 # head(Stroop)
 
-write.csv(Stroop, sprintf('%sdata/study_02/ml3_stroop.csv', x12), row.names = FALSE)
+write.csv(Stroop, '../data/study_02/ml3_stroop.csv', row.names = FALSE)
