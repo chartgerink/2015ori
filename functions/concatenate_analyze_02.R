@@ -1,31 +1,74 @@
 ml3_dat <- read.csv('../data/study_02/ml3_stroop.csv')
     # Compute the results for the ML3 data
 df_ml3 <- plyr::ddply(ml3_dat, .(study_name), function (x) {
+  res <- data.frame(type = NA, test = NA, result = NA)
+
   res_t <- t.test(x$StroopEffect, mu = 0, var.equal = TRUE)
   es_r <- sqrt((res_t$statistic / res_t$parameter) / ((res_t$statistic / res_t$parameter) + 1))
-  res <- data.frame(type = 'ml3',
-    benford_congr_m_p = digit_analysis(x$MC, type = 'benford')$pval,
-    benford_congr_sd_p = digit_analysis(x$SDC, type = 'benford')$pval,
-    benford_incongr_m_p = digit_analysis(x$MI, type = 'benford')$pval,
-    benford_incongr_sd_p = digit_analysis(x$SDI, type = 'benford')$pval,
-    terminal_congr_m_p = digit_analysis(x$MC, type = 'terminal')$pval,
-    terminal_congr_sd_p = digit_analysis(x$SDC, type = 'terminal')$pval,
-    terminal_incongr_m_p = digit_analysis(x$MI, type = 'terminal')$pval,
-    terminal_incongr_sd_p = digit_analysis(x$SDI, type = 'terminal')$pval,
-    std_congr_p = std_var(sds = x$SDC, n = x$NC, iter = iter, method = 'maxmin', subgroups = rep(0, length(x$SDC))),
-    std_incongr_p = std_var(sds = x$SDI, n = x$NI, iter = iter, method = 'maxmin', subgroups = rep(0, length(x$SDI))),
-    mult_m_sd_congr = cor(x$MC, x$SDC),
-    mult_m_sd_incongr = cor(x$MI, x$SDI),
-    mult_m_m_across = cor(x$MC, x$MI),
-    mult_sd_sd_across = cor(x$SDC, x$SDI),
-    es_r,
-    n = length(x$MC))
+
+  # Add NBL results  
+  res <- rbind(res, c('Genuine', 'Benford, congruent means', digit_analysis(x$MC, type = 'benford')$pval))
+  res <- rbind(res, c('Genuine', 'Benford, congruent sds', digit_analysis(x$SDC, type = 'benford')$pval))
+  res <- rbind(res, c('Genuine', 'Benford, incongruent means', digit_analysis(x$MI, type = 'benford')$pval))
+  res <- rbind(res, c('Genuine', 'Benford, incongruent sds', digit_analysis(x$SDI, type = 'benford')$pval))
+  # Terminal digit analyses
+  res <- rbind(res, c('Genuine', 'Terminal digits, congruent means', digit_analysis(x$MC, type = 'terminal')$pval))
+  res <- rbind(res, c('Genuine', 'Terminal digits, congruent sds', digit_analysis(x$SDC, type = 'terminal')$pval))
+  res <- rbind(res, c('Genuine', 'Terminal digits, incongruent means', digit_analysis(x$MI, type = 'terminal')$pval))
+  res <- rbind(res, c('Genuine', 'Terminal digits, incongruent sds', digit_analysis(x$SDI, type = 'terminal')$pval))
+  # Std var
+  res <- rbind(res, c('Genuine', 'Variance analysis, congruent sds (maxmin)', std_var(sds = x$SDC, n = x$NC, iter = iter, method = 'maxmin', subgroups = rep(0, length(x$SDC)))))
+  res <- rbind(res, c('Genuine', 'Variance analysis, incongruent sds (maxmin)', std_var(sds = x$SDI, n = x$NI, iter = iter, method = 'maxmin', subgroups = rep(0, length(x$SDI)))))
+  # Multivariate associations
+  res <- rbind(res, c('Genuine', 'Multivariate association, M-SD congruent', cor(x$MC, x$SDC)))
+  res <- rbind(res, c('Genuine', 'Multivariate association, M-SD incongruent', cor(x$MI, x$SDI)))
+  res <- rbind(res, c('Genuine', 'Multivariate association, M-M across', cor(x$MC, x$MI)))
+  res <- rbind(res, c('Genuine', 'Multivariate association, SD-SD across', cor(x$SDC, x$SDI)))
+  # Effect size
+  res <- rbind(res, c('Genuine', 'Effect size (r)', es_r))
+  # Sample size
+  res$n <- length(x$MC)
+  res$rng <- NA
+  # Remove tmp row
+  res <- res[-1,]
+
   return(res)
 })
 
 names(df_ml3)[1] <- 'id'
 responses <- list.files('../data/study_02/responses')
-df_fab <- NULL
+df_fab <- data.frame(id = NA, type = NA, test = NA, result = NA, n = NA, rng = NA)
+# Handcoded from transcripts doi:10.5281/zenodo.832490
+# in the order of the object responses
+rng <- as.factor(c(1, # 0jg
+  1, # 19e
+  1,
+  0,
+  1,
+  0,
+  0,
+  0,
+  1,
+  0,
+  1,
+  1,
+  1,
+  1,
+  1,
+  0,
+  1,
+  0,
+  1,
+  1,
+  1,
+  1,
+  0,
+  1,
+  1,
+  1,
+  1,
+  0)) # z26
+i <- 1
 
 for (response in responses) {
   fab_dat <- read.table(sprintf('../data/study_02/responses/%s', response),
@@ -48,105 +91,104 @@ for (response in responses) {
   x <- t.test(stroopeffect, mu = 0, var.equal = TRUE)
   es_r <- sqrt((x$statistic / x$parameter) / ((x$statistic / x$parameter) + 1))
   
-  binder <- data.frame(id = response,
-   type = 'fabricated',
-   benford_congr_m_p = digit_analysis(fab_dat$mean_congruent, type = 'benford')$pval,
-   benford_congr_sd_p = digit_analysis(fab_dat$sd_congruent, type = 'benford')$pval,
-   benford_incongr_m_p = digit_analysis(fab_dat$mean_incongruent, type = 'benford')$pval,
-   benford_incongr_sd_p = digit_analysis(fab_dat$sd_incongruent, type = 'benford')$pval,
-   terminal_congr_m_p = digit_analysis(fab_dat$mean_congruent, type = 'terminal')$pval,
-   terminal_congr_sd_p = digit_analysis(fab_dat$sd_congruent, type = 'terminal')$pval,
-   terminal_incongr_m_p = digit_analysis(fab_dat$mean_incongruent, type = 'terminal')$pval,
-   terminal_incongr_sd_p = digit_analysis(fab_dat$sd_incongruent, type = 'terminal')$pval,
-   std_congr_p = std_var(sds = fab_dat$sd_congruent, n = fab_dat$congruent_trials, iter = iter, method = 'maxmin', subgroups = rep(0, length(fab_dat$congruent_trials))),
-   std_incongr_p = std_var(sds = fab_dat$sd_incongruent, n = fab_dat$incongruent_trials, iter = iter, method = 'maxmin', subgroups = rep(0, length(fab_dat$incongruent_trials))),
-   mult_m_sd_congr = cor(fab_dat$mean_congruent, fab_dat$sd_congruent),
-   mult_m_sd_incongr = cor(fab_dat$mean_incongruent, fab_dat$sd_incongruent),
-   mult_m_m_across = cor(fab_dat$mean_congruent, fab_dat$mean_incongruent),
-   mult_sd_sd_across = cor(fab_dat$sd_congruent, fab_dat$sd_incongruent),
-   es_r = es_r,
-   n = length(fab_dat$congruent_trials))
+  tmp_fab <- data.frame(id = response,
+   type = 'Fabricated', 
+   test = c('Benford, congruent means',
+    'Benford, congruent sds',
+    'Benford, incongruent means',
+    'Benford, incongruent sds',
+    'Terminal digits, congruent means',
+    'Terminal digits, congruent sds',
+    'Terminal digits, incongruent means',
+    'Terminal digits, incongruent sds',
+    'Variance analysis, congruent sds (maxmin)',
+    'Variance analysis, incongruent sds (maxmin)',
+    'Multivariate association, M-SD congruent',
+    'Multivariate association, M-SD incongruent',
+    'Multivariate association, M-M across',
+    'Multivariate association, SD-SD across',
+    'Effect size (r)'), 
+   result = c(digit_analysis(fab_dat$mean_congruent, type = 'benford')$pval,
+    digit_analysis(fab_dat$sd_congruent, type = 'benford')$pval,
+    digit_analysis(fab_dat$mean_incongruent, type = 'benford')$pval,
+    digit_analysis(fab_dat$sd_incongruent, type = 'benford')$pval,
+    digit_analysis(fab_dat$mean_congruent, type = 'terminal')$pval,
+    digit_analysis(fab_dat$sd_congruent, type = 'terminal')$pval,
+    digit_analysis(fab_dat$mean_incongruent, type = 'terminal')$pval,
+    digit_analysis(fab_dat$sd_incongruent, type = 'terminal')$pval,
+    std_var(sds = fab_dat$sd_congruent, n = fab_dat$congruent_trials, iter = iter, method = 'maxmin', subgroups = rep(0, length(fab_dat$sd_congruent))),
+    std_var(sds = fab_dat$sd_incongruent, n = fab_dat$incongruent_trials, iter = iter, method = 'maxmin', subgroups = rep(0, length(fab_dat$sd_incongruent))),
+    cor(fab_dat$mean_congruent, fab_dat$sd_congruent),
+    cor(fab_dat$mean_incongruent, fab_dat$sd_incongruent),
+    cor(fab_dat$mean_congruent, fab_dat$mean_incongruent),
+    cor(fab_dat$sd_congruent, fab_dat$sd_incongruent),
+    es_r), 
+   n = length(fab_dat$mean_congruent),
+   rng = rng[i])
 
-  df_fab <- rbind(df_fab, binder)
+  i <- i + 1
+  df_fab <- rbind(df_fab, tmp_fab)
 }
 
-# Add handcoded Random number generator use
-df_ml3$rng <- NA
-df_fab$rng <- as.factor(c(1,
-  1,
-  1,
-  0,
-  1,
-  0,
-  0,
-  0,
-  1,
-  0,
-  1,
-  1,
-  1,
-  1,
-  1,
-  0,
-  1,
-  0,
-  1,
-  1,
-  1,
-  1,
-  0,
-  1,
-  1,
-  1,
-  1,
-  0))
-
+# Remove tmp row
+df_fab <- df_fab[-1,]
+# Combine the two
 df <- rbind(df_ml3, df_fab)
+df$result <- as.numeric(df$result)
 
-    # Meta-analyze the multivariate associations to acquire the parametric estimate
-df$fisher_mult_m_sd_congr = atanh(df$mult_m_sd_congr)
-df$fisher_mult_m_sd_incongr = atanh(df$mult_m_sd_incongr)
-df$fisher_mult_m_m_across = atanh(df$mult_m_m_across)
-df$fisher_mult_sd_sd_across = atanh(df$mult_sd_sd_across)
+# Meta-analyze the genuine multivariate associations to acquire the parametric estimate
+sel <- df$type == 'Genuine' & df$test == 'Multivariate association, M-SD congruent'
+x <- metafor::rma(atanh(df$result[sel]), sei = 1 / sqrt(df$n[sel] - 3), method = 'REML')
+mean_m_sd_congruent <- x$b[1]
+tau_m_sd_congruent <- sqrt(x$tau2[1])
+sel <- df$type == 'Genuine' & df$test == 'Multivariate association, M-SD incongruent'
+x <- metafor::rma(atanh(df$result[sel]), sei = 1 / sqrt(df$n[sel] - 3), method = 'REML')
+mean_m_sd_incongruent <- x$b[1]
+tau_m_sd_incongruent <- sqrt(x$tau2[1])
+sel <- df$type == 'Genuine' & df$test == 'Multivariate association, M-M across'
+x <- metafor::rma(atanh(df$result[sel]), sei = 1 / sqrt(df$n[sel] - 3), method = 'REML')
+mean_m_m_across <- x$b[1]
+tau_m_m_across <- sqrt(x$tau2[1])
+sel <- df$type == 'Genuine' & df$test == 'Multivariate association, SD-SD across'
+x <- metafor::rma(atanh(df$result[sel]), sei = 1 / sqrt(df$n[sel] - 3), method = 'REML')
+mean_sd_sd_across <- x$b[1]
+tau_sd_sd_across <- sqrt(x$tau2[1])
 
-x <- metafor::rma(df$fisher_mult_m_sd_congr, sei = 1 / sqrt(df$n - 3), method = 'REML', data = df)
-fisher_mult_m_sd_congr_mean <- x$b[1]
-fisher_mult_m_sd_congr_std <- sqrt(x$tau2[1])
+# Compute the p-values for the multivariate associations per dataset
+for (ds in unique(df$id)) {
+  for (tst in c('Multivariate association, M-SD congruent',
+    'Multivariate association, M-SD incongruent',
+    'Multivariate association, M-M across',
+    'Multivariate association, SD-SD across')) {
+    sel <- df$id == ds & df$test == tst
 
-x <- metafor::rma(df$fisher_mult_m_sd_incongr, sei = 1 / sqrt(df$n - 3), method = 'REML', data = df)
-fisher_mult_m_sd_incongr_mean <- x$b[1]
-fisher_mult_m_sd_incongr_std <- sqrt(x$tau2[1])
+    mean <- ifelse(tst == 'Multivariate association, M-SD congruent', mean_m_sd_congruent,
+      ifelse(tst == 'Multivariate association, M-SD incongruent', mean_m_sd_incongruent, 
+        ifelse(tst == 'Multivariate association, M-M across', mean_m_m_across, 
+          ifelse(tst == 'Multivariate association, SD-SD across', mean_sd_sd_across, stop('Error')))))
+    tau <- ifelse(tst == 'Multivariate association, M-SD congruent', tau_m_sd_congruent,
+      ifelse(tst == 'Multivariate association, M-SD incongruent', tau_m_sd_incongruent, 
+        ifelse(tst == 'Multivariate association, M-M across', tau_m_m_across, 
+          ifelse(tst == 'Multivariate association, SD-SD across', tau_sd_sd_across, stop('Error')))))
 
-x <- metafor::rma(df$fisher_mult_m_m_across, sei = 1 / sqrt(df$n - 3), method = 'REML', data = df)
-fisher_mult_m_m_across_mean <- x$b[1]
-fisher_mult_m_m_across_std <- sqrt(x$tau2[1])
+    z_val <- (df$result[sel] - mean) / tau
+    df <- rbind(df, data.frame(id = ds, 
+      type = unique(df$type[sel])[1], 
+      test = sprintf('Parametric test of %s', tst), 
+      result = 2 * pnorm(q = abs(z_val), mean = 0, sd = 1, lower = FALSE), 
+      n = unique(df$n[sel])[1], 
+      rng = unique(df$rng[sel])[1]))
+  }
 
-x <- metafor::rma(df$fisher_mult_sd_sd_across, sei = 1 / sqrt(df$n - 3), method = 'REML', data = df)
-fisher_mult_sd_sd_across_mean <- x$b[1]
-fisher_mult_sd_sd_across_std <- sqrt(x$tau2[1])
+  sel <- df$id == ds & grepl(df$test, pattern = '(Parametric|Variance|Terminal)')
+  df <- rbind(df, data.frame(id = ds, 
+      type = unique(df$type[sel])[1], 
+      test = sprintf('Combination w Fisher method (k=10, 2x variance, 4x terminal, 4x associations)', tst), 
+      result = fisher_method(df$result[sel])[,3], 
+      n = unique(df$n[sel])[1], 
+      rng = unique(df$rng[sel])[1]))
+}
 
-    # Compute the multivariate p-values for the ML data
-z_val <- (df$fisher_mult_m_sd_congr - fisher_mult_m_sd_congr_mean) / fisher_mult_m_sd_congr_std
-df$p_fisher_mult_m_sd_congr <- 2 * pnorm(q = abs(z_val), mean = 0, sd = 1, lower = FALSE)
 
-z_val <- (df$fisher_mult_m_sd_incongr - fisher_mult_m_sd_incongr_mean) / fisher_mult_m_sd_incongr_std
-df$p_fisher_mult_m_sd_incongr <- 2 * pnorm(q = abs(z_val), mean = 0, sd = 1, lower = FALSE)
-
-z_val <- (df$fisher_mult_m_m_across - fisher_mult_m_m_across_mean) / fisher_mult_m_m_across_std
-df$p_fisher_mult_m_m_across <- 2 * pnorm(q = abs(z_val), mean = 0, sd = 1, lower = FALSE)
-
-z_val <- (df$fisher_mult_sd_sd_across - fisher_mult_sd_sd_across_mean) / fisher_mult_sd_sd_across_std
-df$p_fisher_mult_sd_sd_across <- 2 * pnorm(q = abs(z_val), mean = 0, sd = 1, lower = FALSE)
-
-df$fisher_combination <- apply(cbind(df$terminal_congr_m_p,
-  df$terminal_congr_sd_p,
-  df$terminal_incongr_m_p,
-  df$terminal_incongr_sd_p,
-  df$std_congr_p,
-  df$std_incongr_p,
-  df$p_fisher_mult_m_sd_congr,
-  df$p_fisher_mult_m_sd_incongr,
-  df$p_fisher_mult_m_m_across,
-  df$p_fisher_mult_sd_sd_across), 1, function(x) fisher_method(x)[,3])
-
+# Write out datafile
 write.csv(df, file = '../data/study_02/ml3_fabricated_processed_collated.csv', row.names = FALSE)
