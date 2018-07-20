@@ -7,15 +7,15 @@ df_ml3 <- plyr::ddply(ml3_dat, .(study_name), function (x) {
   es_r <- sqrt((res_t$statistic / res_t$parameter) / ((res_t$statistic / res_t$parameter) + 1))
 
   # Add NBL results  
-  res <- rbind(res, c('Genuine', 'Benford, congruent means', digit_analysis(x$MC, type = 'benford')$pval))
-  res <- rbind(res, c('Genuine', 'Benford, congruent sds', digit_analysis(x$SDC, type = 'benford')$pval))
-  res <- rbind(res, c('Genuine', 'Benford, incongruent means', digit_analysis(x$MI, type = 'benford')$pval))
-  res <- rbind(res, c('Genuine', 'Benford, incongruent sds', digit_analysis(x$SDI, type = 'benford')$pval))
+  res <- rbind(res, c('Genuine', 'Benford, congruent means', digit_analysis(x$MC, type = 'benford')))
+  res <- rbind(res, c('Genuine', 'Benford, congruent sds', digit_analysis(x$SDC, type = 'benford')))
+  res <- rbind(res, c('Genuine', 'Benford, incongruent means', digit_analysis(x$MI, type = 'benford')))
+  res <- rbind(res, c('Genuine', 'Benford, incongruent sds', digit_analysis(x$SDI, type = 'benford')))
   # Terminal digit analyses
-  res <- rbind(res, c('Genuine', 'Terminal digits, congruent means', digit_analysis(x$MC, type = 'terminal')$pval))
-  res <- rbind(res, c('Genuine', 'Terminal digits, congruent sds', digit_analysis(x$SDC, type = 'terminal')$pval))
-  res <- rbind(res, c('Genuine', 'Terminal digits, incongruent means', digit_analysis(x$MI, type = 'terminal')$pval))
-  res <- rbind(res, c('Genuine', 'Terminal digits, incongruent sds', digit_analysis(x$SDI, type = 'terminal')$pval))
+  res <- rbind(res, c('Genuine', 'Terminal digits, congruent means', digit_analysis(x$MC, type = 'terminal')))
+  res <- rbind(res, c('Genuine', 'Terminal digits, congruent sds', digit_analysis(x$SDC, type = 'terminal')))
+  res <- rbind(res, c('Genuine', 'Terminal digits, incongruent means', digit_analysis(x$MI, type = 'terminal')))
+  res <- rbind(res, c('Genuine', 'Terminal digits, incongruent sds', digit_analysis(x$SDI, type = 'terminal')))
   # Std var
   res <- rbind(res, c('Genuine', 'Variance analysis, congruent sds (maxmin)', std_var(sds = x$SDC, n = x$NC, iter = iter, method = 'maxmin', subgroups = rep(0, length(x$SDC)))))
   res <- rbind(res, c('Genuine', 'Variance analysis, incongruent sds (maxmin)', std_var(sds = x$SDI, n = x$NI, iter = iter, method = 'maxmin', subgroups = rep(0, length(x$SDI)))))
@@ -108,14 +108,14 @@ for (response in responses) {
     'Multivariate association, M-M across',
     'Multivariate association, SD-SD across',
     'Effect size (r)'), 
-   result = c(digit_analysis(fab_dat$mean_congruent, type = 'benford')$pval,
-    digit_analysis(fab_dat$sd_congruent, type = 'benford')$pval,
-    digit_analysis(fab_dat$mean_incongruent, type = 'benford')$pval,
-    digit_analysis(fab_dat$sd_incongruent, type = 'benford')$pval,
-    digit_analysis(fab_dat$mean_congruent, type = 'terminal')$pval,
-    digit_analysis(fab_dat$sd_congruent, type = 'terminal')$pval,
-    digit_analysis(fab_dat$mean_incongruent, type = 'terminal')$pval,
-    digit_analysis(fab_dat$sd_incongruent, type = 'terminal')$pval,
+   result = c(digit_analysis(fab_dat$mean_congruent, type = 'benford'),
+    digit_analysis(fab_dat$sd_congruent, type = 'benford'),
+    digit_analysis(fab_dat$mean_incongruent, type = 'benford'),
+    digit_analysis(fab_dat$sd_incongruent, type = 'benford'),
+    digit_analysis(fab_dat$mean_congruent, type = 'terminal'),
+    digit_analysis(fab_dat$sd_congruent, type = 'terminal'),
+    digit_analysis(fab_dat$mean_incongruent, type = 'terminal'),
+    digit_analysis(fab_dat$sd_incongruent, type = 'terminal'),
     std_var(sds = fab_dat$sd_congruent, n = fab_dat$congruent_trials, iter = iter, method = 'maxmin', subgroups = rep(0, length(fab_dat$sd_congruent))),
     std_var(sds = fab_dat$sd_incongruent, n = fab_dat$incongruent_trials, iter = iter, method = 'maxmin', subgroups = rep(0, length(fab_dat$sd_incongruent))),
     cor(fab_dat$mean_congruent, fab_dat$sd_congruent),
@@ -192,3 +192,164 @@ for (ds in unique(df$id)) {
 
 # Write out datafile
 write.csv(df, file = '../data/study_02/ml3_fabricated_processed_collated.csv', row.names = FALSE)
+
+# Digit distributions
+df <- data.frame(type = NA, analysis = NA, digit = NA, measure = NA, count = NA)
+# First digit
+# ML3
+x <- digit_counter(ml3_dat$MC, 'benford')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(ml3_dat$SDC, 'benford')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(ml3_dat$MI, 'benford')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(ml3_dat$SDI, 'benford')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+# Fabricated
+x <- digit_counter(fab_dat$mean_congruent, 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(fab_dat$sd_congruent, 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(fab_dat$mean_incongruent, 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(fab_dat$sd_incongruent, 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+# Expected
+x <- expected_digit_counter(fab_dat$mean_congruent, 'benford')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'benford', 
+  digit = seq(1:9), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- expected_digit_counter(fab_dat$sd_congruent, 'benford')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'benford', 
+  digit = seq(1:9), 
+  measure = 'SD congruent', 
+  count = x))
+x <- expected_digit_counter(fab_dat$mean_incongruent, 'benford')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'benford', 
+  digit = seq(1:9), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- expected_digit_counter(fab_dat$sd_incongruent, 'benford')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'benford', 
+  digit = seq(1:9), 
+  measure = 'SD incongruent', 
+  count = x))
+
+# Last digit
+# ML3
+x <- digit_counter(ml3_dat$MC, 'terminal')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(ml3_dat$SDC, 'terminal')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(ml3_dat$MI, 'terminal')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(ml3_dat$SDI, 'terminal')
+df <- rbind(df, data.frame(type = 'Genuine', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+# Fabricated
+x <- digit_counter(fab_dat$mean_congruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(fab_dat$sd_congruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(fab_dat$mean_incongruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(fab_dat$sd_incongruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+# Expected
+x <- expected_digit_counter(fab_dat$mean_congruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'terminal', 
+  digit = seq(0:9), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- expected_digit_counter(fab_dat$sd_congruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'terminal', 
+  digit = seq(0:9), 
+  measure = 'SD congruent', 
+  count = x))
+x <- expected_digit_counter(fab_dat$mean_incongruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'terminal', 
+  digit = seq(0:9), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- expected_digit_counter(fab_dat$sd_incongruent, 'terminal')
+df <- rbind(df, data.frame(type = 'Expected', 
+  analysis = 'terminal', 
+  digit = seq(0:9), 
+  measure = 'SD incongruent', 
+  count = x))
+
+# Remove tmp row
+df <- df[-1,]
+
+write.csv(df, file = '../data/study_02/digit_counts.csv', row.names = FALSE)
