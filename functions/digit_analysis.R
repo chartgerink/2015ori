@@ -3,10 +3,12 @@
 #' @param x A vector or matrix of numeric values.
 #' @param type Type of digit analysis ('benford' or 'terminal')
 #'
-#' @return
+#' @return 
 #' @export
 #'
-#' @examples digit_analysis(c(1.234, 65.4321, 53.222), type = 'terminal')
+#' @examples 
+#'  digit_analysis(c(1.234, 65.4321, 53.222), type = 'terminal')
+#'  digit_analysis(c(1.234, 65.4321, 53.222), type = 'benford')
 
 digit_analysis <- function(x, type = 'terminal') {
   if(!(is.matrix(x) | is.vector(x))) {
@@ -22,51 +24,29 @@ digit_analysis <- function(x, type = 'terminal') {
   if (type == 'terminal') {
     df <- 10 - 1 
     
-    # x <- decimator(x)
-    
-    matrix_of_digits <- apply(
-      t(x),
-      1,
-      function(y)
-      {
-        splitted <- strsplit(as.character(y), "")
-        digits <- lapply(splitted, function(z) tail(z, 1))
-        return(unlist(digits))
-      })
-  } else if (type == 'benford')
-  { 
+    chis <- apply(t(x), 1, function(y) {
+      obs <- digit_counter(y, 'terminal')
+      exp <- expected_digit_counter(y, 'terminal')
+      chi <- sum((obs - exp)^2 / exp)
+      return(chi)
+    })
+  } else if (type == 'benford') { 
     df <- 9 - 1
     
-    matrix_of_digits <- apply(
-      t(x),
-      1,
-      function(y)
-      {
-        splitted <- strsplit(as.character(y), "")
-        digits <- lapply(splitted, function(z) head(z, 1))
-        return(unlist(digits))
-      })
-  } else
-  {
+    chis <- apply(t(x), 1, function(y) {
+      obs <- digit_counter(y, 'benford')
+      exp <- expected_digit_counter(y, 'benford')
+      chi <- sum((obs - exp)^2 / exp)
+      return(chi)
+    })  
+  } else {
     stop("Something went awry.")
   }
   
-  mode(matrix_of_digits) <- "numeric"
-  
-  chi <- apply(matrix_of_digits,
-    2, function(q) {
-      obs <- digit_counter(q, type = type)
-      exp <- expected_digit_counter(q, type = type)
-      testval <- sum((obs-exp)^2/exp)
-      return(testval)
-    })
-  
-  pval <- pchisq(q = chi, df = df,
+  pval <- pchisq(q = chis, df = df,
     lower.tail = FALSE)
-  res <- data.frame(chi, df = df, 
-                    pval)
   
-  return(res)
+  return(pval)
 }
 
 digit_counter <- function(x, type) {
@@ -74,13 +54,13 @@ digit_counter <- function(x, type) {
   
   x <- decimator(x)
   if (type == 'terminal') {
-    counts <- rep(0, 11)
-    names(counts) <- seq(0, 10)
+    counts <- rep(0, 10)
+    names(counts) <- seq(0, 9)
     digits <- table(regmatches(x, regexpr("\\d$", x)))
     counts[names(digits)] <- digits
   } else if (type == 'benford') {
-    counts <- rep(0, 10)
-    names(counts) <- seq(1, 10)
+    counts <- rep(0, 9)
+    names(counts) <- seq(1, 9)
     digits <- table(regmatches(x, regexpr("\\d", x)))
     counts[names(digits)] <- digits
   } else {
