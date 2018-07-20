@@ -70,6 +70,12 @@ rng <- as.factor(c(1, # 0jg
   0)) # z26
 i <- 1
 
+fab_digits <- data.frame(
+    mean_congruent = NA,
+    sd_congruent = NA,
+    mean_incongruent = NA,
+    sd_incongruent = NA)
+  
 for (response in responses) {
   fab_dat <- read.table(sprintf('../data/study_02/responses/%s', response),
    sep = '\t', header = TRUE)
@@ -126,11 +132,19 @@ for (response in responses) {
    n = length(fab_dat$mean_congruent),
    rng = rng[i])
 
+  # Add to digits object for later counts
+  fab_digits <- rbind(fab_digits, data.frame(
+    mean_congruent = fab_dat$mean_congruent,
+    sd_congruent = fab_dat$sd_congruent,
+    mean_incongruent = fab_dat$mean_incongruent,
+    sd_incongruent = fab_dat$sd_incongruent))
+
   i <- i + 1
   df_fab <- rbind(df_fab, tmp_fab)
 }
 
 # Remove tmp row
+fab_digits <- fab_digits[-1,]
 df_fab <- df_fab[-1,]
 # Combine the two
 df <- rbind(df_ml3, df_fab)
@@ -222,25 +236,25 @@ df <- rbind(df, data.frame(type = 'Genuine',
   measure = 'SD incongruent', 
   count = x))
 # Fabricated
-x <- digit_counter(fab_dat$mean_congruent, 'benford')
+x <- digit_counter(fab_digits$mean_congruent, 'benford')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'benford', 
   digit = names(x), 
   measure = 'Mean congruent', 
   count = x))
-x <- digit_counter(fab_dat$sd_congruent, 'benford')
+x <- digit_counter(fab_digits$sd_congruent, 'benford')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'benford', 
   digit = names(x), 
   measure = 'SD congruent', 
   count = x))
-x <- digit_counter(fab_dat$mean_incongruent, 'benford')
+x <- digit_counter(fab_digits$mean_incongruent, 'benford')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'benford', 
   digit = names(x), 
   measure = 'Mean incongruent', 
   count = x))
-x <- digit_counter(fab_dat$sd_incongruent, 'benford')
+x <- digit_counter(fab_digits$sd_incongruent, 'benford')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'benford', 
   digit = names(x), 
@@ -299,25 +313,25 @@ df <- rbind(df, data.frame(type = 'Genuine',
   measure = 'SD incongruent', 
   count = x))
 # Fabricated
-x <- digit_counter(fab_dat$mean_congruent, 'terminal')
+x <- digit_counter(fab_digits$mean_congruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'terminal', 
   digit = names(x), 
   measure = 'Mean congruent', 
   count = x))
-x <- digit_counter(fab_dat$sd_congruent, 'terminal')
+x <- digit_counter(fab_digits$sd_congruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'terminal', 
   digit = names(x), 
   measure = 'SD congruent', 
   count = x))
-x <- digit_counter(fab_dat$mean_incongruent, 'terminal')
+x <- digit_counter(fab_digits$mean_incongruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'terminal', 
   digit = names(x), 
   measure = 'Mean incongruent', 
   count = x))
-x <- digit_counter(fab_dat$sd_incongruent, 'terminal')
+x <- digit_counter(fab_digits$sd_incongruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Fabricated', 
   analysis = 'terminal', 
   digit = names(x), 
@@ -351,5 +365,11 @@ df <- rbind(df, data.frame(type = 'Expected',
 
 # Remove tmp row
 df <- df[-1,]
+
+df <- plyr::ddply(df, .(type, analysis, measure), function (x) {
+  prop <- x$count / sum(x$count)
+
+  return(data.frame(digit = x$digit, prop))
+})
 
 write.csv(df, file = '../data/study_02/digit_counts.csv', row.names = FALSE)
