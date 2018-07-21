@@ -1,5 +1,12 @@
 ml3_dat <- read.csv('../data/study_02/ml3_stroop.csv')
-    # Compute the results for the ML3 data
+
+# Round all numeric values to milliseconds
+ml3_dat$MC <- round(ml3_dat$MC, 0)
+ml3_dat$MI <- round(ml3_dat$MI, 0)
+ml3_dat$SDC <- round(ml3_dat$SDC, 0)
+ml3_dat$SDI <- round(ml3_dat$SDI, 0)
+
+# Compute the results for the ML3 data
 df_ml3 <- plyr::ddply(ml3_dat, .(study_name), function (x) {
   res <- data.frame(type = NA, test = NA, result = NA)
 
@@ -264,25 +271,25 @@ df <- rbind(df, data.frame(type = 'Fabricated',
 x <- expected_digit_counter(fab_dat$mean_congruent, 'benford')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'benford', 
-  digit = seq(1:9), 
+  digit = 1:9, 
   measure = 'Mean congruent', 
   count = x))
 x <- expected_digit_counter(fab_dat$sd_congruent, 'benford')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'benford', 
-  digit = seq(1:9), 
+  digit = 1:9, 
   measure = 'SD congruent', 
   count = x))
 x <- expected_digit_counter(fab_dat$mean_incongruent, 'benford')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'benford', 
-  digit = seq(1:9), 
+  digit = 1:9, 
   measure = 'Mean incongruent', 
   count = x))
 x <- expected_digit_counter(fab_dat$sd_incongruent, 'benford')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'benford', 
-  digit = seq(1:9), 
+  digit = 1:9, 
   measure = 'SD incongruent', 
   count = x))
 
@@ -341,25 +348,25 @@ df <- rbind(df, data.frame(type = 'Fabricated',
 x <- expected_digit_counter(fab_dat$mean_congruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'terminal', 
-  digit = seq(0:9), 
+  digit = 0:9, 
   measure = 'Mean congruent', 
   count = x))
 x <- expected_digit_counter(fab_dat$sd_congruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'terminal', 
-  digit = seq(0:9), 
+  digit = 0:9, 
   measure = 'SD congruent', 
   count = x))
 x <- expected_digit_counter(fab_dat$mean_incongruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'terminal', 
-  digit = seq(0:9), 
+  digit = 0:9, 
   measure = 'Mean incongruent', 
   count = x))
 x <- expected_digit_counter(fab_dat$sd_incongruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'terminal', 
-  digit = seq(0:9), 
+  digit = 0:9, 
   measure = 'SD incongruent', 
   count = x))
 
