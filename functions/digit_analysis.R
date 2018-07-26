@@ -90,8 +90,8 @@ expected_digit_counter <- function(x, type = type) {
 }
 
 decimator <- function(x) {
-  decimal <- regexpr('\\.', x)  
-  length <- nchar(x)
+  decimal <- regexpr('\\.', as.character(x))  
+  length <- nchar(as.character(x))
 
   decimated <- 10 ^ (length - decimal) * x
   # Make sure integers remain

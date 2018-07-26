@@ -81,7 +81,8 @@ fab_digits <- data.frame(
     mean_congruent = NA,
     sd_congruent = NA,
     mean_incongruent = NA,
-    sd_incongruent = NA)
+    sd_incongruent = NA,
+    rng = NA)
   
 for (response in responses) {
   fab_dat <- read.table(sprintf('../data/study_02/responses/%s', response),
@@ -144,7 +145,8 @@ for (response in responses) {
     mean_congruent = fab_dat$mean_congruent,
     sd_congruent = fab_dat$sd_congruent,
     mean_incongruent = fab_dat$mean_incongruent,
-    sd_incongruent = fab_dat$sd_incongruent))
+    sd_incongruent = fab_dat$sd_incongruent,
+    rng = rng[i]))
 
   i <- i + 1
   df_fab <- rbind(df_fab, tmp_fab)
@@ -367,6 +369,106 @@ x <- expected_digit_counter(fab_dat$sd_incongruent, 'terminal')
 df <- rbind(df, data.frame(type = 'Expected', 
   analysis = 'terminal', 
   digit = 0:9, 
+  measure = 'SD incongruent', 
+  count = x))
+
+# Add the fabricated split for RNG and no RNG
+# Fabricated w rng
+x <- digit_counter(fab_digits$mean_congruent[fab_digits$rng == 1], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_congruent[fab_digits$rng == 1], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(fab_digits$mean_incongruent[fab_digits$rng == 1], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_incongruent[fab_digits$rng == 1], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+x <- digit_counter(fab_digits$mean_congruent[fab_digits$rng == 1], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_congruent[fab_digits$rng == 1], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(fab_digits$mean_incongruent[fab_digits$rng == 1], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_incongruent[fab_digits$rng == 1], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+# W/o RNG
+x <- digit_counter(fab_digits$mean_congruent[fab_digits$rng == 0], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_congruent[fab_digits$rng == 0], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(fab_digits$mean_incongruent[fab_digits$rng == 0], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_incongruent[fab_digits$rng == 0], 'benford')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'benford', 
+  digit = names(x), 
+  measure = 'SD incongruent', 
+  count = x))
+x <- digit_counter(fab_digits$mean_congruent[fab_digits$rng == 0], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean congruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_congruent[fab_digits$rng == 0], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'SD congruent', 
+  count = x))
+x <- digit_counter(fab_digits$mean_incongruent[fab_digits$rng == 0], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
+  measure = 'Mean incongruent', 
+  count = x))
+x <- digit_counter(fab_digits$sd_incongruent[fab_digits$rng == 0], 'terminal')
+df <- rbind(df, data.frame(type = 'Fabricated w/o RNG', 
+  analysis = 'terminal', 
+  digit = names(x), 
   measure = 'SD incongruent', 
   count = x))
 
