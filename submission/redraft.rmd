@@ -14,6 +14,17 @@ documentclass: article
 classoption: a4paper
 ---
 
+<!-- 46 M-SD M-M etc. in italics?
+47 je wisselt ineens naar fabricated- and genuine (niet storend, viel gewoon op)
+47 ik erger me in tabel 6 aan 0.85 ipv 0.850
+47 tabel 6 (r) italics?
+48 M-SD M-M etc. in italics?
+51 ik vind "fabricated data with using RNGs." raar door de "with"
+54 alpha italics?
+54 haha gekke [@;@]
+57 inherent way to malicious inherent way for malicious
+58 hte -->
+
 ```{r echo = FALSE}
 # also requires dplyr
 library(ggplot2)
