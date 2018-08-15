@@ -109,36 +109,35 @@ names(df) <- c("Study",
 
 Any field of empirical inquiry is faced with cases of scientific misconduct at some point, either in the form of fabrication, falsification, or plagiarism (FFP). 
 Psychology faced Stapel; medical sciences faced Poldermans and Macchiarini; life sciences faced Voignet; physical sciences faced Sch&ouml;n --- these are just a few examples of research misconduct cases in the last decade. 
-Overall, an estimated 2\% of all scholars admit to falsifying or fabricating research results at least once [@doi:10.1371/journal.pone.0005738], which due to its self-report nature is likely to be an underestimate. 
-The detection rate of data fabrication is likely to be even lower; for example, only around a dozen cases become public in the United States and the Netherlands, despite that there are several hundreds of thousands of researchers in these countries. 
-At best, this suggests a detection rate below 1\% of those 2\% who admit to fabricating data --- the tip of a seemingly much larger iceberg.
+Overall, an estimated 2% of all scholars admit to having falsified or fabricated research results at least once during their career [@doi:10.1371/journal.pone.0005738], which due to its self-report nature is likely to be an underestimate of the true rate of misconduct. 
+The detection rate of data fabrication is likely to be even lower; for example, among several hundreds of thousands of researchers working in the United States and the Netherlands, only around a dozen cases become public each year. 
+At best, this suggests a detection rate below 1% among those 2% who admit to fabricating or falsifying data --- the tip of a seemingly much larger iceberg.
 
 In order to stifle attempts at data fabrication, improved detection of fabricated data is considered to deter such behavior. 
-This idea is based on deterrence theory [@leviathan], which stipulates that increased risk of detection decreases the expected utility of scientific misconduct, hence, fewer people will engage in it. 
+Deterrence theory [e.g., @leviathan] states that improved detection of undesirable behaviors decreases the expected utility of said behaviors, ultimately leading to fewer people to engage in it. 
 Detection techniques have developed differently for fabrication, falsification, and plagiarism.
 Plagiarism scanners have been around the longest [e.g., @doi:10.1109/13.28038] and are widely implemented not only at journals but also in the evaluation of student theses (e.g., with commercial services such as Turnitin). 
-For data fabrication, developments around detecting image manipulation are more recent, with some tools even being implemented at journals. 
-For example, the Journal of Cell Biology and the EMBO journal scan each submitted image for potential manipulation [@The_Journal_of_Cell_Biology2015-vh;@doi:10.1038/546575a], which supposedly increases the risk of detecting (blatant) image manipulation. 
-More recently, algorithms are being developed to automate the scanning of images for such manipulations [@doi:10.1007/s11948-016-9841-7]. 
-The application of such tools can also help researchers systematically evaluate research articles in order to estimate the extent to which image manipulation occurs [4\% of all papers are estimated to contain manipulated images, @doi:10.1128/mBio.00809-16] or what factors are predictive of image manipulation [@doi:10.1007/s11948-018-0023-7]. 
+Various tools have been developed to detect image manuipulation and some of these tools have been implemented at biomedical journals to screen for fabricated- or falsified images. 
+For example, the Journal of Cell Biology and the EMBO journal scan each submitted image for potential image manipulation [@The_Journal_of_Cell_Biology2015-vh;@doi:10.1038/546575a], which supposedly increases the risk of detecting (blatant) image manipulation. 
+Recently developed algorithms even allow automated scanning of images for such manipulations [@doi:10.1007/s11948-016-9841-7]. 
+The application of such tools can also help researchers systematically evaluate research articles in order to estimate the extent to which image manipulation occurs in the literature [4% of all papers are estimated to contain manipulated images; @doi:10.1128/mBio.00809-16] and to study factors that predict image manipulation [@doi:10.1007/s11948-018-0023-7]. 
 
-Detection methods for data fabrication in empirical research are often based on a mix of psychology theory and statistics theory. 
-Because humans are notoriously bad at understanding and estimating randomness [@Haldane1948-nm;@doi:10.1126/science.185.4157.1124;@doi:10.1037/h0031322;@doi:10.1037/1082-989X.5.2.241;@doi:10.1037/h0032060], this could manifest itself in the fundamentally probabilistic data they try to fabricate. 
-Whether the data and outcomes of analyses based on these data are in line with the (at least partly probabilistic) processes that are assumed to underlie them, may indicate deviations from the reported protocol, potentially even data fabrication. 
+Methods to detect fabrication of quantitative data are often based on a mix of psychology theory and statistics theory. 
+Because humans are notoriously bad at understanding and estimating randomness [@Haldane1948-nm;@doi:10.1126/science.185.4157.1124;@doi:10.1037/h0031322;@doi:10.1037/1082-989X.5.2.241;@doi:10.1037/h0032060], they might create fabricated data that fail to follow the fundamentally probabilistic nature of genuine data. 
+Whether the data and outcomes of analyses based on these data are in line with the (at least partly probabilistic) processes that are assumed to underlie them, may indicate deviations from the reported protocol, potentially even data fabrication or falsification. 
 
 Statistical methods have proven to be of importance in initiating data fabrication investigations or in assessing scope of potential data fabrication. 
 For example, Kranke, Apfel, and Roewer skeptically perceived Fuji's data [@doi:10.1213/00000539-200004000-00053] and used statistical methods to contextualize their skepticism.
 At the time, a reviewer perceived them to be on a "crusade  against Fujii and his colleagues" [@doi:10.1111/j.1365-2044.2012.07318.x] and further investigation remained absent. 
-Only when Carlisle extended the systematic investigation to 168 of Fuji's papers [@doi:10.1111/j.1365-2044.2012.07128.x;@doi:10.1111/anae.13650;@doi:10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 of Fuji's peer-reviewed papers [@oransky2015;@doi:10.1016/j.ijoa.2012.10.001]. 
-In another example, the Stapel case, statistical evaluation of his oeuvre  occurred after he had already confessed to fabricating data, which resulted in 58 retractions of papers (co-)authored by Stapel [@Levelt2012;@oransky2015].
+Only when Carlisle extended the systematic investigation to 168 of Fuji's papers for misconduct [@doi:10.1111/j.1365-2044.2012.07128.x;@doi:10.1111/anae.13650;@doi:10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 of Fuji's peer-reviewed papers [@oransky2015;@doi:10.1016/j.ijoa.2012.10.001]. 
+In another example, the Stapel case, statistical evaluation of his oeuvre occurred after he had already confessed to fabricating data, which ultimately resulted in 58 retractions of papers (co-)authored by Stapel [@Levelt2012;@oransky2015].
 
-In order to determine whether the application of statistical methods to detect data fabrication is responsible, their diagnostic value requires further investigation to inform decisions about the utility of these methods. 
-Specifically, many of the developed statistical methods to detect data fabrication are quantifications of case specific suspicions by researchers.
-Hence, these could be considered mere proposals and their diagnostic value (i.e., sensitivity and specificity) unknown until they are thoroughly validated outside of those specific cases. 
-Side-by-side comparisons of these proposed statistical methods has also been  difficult through the in-casu origin of these methods.
+In order to determine whether the application of statistical methods to detect data fabrication is responsible, we need to study their diagnostic value to inform decisions about the utility of these methods. 
+Specifically, many of the developed statistical methods to detect data fabrication are quantifications of case specific suspicions by researchers, but these applications do not inform us on their diagnostic value (i.e., sensitivity and specificity) outside of those specific cases. 
+Side-by-side comparisons of different statistical methods to detect data fabrication has also been difficult through the in-casu origin of these methods.
 Moreover, the efficacy of these methods based on known cases is likely to be biased, considering that an unknown amount of undetected cases are not included. 
-With respect to the utility of these statistical methods, questions about whether the sensitivity and specificity are permissible in light of the severe professional- and personal consequences of potential research misconduct need to be asked [regretfully, the STAP case brings this to the fore very clearly; @doi:10.1038/520600a].
-These methods might have utility in misconduct investigations, but not in large-scale applications to screen the literature, depending on the diagnostic values resulting from a controlled investigation.
+Using different statistical methods to detect fabricated data using genuine versus fabricated data could offer information the sensitivity and specificity of the detection tools. This is important because of the severe professional- and personal consequences of accusations of potential research misconduct [as illustrated by the STAP case; @doi:10.1038/520600a].
+These methods might have utility in misconduct investigations where the prior chances of misconduct are high, but their diagnostic value in large-scale applications to screen the literature are unclear.^[Jelte, deze alinea heb ik veel laten staan ondanks dat je het 'gemakzuchtig' geschreven vond. Ik vind de punten die jij weghaalde wel relevant. Ik heb een aantal tekstuele wijzigingen wel meegenomen.]
 
 <!-- Carlisle tested whether Fuji's Randomized Clinical Trials (RCTs) baseline measurements were identically distributed across groups. 
 If random assignment occurred, this should be the case. 
@@ -149,13 +148,13 @@ Set 1 depicts true randomized designs; Set 2 depicts fabricated designs.
 The mean $p$-value for the true randomized design Set 1 is `r round(mean(ex1_1tp), 3)`, whereas the fabricated Set 2 has mean $p$-value `r round(mean(ex2_1tp), 3)`.
  -->
  
-In this article, we investigate the diagnostic performance of statistical methods to detect data fabrication. 
-These statistical methods (detailed next) have not previously been validated using both genuine- and fabricated data.
-We present two studies where we try to distinguish assumably genuine- from known fabricated data based on statistical methods.
-These studies investigate methods to detect data fabrication in summary statistics (Study 1) or in raw data (Study 2). 
+In this article, we investigate the diagnostic performance of various statistical methods to detect data fabrication. 
+These statistical methods (detailed next) have not previously been validated systematically in research using both genuine- and fabricated data.
+We present two studies where we try to distinguish (arguably) genuine data from known fabricated data based on these statistical methods.
+These studies investigate methods to detect data fabrication in summary statistics (Study 1) or in raw data (Study 2) in psychology. 
 In Study 1, we invited researchers to fabricate summary statistics for a set of four anchoring studies, for which we also had genuine data from the Many Labs 1 initiative [[https://osf.io/pqf9r](https://osf.io/pqf9r); @doi:10.1027/1864-9335/a000178].
-In Study 2, we invited researchers to fabricate raw data for a Stroop experiment, for which we also had genuine data from the Many Labs 3 initiative [[https://osf.io/n8xa7/](https://osf.io/n8xa7/); @doi:10.1016/j.jesp.2015.10.012]. 
-Before presenting these studies, we expand on the theoretical framework of the investigated statistical methods to detect data fabrication.
+In Study 2, we invited researchers to fabricate raw data for a classic Stroop experiment, for which we also had genuine data from the Many Labs 3 initiative [[https://osf.io/n8xa7/](https://osf.io/n8xa7/); @doi:10.1016/j.jesp.2015.10.012]. 
+Before presenting these studies, we discuss the theoretical framework of the investigated statistical methods to detect data fabrication.
 
 # Theoretical framework
 
