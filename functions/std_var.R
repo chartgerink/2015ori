@@ -6,7 +6,6 @@ msw <- function(n, sds, subgroups) {
         tmp <- sum((n[sel] - 1) * sds[sel]^2) / sum((n[sel] - 1))
         res <- c(res, tmp)
       }
-      # res <- sum((n - 1) * sds^2) / sum((n - 1))
       
     return(res)
 }
@@ -42,8 +41,7 @@ std_var <- function(n, sds,
 
   z2_obs <- z2(n, sds, subgroups)
   
-  sd2_sim <- apply(t(n - 1), 2, function(x)
-  {
+  sd2_sim <- apply(t(n - 1), 2, function(x) {
     step1 <- rchisq(n = iter, df = x)
     step2 <- step1 / x
   })
@@ -63,8 +61,6 @@ std_var <- function(n, sds,
   })
   
   # Calculate SD for each iteration
-
-  
   if ( method == 'sd' ) {
     z2_obs_res <- sd(z2_obs)
     z2_sim_sd <- apply(z2_sim, 2, sd)
