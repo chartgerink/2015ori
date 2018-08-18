@@ -65,7 +65,6 @@ res_file <- '../data/study_01/qualtrics_processed.csv'
 ml_dat_file <- '../data/study_01/anchoring_ml/chjh ml1_anchoring cleaned.sav'
 summary_stat_file <- '../data/study_01/ml_summary_stats.csv'
 ml3_dat_file <- '../data/study_02/study_02-ml3_stroop/StroopCleanSet.csv'
-pdf_file <- '../archive/gender_interaction.pdf'
 
 # Set the number of iterations to use in calculations
 iter <- 100000
@@ -523,16 +522,16 @@ fignr <- fignr + 1
 
 # Study 1 - detecting fabricated summary statistics
 
-We tested the performance of statistical methods to detect data fabrication in summary statistics with genuine- and fabricated summary statistics from four anchoring studies [@doi:10.1126/science.185.4157.1124;@doi:10.1037/e722982011-058]. 
+We tested the performance of statistical methods to detect data fabrication in summary statistics with genuine- and fabricated summary statistics with psychological data. We asked participants to fabricate data that were supposedly drawn from a study on the anchoring effect  [@doi:10.1126/science.185.4157.1124;@doi:10.1037/e722982011-058]. 
 The anchoring effect is a well-known psychological heuristic that uses the information in the question as the starting point for the answer, which is then adjusted to yield a final estimate of a quantity. 
 For example:
 
 > Do you think the percentage of African countries in the UN is above or below  [10\% or 65\%]?  What do you think is the percentage of African countries in the UN?
 
-These differently anchored questions yield mean responses of 25\% and 45\%, respectively [@doi:10.1126/science.185.4157.1124], despite essentially posing the same factual question. 
-A considerable amount of (arguably) genuine data sets on the anchoring  heuristic are freely available [[https://osf.io/pqf9r](https://osf.io/pqf9r); @doi:10.1027/1864-9335/a000178].
-In our study we asked researchers to fabricate summary statistics on anchoring experiments on the same studies.
-This study was approved by the Tilburg Ethical Review Board (EC-2015.50; [https://osf.io/7tg8g/](https://osf.io/7tg8g/)).
+In their classic study, @10.1126/science.185.4157.1124 varied the anchor in this question between 10% and 65% and found that they yielded mean responses of 25\% and 45\%, respectively [@doi:10.1126/science.185.4157.1124]. 
+We chose this study because it is well known and because a considerable amount of (arguably) genuine data sets on the anchoring  heuristic are freely available [[https://osf.io/pqf9r](https://osf.io/pqf9r); @doi:10.1027/1864-9335/a000178].
+This allowed us to compare data knowingly and openly fabricated by our participants (researchers in psychology) to actual data that can be assumed to be genuine because they were draw from a large-scale international project involving many contributing labs (a so-called Many Labs study). 
+Our data fabrication study was approved by Tilburg University's Ethical Review Board (EC-2015.50; [https://osf.io/7tg8g/](https://osf.io/7tg8g/)).
 
 ## Methods
 
@@ -577,13 +576,12 @@ AUC <- AUC[!grepl(AUC$test, pattern = 'P-value*'),]
 dat_summary$rng_plot <- sprintf('%s, RNG: %s', dat_summary$fabricated, dat_summary$rng)
 ```
 
-We collected genuine- and fabricated summary statistics for four anchoring studies: (i) distance from San Francisco to New York, (ii) human population of Chicago, (iii) height of the Mount Everest, and (iv) the number of babies born per day in the United States [@doi:10.1037/e722982011-058]. 
-Each of the four studies provided us with summary statistics for a 2 (low/high anchoring) $\times$ 2 (male/female) factorial design. 
-Throughout our study, the unit of analysis is a set of summary statistics (i.e., means, standard deviations, and test results) for the four anchoring studies from one participant. 
+We collected genuine summary statistics from the Many Labs study and fabricated summary statistics from our participating fabricators for four anchoring studies: (i) distance from San Francisco to New York, (ii) human population of Chicago, (iii) height of the Mount Everest, and (iv) the number of babies born per day in the United States [@doi:10.1037/e722982011-058]. 
+Each of the four (genuine or fabricated) studies provided us with summary statistics in a 2 (low/high anchoring) $\times$ 2 (male/female) factorial design. Our analysis of the data fabrication detection methods used the summary statistics (i.e., means, standard deviations, and test results) of the four anchoring studies fabricated by each participant, or the four anchoring studies that had actually been conducted by each participating lab in the Many Labs project [@doi:10.1027/1864-9335/a000178]. 
 The test results available are the main effect of the anchoring condition, the main effect of gender, and the interaction effect between the anchoring conditions and gender conditions.
 For current purposes, a participant is defined as researcher/lab where the four anchoring studies' summary statistics originate from. 
 All materials, data, and analyses scripts are freely available on the OSF ([https://osf.io/b24pq](https://osf.io/b24pq)) and a preregistration is available at [https://osf.io/tshx8/](https://osf.io/tshx8/). 
-Throughout this report, we will indicate which facets were not preregistered or deviate from the preregistration (for example by denoting "(not preregistered)" or "(deviation from preregistration)").
+Throughout this report, we will indicate which facets were not preregistered or deviate from the preregistration (for example by denoting "(not preregistered)" or "(deviation from preregistration)") and explain the reason of the deviation.
 
 ### Data collection
 
@@ -598,30 +596,30 @@ We sampled psychology researchers to improve familiarity with the anchoring effe
 We filtered for U.S. researchers to ensure familiarity with the imperial measurement system, which is the scale of some of the anchoring studies and in order to reduce heterogeneity across fabricators. 
 We searched WoS on October 13, 2015. In total, 2,038 unique corresponding e-mails were extracted from 2,014 papers (due to multiple corresponding authors).
 
-From these 2,038 psychology researchers, we e-mailed a random sample of 1,000 researchers to participate in this study (April 25, 2016; [osf.io/s4w8r](https://osf.io/s4w8r)). 
+From these 2,038 psychology researchers, we e-mailed a random sample of 1,000 researchers to participate in our study (April 25, 2016; [osf.io/s4w8r](https://osf.io/s4w8r)). 
 We used Qualtrics and removed identifying information not essential to the study (e.g., no IP-addresses saved). 
 We informed the participating researchers that the study would require them to fabricate data and explicitly mentioned that we would investigate these data with statistical methods to detect data fabrication. 
 We also clarified to the participants that they could stop at any time without providing a reason. 
 If they wanted, participants received a $30 Amazon gift card as compensation for their participation if they were willing to enter their email address. 
 They could win an additional $50 Amazon gift card if they were one of three top fabricators (this procedure is explained in the Data Analysis section). 
 The provided e-mail addresses were unlinked from individual responses upon sending the bonus gift cards. 
-The full text of the Qualtrics survey is available at [osf.io/w984b](https://osf.io/w984b).
+The full Qualtrics survey is available at [osf.io/rg3qc](https://osf.io/rg3qc).
 
 Each participant was instructed to fabricate 32 summary statistics (4 studies $\times$ 2 anchoring conditions $\times$ 2 sexes $\times$ 2 statistics [mean and sd]) that corresponded to three hypotheses. 
 We instructed participants to fabricate results for the following hypotheses: there is (i) a positive main effect of the anchoring condition, (ii) no effect of sex, and (iii) no interaction effect between condition and sex. 
-We fixed the sample sizes to 25 per cell; participants did not need to fabricate sample sizes. 
+We fixed the sample sizes in the anchoring studies to 25 per cell so that participants did not need to fabricate sample sizes. 
 These fabricated summary statistics and their accompanying test results for these three hypotheses serve as the data to examine the properties of statistical tools to detect data fabrication.
 
 We provided participants with a template spreadsheet to fill out the fabricated data, in order to standardize the fabrication process without restraining the participant in how they chose to fabricate data. 
 Figure `r fignr` depicts an example of this spreadsheet (original: [https://osf.io/w6v4u](https://osf.io/w6v4u)). 
-We requested participants to fill out the yellow cells with fabricated data, which includes means and standard deviations for the four conditions. 
-Using these values, statistical tests are automatically computed and shown in the "Current result" column instantaneously. 
+We requested participants to fill out the yellow cells with fabricated data, which included means and standard deviations for the four conditions. 
+Using these values, the spreadsheet automatically computed statistical tests and immediately showed them in the "Current result" column instantaneously. 
 If these results supported the (fabrication) hypotheses, a checkmark appeared as depicted in Figure `r fignr`. 
 We required participants to copy-paste the yellow cells into Qualtrics. 
 This provided a standardized response format that could be automatically processed in the analyses. 
-Technically, participants could provide a response that did not correspond to the instructions but nobody did.
+Technically, participants could provide a response that did not correspond to the instructions but none of them did.
 
-```{r spreadsheet-study1, fig.cap="Example of a filled out template spreadsheet used in the fabrication process of Study 1. Respondents fabricated data in the yellow cells, which were used to automatically compute the results of the hypothesis tests. If the fabricated data confirm the hypotheses, a checkmark appeared in a green cell (one of four template spreadsheets available at https://osf.io/w6v4u).", out.width='100%', echo=FALSE}
+```{r spreadsheet-study1, fig.cap="Example of a filled out template spreadsheet used in the fabrication process of Study 1. Respondents fabricated data in the yellow cells, which were used to automatically compute the results of the hypothesis tests, shown in the column \"Current result\". If the fabricated data confirm the hypotheses, a checkmark appeared in a green cell (one of four template spreadsheets available at https://osf.io/w6v4u).", out.width='100%', echo=FALSE}
 knitr::include_graphics('../figures/spreadsheet.png')
 
 fignr <- fignr + 1
@@ -632,35 +630,42 @@ nobonus1 <- sum(grepl(tmp[,1], pattern = 'R_') & is.na(tmp[,2]))
 rng1 <- sum(grepl(tmp[,1], pattern = 'R_') & tmp[,3] == 1)
 ```
 
-Upon completion of the data fabrication, we debriefed respondents within Qualtrics ([osf.io/rg3qc/](https://osf.io/rg3qc/)). 
-Respondents answered several questions about their statistical knowledge and approach to data fabrication.
-Lastly we reminded them that data fabrication is widely condemned by professional organizations, institutions, and funding agencies alike. 
-This reminder was intended to minimize potential carry-over effects of the unethical behavior into actual research practice (@doi:10.1509/jmkr.45.6.633; although a recent multilab replication contests this finding, [osf.io/cwavm/](https://osf.io/cwavm/)).
+Upon completion of the data fabrication, we debriefed respondents within Qualtrics (full survey: [osf.io/rg3qc/](https://osf.io/rg3qc/)). 
+Respondents self-rated their statistical knowledge (1 = extremely poor, 10 = excellent), what statistical analysis programs they used frequently (i.e., at least once per week), whether they had ever conducted an anchoring study themselves, whether they used a random number generator to simulate data in our study, whether they fabricated raw data to get summary statistics, how many combinations of means and standard deviations they created for each study (on average), and a free-text description of their fabrication procedures per study.
+Lastly we reminded participants that data fabrication is widely condemned by professional organizations, institutions, and funding agencies alike. 
+This reminder was intended to minimize potential carry-over effects of the unethical behavior into actual research practice (@doi:10.1509/jmkr.45.6.633; although a recent multilab replication contested this finding, [osf.io/cwavm/](https://osf.io/cwavm/)).
  <!-- deze naar DOI updaten als tijdig gepubliceerd in AMPSS -->
-We rewarded participation with a \$30 Amazon gift card and the fabricated results that we had most difficulty to detect received a bonus \$50 Amazon gift card. 
+We rewarded participation with a \$30 Amazon gift card. The fabricated results that were most difficult for us to detect with the combination method (described next) as fabricated received a bonus \$50 Amazon gift card. Participants were not informed about how we planned to detect data fabrication.
 Using quotum sampling, we collected as many responses as possible for the available 36 rewards, resulting in `r count1` fabricated data sets ([https://osf.io/e6zys](https://osf.io/e6zys); `r nobonus1` participants did not participate for a bonus).
 
-### Data analysis
+### Data analysis^[Marcel, je vraagt of deze sectie compleet is, maar ik denk het wel. De eerste paragraaf geeft aan dat er (1) reversed Fisher method gebruikt word, (2) variantie analyses, (3) effect sizes, (4) combinatie van 1+2. De SD_z en max-min_z zijn in de theoretisch kader al toegelicht; daar waar je om formules vroeg. Ik heb geprobeerd het te verduidelijken door de analyses elk 1 paragraaf te geven ipv alleen de variantie analyses :)]
 
-We analyzed the genuine- and fabricated data sets for each of the anchoring studies in four ways. 
-First, we applied the reversed Fisher method to the results of the gender and interaction hypotheses separately (i.e., statistically nonsignificant results) across the four studies. 
-Second, we applied variance analyses to the reported variances of the four studies. 
-Third, and not preregistered, we used the effect sizes of the anchoring effect to detect fabricated data based on the premise that fabricated statistically significant effects would be (much) larger than genuine statistically significant effects. 
-Fourth, we combined the results from the reversed Fisher method and variance analyses using the original Fisher method [a meta-analysis method; @fisher1925].
+We analyzed the genuine- and fabricated data sets for each of the anchoring studies using four types of analyses. 
+Each of these analyses is conducted per set of four anchoring studies, fabricated either by our participants or retrieved from the individual labs in the Many Labs data.
+First, we applied the reversed Fisher method. 
+Second, we applied variance analyses.
+Third, we combined the individual results using the original Fisher method [a meta-analysis method; @fisher1925]. 
+Fourth, we used the four effect sizes of the statistically significant anchoring effect. 
+
+We conducted two analyses to detect data fabrication using the reversed Fisher method. More specifically, we conducted one reversed Fisher method analysis for the four statistically nonsignificant results of the gender effect (one per study) and one for the four statistically nonsignificant interaction effects (one per study).
 
 Specifically for the variance analyses, we substantially deviated from the preregistration ([https://osf.io/tshx8/](https://osf.io/tshx8/)) and added multiple analyses. 
-Initially, we simultaneously analyzed the reported variances across studies and across the anchoring conditions, combining it into one overall variance analysis. 
-However, only upon analyzing these values, we realized that the variance analyses assume that the included variances are from the same (standardized) population distribution. 
-Homogeneous population of variances is not necessarily the case for the different anchoring conditions. 
-Hence, we included subgrouped variance analyses, where we analyzed each anchoring study separately and also added deeper subgroup analyses where we split each study into two variance analyses.
-The latter split the studies into two (more) homogeneous subsets (i.e., the low/high anchoring condition collapsed acrossed gender). 
-As such, the only preregistered result is the overall variance analysis [homogeneity] under both the $SD_z$ and $max_z-min_z$ operationalizations. 
-We added separate analyses per study (assuming homogeneous variances across anchoring conditions) and analyses assuming heterogeneous variances across anchoring conditions, for both operationalizations.
+We analyzed the sample variances of the four anchoring studies per lab or participant in fourteen ways.
+First, we analyzed the 16 sample variances from the four anchoring studies (four per study), combining them into one variance analysis as preregistered. However, only upon analyzing these values, we realized that the variance analyses assume that the included variances are from the same population distribution. 
+Assuming homogeneous population of variances is not necessarily realistic for the different anchoring conditions. 
+Hence, we included variance analyses based on subgroups, where we analyzed each anchoring study separately (four variance analyses) or analyzed each anchoring condition of each study separately (i.e., the low/high anchoring condition collapsed acrossed gender; eight variance analyses).
+We also conducted one variance analysis that combined all variances across studies but takes into account the subgroups per anchoring condition per study. 
+We conducted these fourteen variance analyses twice, using two dispersion of variance measures. One such measure inspects the standard deviation of the sample variances; one measure inspects the range of the sample variances (as mentioned in the Theoretical Framework).
+Of these 28 variance analyses, only the first one described here was preregistered.
 
-For each of these statistical tests to detect data fabrication we carried out sensitivity and specificity analyses using Area Under Receiving Operator Characteristic (AUROC) curves. 
+We also combined the reversed Fisher method results with different variance analyses. More specifically, we combined the results from the reversed Fisher method analyses (one for the gender effects and one for the interaction effects) with the variance analysis combining the variances of the four anchoring studies, assuming homogeneous population variances (preregistered). We also included combinations where the variance analysis was conducted per study separately (four results included), per anchoring condition for each study separately (eight results included), or across all studies combined but taking into account heterogeneous variances per anchoring condition for each study (one result included). We only conducted this combination test for the results from the variance analyses using dispersion of variance measure based on the standard deviation of the variances (i.e., $SD_z$; not preregistered).
+
+Finally, we looked at statistically significant effect sizes. We expected fabricated statistically significant effects to be (much) larger than genuine statistically significant effects. As such, we inspected statistically significant anchoring effects four times, once for each anchoring study separately across the participants fabricating data and the original data from the separate labs in the Many Labs project (not preregistered).
+
+For each of the previously described statistical methods to detect data fabrication, we carried out sensitivity and specificity analyses using Area Under Receiving Operator Characteristic (AUROC) curves. 
 AUROC-analyses summarize the sensitivity (i.e., True Positive Rate [TPR]) and specificity (i.e., True Negative Rate [TNR]) for various decision criteria (e.g., $\alpha=0, .01, .02, ..., .99, 1$). 
 For our purposes, AUROC values indicate the probability that a randomly drawn fabricated- and genuine dataset can be correctly classified as fabricated or genuine based on the result of the analysis [@doi:10.1148/radiology.143.1.7063747]. 
-In other words, if $AUROC=.5$, correctly classifying a randomly drawn dataset as fabricated (or genuine) in this sample is equal to 50%. 
+In other words, if $AUROC=.5$, correctly classifying a randomly drawn dataset as fabricated (or genuine) is equal to 50% (assuming equal prevalences). 
 For this setting, we follow the guidelines of @doi:10.1093/jpepsy/jst062 and regard any AUROC value $<.7$ as poor for detecting data fabrication, $.7\leq$ AUROC $<.8$ as fair, $.8\leq$ AUROC $<.9$ as good, and AUROC $\geq.9$ as excellent. 
 We conducted all analyses using the `pROC` package [@doi:10.1186/1471-2105-12-77].
 
