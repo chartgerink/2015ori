@@ -74,7 +74,7 @@ tabnr <- fignr <- eqnr <- 1
 
 # Abstract
 
-PLACEHOLDER
+All scientific fields are faced with scientific misconduct and improved detection is considered to deter such behavior. In this article, we test the validity of statistical methods to detect fabricated data in two studies. In Study 1, we test the validity of statistical methods to detect fabricated data at the study level using summary statistics. Using (arguably) genuine data from the Many Labs 1 project on the anchoring effect ($k=36$) and fabricated data for the same effect by our participants ($k=39$), we test the validity of our newly proposed 'reversed Fisher method', variance analyses, and effect sizes, and combine the results of these three using the original Fisher method. Results indicate that the variance analyses perform fairly well when the homogeneity of population variances is accounted for and that effect sizes perform in a similar fashion. The 'reversed Fisher method' poorly; the combination method depends on the results included. In Study 2, we test the validity of statistical methods to detect fabricated data at the in study level using raw data. Using (arguably) genuine data from the Many Labs 3 project on the classic Stroop task ($k=21$) and fabricated data for the same effect by our participants ($k=28$), we test the validity of digit analyses, variance analyses, multivariate associations, effect sizes, and again combine these using the original Fisher method. Results indicate that variance analyses, effect sizes, and multivariate associations perform fairly well to excellent to detect fabricated data; digit analyses perform at chance levels. The two studies provide mixed results on how the use of Random Number Generators affects the detection of data fabrication. Ultimately, We consider the variance analyses, effect sizes, and multivariate associations valuable tools to detect potential data anomalies but recommend against widespread application due to the inherent need for unbiased and genuine data to compare to.
 
 # Introduction
 
@@ -146,7 +146,7 @@ Whether the data and outcomes of analyses based on these data are in line with t
 
 Statistical methods have proven to be of importance in initiating data fabrication investigations or in assessing scope of potential data fabrication. 
 For example, Kranke, Apfel, and Roewer skeptically perceived Fujii's data [@doi:10.1213/00000539-200004000-00053] and used statistical methods to contextualize their skepticism.
-At the time, a reviewer perceived them to be on a "crusade  against Fujiii and his colleagues" [@doi:10.1111/j.1365-2044.2012.07318.x] and further investigation remained absent. 
+At the time, a reviewer perceived them to be on a "crusade  against Fujii and his colleagues" [@doi:10.1111/j.1365-2044.2012.07318.x] and further investigation remained absent. 
 Only when Carlisle extended the systematic investigation to 168 of Fujii's papers for misconduct [@doi:10.1111/j.1365-2044.2012.07128.x;@doi:10.1111/anae.13650;@doi:10.1111/anae.13126] did events cumulate into an investigation- and ultimately retraction of 183 of Fujii's peer-reviewed papers [@oransky2015;@doi:10.1016/j.ijoa.2012.10.001]. 
 In another example, the Stapel case, statistical evaluation of his oeuvre occurred after he had already confessed to fabricating data, which ultimately resulted in 58 retractions of papers (co-)authored by Stapel [@Levelt2012;@oransky2015].
 
@@ -261,7 +261,7 @@ Additionally, if an observed random variable $x$ is normally distributed, the st
 var(x)\sim\frac{\chi^2_{n_j-1}}{n_j-1}
 \label{eq:varx}
 \end{equation}
-where $N$ is the sample size of the $j$th group. Assuming equal variances of the $J$ populations, this population variance is estimated by the Mean Squares within ($MS_w$) as
+where $n$ is the sample size of the $j$th group. Assuming equal variances of the $J$ populations, this population variance is estimated by the Mean Squares within ($MS_w$) as
 \begin{equation}
 MS_w=\frac{\sum\limits^k_{j=1}(n_j-1)s^2_j}{\sum\limits^k_{j=1}(n_j-1)}
 \label{eq:msw}
@@ -276,8 +276,8 @@ z^2_j\sim\left(\frac{\chi^2_{n_j-1}}{n_j-1}\right)/MS_w
 Using the theoretical sampling distribution of the standardized variances, we bootstrap the expected distribution of the dispersion of variances. In other words, we use the theoretical sampling distribution of the standard deviations to formulate a null model of the dispersion of variances that is in line with the probabilistic sampling processes for groups of equal population variances. First, we randomly draw standard deviations for all $j$ groups according to Equation \ref{eq:varx}. Second, we calculate $MS_w$ using those previously drawn values (Equation \ref{eq:msw}). Third, we standardize the standard deviations using Equation \ref{eq:z2j}. Fourth, we compute the measure of dispersion across the $j$ groups as the standard deviation of the standardized variances [denoted $SD_z$, @doi:10.1177/0956797613480366] or as the range of the standardized variances (denoted $max_z-min_z$).
 This process is repeated for $i$ iterations to generate a parametric bootstrap distribution of the dispersion of variances according to the null model.
 
-The observed dispersion of the variances, when compared to its expected distribution, allows a test for potential data fabrication. To this end we compute the proportion of iterations that show equally- or more extreme consistency in the dispersion of the variances to compute a bootstrapped $p$-value (e.g., $P(SD_{z_{obs}}<SD_{z_{exp}})$).^[Marcel, bedoel je zoiets voor formule voor de test statistic?]
-In other words, we compute how many samples of $j$ groups would show the observed dispersion in the variances (or more extreme), to test whether the data are plausible given a genuine probabilist sampling process [@doi:10.1177/0956797613480366].
+The observed dispersion of the variances, when compared to its expected distribution, allows a test for potential data fabrication. To this end we compute the proportion of iterations that show equally- or more extreme consistency in the dispersion of the variances to compute a bootstrapped $p$-value (e.g., $P(SD_{z_{obs}}\leq SD_{z_{exp}})$).^[Marcel, bedoel je zoiets voor formule voor de test statistic?]
+In other words, we compute how many samples of $j$ groups show the observed consistency of the dispersion in the variances (or more consistent), to test whether the data are plausible given a genuine probabilistic sampling process [@doi:10.1177/0956797613480366].
 Similar to the Fisher method, this could be the result of the fabricator underappreciating the higher level sampling fluctuations, resulting in generating too little randomness (i.e., error) in the standard deviations across groups [@doi:10.1080/08989629508573866].
 
 ```{r, echo = FALSE}
@@ -291,10 +291,10 @@ res2 <- std_var(n = rep(100, length(sd2)), sds = sd2, iter = iterate, subgroups 
 
 As an example, we apply the variance analysis to the illustration from Table `r tabnr` and the Smeesters case [@doi:10.1177/0956797613480366]. 
 We apply the variance analysis across the standard deviations from each set in Table `r tabnr`. To recapitulate, we simulated data from a genuine probabilistic process using normally distributed measurements and $t$-test comparisons for statistically equivalent populations (Set 1); we fabricated data for equivalent groups (Set 2), where we determined the mean and standard deviation first and then added uniform noise to these parameters. 
-For the genuinely probabilistic data (Set 1), we find that the reported mean standard deviation is `r mean(sd1)` with a standard deviation equal to `r sd(sd1)`. Yet for the fabricated data (Set 2), we find that the reported mean standard deviation is `r mean(sd2)` with a standard deviation equal to `r sd(sd2)`. 
-Using the variance analysis procedure with the $SD_z$ measure, we can quantify how extreme this difference is: Set 1 has no excessive consistency in the dispersion of the standard deviations ($p=`r round(res1, 3)`$), whereas Set 2 does show excessive consistency in the dispersion of the standard deviations ($p=`r round(res2, 3)`$). 
+For the genuinely probabilistic data (Set 1), we find that the reported mean standard deviation is `r mean(sd1)` with a standard deviation equal to `r sd(sd1)`. For the fabricated data (Set 2), we find that the reported mean standard deviation is `r mean(sd2)` with a standard deviation equal to `r sd(sd2)`. 
+Using the variance analysis procedure with the $SD_z$ measure of the dispersion of variances, we can quantify how extreme this difference is: Set 1 has no excessive consistency in the dispersion of the standard deviations ($p=`r round(res1, 3)`$), whereas Set 2 does show excessive consistency in the dispersion of the standard deviations ($p=`r round(res2, 3)`$). 
 In words, out of 100,000 theoretically expected samples under the null model of independent groups with equal variances on a normally distributed measure, $`r res1 * iterate`$ showed less dispersion in standard deviations for Set 1, whereas only $`r res2 * iterate`$ showed less dispersion in standard deviations for Set 2.^[Marcel, ik voeg hier even geen plaatjes toe omdat ik standaardfuncties heb gemaakt en niet al die iteraties opsla los. Kost me op het moment teveel tijd om dat uit te vogelen met de revisies die nog liggen. Ik run deze dingen allemaal als ik het document genereer vanuit R, dus is wel reproduceerbaar :')] 
-As a non-fictional example, three independent conditions from the one study in the Smeesters case ($n_k=15$) were reported to have standard deviations 25.09, 24.58, and 25.65. 
+As a non-fictional example, three independent conditions from a study in the Smeesters case ($n_j=15$) were reported to have standard deviations 25.09, 24.58, and 25.65. 
 The standard deviation of these standard deviations is $`r round(sd(c(25.09, 24.58, 25.65)), 2)`$ (i.e., $SD_z$). 
 Such consistency in standard deviations (or even more) would only be observed in `r round(std_var(n = rep(15, 3), sds = c(25.09, 24.58, 25.65), iter = iterate, subgroups = rep(1, 3)) * 100, 2)`% of 100,000 simulated replications [@doi:10.1177/0956797613480366]. 
 
@@ -309,6 +309,7 @@ For example, in the misconduct investigations in the Stapel case, large effect s
 Moreover, @doi:10.1186/1471-2288-3-18 asked faculty members from three universities to fabricate data sets and found that the fabricated data generally showed much larger effect sizes than the genuine data. 
 From our own anecdotal experience, we have found that large effect sizes raised initial suspicions of data fabrication (e.g., $d>20$). 
 In clinical trials, extreme effect sizes are also used to identify potentially fabricated data in multi-site trials while the study is still being conducted [@doi:10.1016/0197-24569190037-M].
+<!-- this is why meta-analysts should receive additional training for detecting -->
 
 ```{r, echo = FALSE}
 tval <- 3.55
@@ -319,7 +320,7 @@ Effect sizes can be reported in research reports in various ways.
 For example, effect sizes in psychology papers are often reported as a standardized mean difference (e.g., $d$) or as an explained variance (e.g., $R^2$). 
 A test statistic can be transformed into a measure of effect size. 
 A test result such as $t(
-`r df`)=`r tval`$ in a between-subjects design corresponds to d=`r round(2*tval / sqrt(df), 3)` and r=`r round((tval^2 / df) / ((tval^2 / df) + 1), 3)` [@doi:10.1525/collabra.71]. 
+`r df`)=`r tval`$ in a between-subjects design corresponds to $d=`r round(2*tval / sqrt(df), 3)`$ and $r=`r round((tval^2 / df) / ((tval^2 / df) + 1), 3)`$ [@doi:10.1525/collabra.71]. 
 These effect sizes can readily be recomputed based on data extracted with `statcheck` across thousands of results [@doi:10.3758/s13428-015-0664-2;@doi:10.3390/data1030014].
 
 Observed effect sizes can subsequently be compared with the effect distribution of other studies investigating the same effect. 
@@ -334,9 +335,10 @@ This method specifically looks at situations where fabricators would want to fab
 The properties of leading (first) digits (e.g., the 1 in 123.45) or terminal (last) digits (e.g., the 5 in 123.45) may be examined in raw data. Here we focus on testing the distribution of leading digits based on the Newcomb-Benford Law (NBL) and testing the distribution of terminal digits based on the uniform distribution in order to detect potentially fabricated data.
 
 For leading digits, the Newcomb-Benford Law or NBL  [@doi:10.2307/2369148;@doi:10.2307/984802] states that these digits do not have an equal probability of occuring under certain conditions, but rather a monotonically decreasing probability. A leading digit is the left-most digit of a numeric value, where a digit is any of the nine natural numbers ($1,2,3,...,9$). The distribution of the leading digit is, according to the NBL:
-$$
+\begin{equation}
 P(d)=log_{10}\frac{1+d}{d}
-$$
+\label{eq:nbl}
+\end{equation}
 where $d$ is the natural number of the leading digit and $P(d)$ is the probability of $d$ occurring. Table `r tabnr` indicates the expected leading digit distribution based on the NBL. This expected distribution is typically compared to the observed distribution using a $\chi^2$-test ($df=9-1$). In order to make such a comparison feasible, it requires a minimum of 45 observations based on the rule of thumb outlined by @isbn:0471360937 ($n=I\times J\times 5$, with $I$ rows and $J$ columns). The NBL has been applied to detect financial fraud [e.g., @doi:10.2307/27643897], voting fraud [e.g., @durtschi2004effective], and also problems in scientific data [@doi:10.1007/s00101-017-0333-1;@doi:10.1515/9783110508420-010]. 
 
 ```{r, echo=FALSE}
@@ -395,7 +397,7 @@ load('../data/study_02/p4')
 load('../data/study_02/p5')
 ```
 
-Figure `r fignr` depicts simulated digit counts for the first- through fifth digit of a random, standard normally distributed variable (i.e., $N\sim(0,1)$). The first- and second digit distributions are clearly non-uniform, whereas the third digit distribution seems slightly non-uniform, and the fourth-, and fifth digit distributions are uniformly distributed. As such, the rightmost digit can be expected to be uniformly distributed if sufficient precision is provided [@doi:10.1080/08989629508573866]. What sufficient precision is, depends on the process generating the data. In our example with $N\sim(0,1)$, the distribution of the third and later digits seem well-approximated by the uniform distribution. <!-- we investigated by running a small simulation study, drawing 500 random values from a normal distribution ($N\sim(0,1)$) thousand times and conducting a terminal digit test for each of the first five digits. For the third-, fourth-, and fifth- digits, tests operated on nominal $\alpha$ levels (i.e., under $\alpha=.05$, false positives were $`r round(sum(p3 > .05) / 1000, 3)`$, $`r round(sum(p4 > .05) / 1000, 3)`$, $`r round(sum(p5 > .05) / 1000, 3)`$, respectively). Hence, sufficient precision for our purposes is determined as the terminal digit being conducted on at least the third leading digit (i.e., minimally 1.23 or 12.3 or 123). -->
+Figure `r fignr` depicts simulated digit counts for the first- through fifth digit of a random, standard normally distributed variable (i.e., $N\sim(0,1)$). The first- and second digit distributions are clearly non-uniform, whereas the third digit distribution seems only slightly non-uniform. As such, the rightmost digit can be expected to be uniformly distributed if sufficient precision is provided [@doi:10.1080/08989629508573866]. What sufficient precision is, depends on the process generating the data. In our example with $N\sim(0,1)$, the distribution of the third and later digits seem well-approximated by the uniform distribution. <!-- we investigated by running a small simulation study, drawing 500 random values from a normal distribution ($N\sim(0,1)$) thousand times and conducting a terminal digit test for each of the first five digits. For the third-, fourth-, and fifth- digits, tests operated on nominal $\alpha$ levels (i.e., under $\alpha=.05$, false positives were $`r round(sum(p3 > .05) / 1000, 3)`$, $`r round(sum(p4 > .05) / 1000, 3)`$, $`r round(sum(p5 > .05) / 1000, 3)`$, respectively). Hence, sufficient precision for our purposes is determined as the terminal digit being conducted on at least the third leading digit (i.e., minimally 1.23 or 12.3 or 123). -->
 
 ```{r echo = FALSE, fig.align="center", fig.width=12, fig.cap="Frequency distributions of the first-, second-, and third digits. We sampled 100,000 values from a standard normal distribution to create these digit distributions.", fig.pos = 'H'}
 set.seed(1234)
@@ -471,7 +473,7 @@ fignr <- fignr + 1
 
 Variables or measurements included in one study can have multivariate associations that might be non-obvious to researchers. Hence, such relations between variables or measurements might be overlooked by people who fabricate data. Fabricators might also simply be practically unable to fabricate data that reflect these multivariate associations, even if they are aware of these associations. For example, in response time latencies, there typically is a negative relation between mean response time and the variance of the response time. Given that the genuine multivariate relations between different variables arise from stochastic processes and are not readily known in either their form or size, these might be difficult to take into account for someone who wants to fabricate data. As such, using multivariate associations to discern fabricated data from genuine data might prove worthwhile.
 
-The multivariate associations between different variables can be estimated from control data that are (arguably) genuine. For example, if the multivariate association between means (Ms) and standard deviations (SDs) is of interest, control data for that same measure can be collected from the literature. With these control data, a meta-analysis provides an overall estimate of the multivariate relation that can subsequently be used to verify the credibility of a set of statisttics. 
+The multivariate associations between different variables can be estimated from control data that are (arguably) genuine. For example, if the multivariate association between means ($M$s) and standard deviations ($SD$s) is of interest, control data for that same measure can be collected from the literature. With these control data, a meta-analysis provides an overall estimate of the multivariate relation that can subsequently be used to verify the credibility of a set of statisttics. 
 
 ```{r, echo=FALSE}
 cortmp <- NULL
@@ -514,8 +516,8 @@ ggplot(cortmp, aes(x = cortmp)) +
  ylab("Density") +
  geom_point(data = corfabno, aes(x = cor, y = 0, col="Paper 2", size = 2)) +
  geom_point(data = corfab, aes(x = cor, y = 0, col="Paper 1", size = 2)) + 
- scale_size(guide = 'none') +
- scale_fill_discrete(guide = FALSE)
+ scale_size('', guide = 'none') +
+ scale_fill_discrete('', guide = FALSE)
 
 fignr <- fignr + 1
 ```
@@ -577,7 +579,7 @@ dat_summary$rng_plot <- sprintf('%s, RNG: %s', dat_summary$fabricated, dat_summa
 ```
 
 We collected genuine summary statistics from the Many Labs study and fabricated summary statistics from our participating fabricators for four anchoring studies: (i) distance from San Francisco to New York, (ii) human population of Chicago, (iii) height of the Mount Everest, and (iv) the number of babies born per day in the United States [@doi:10.1037/e722982011-058]. 
-Each of the four (genuine or fabricated) studies provided us with summary statistics in a 2 (low/high anchoring) $\times$ 2 (male/female) factorial design. Our analysis of the data fabrication detection methods used the summary statistics (i.e., means, standard deviations, and test results) of the four anchoring studies fabricated by each participant, or the four anchoring studies that had actually been conducted by each participating lab in the Many Labs project [@doi:10.1027/1864-9335/a000178]. 
+Each of the four (genuine or fabricated) studies provided us with summary statistics in a 2 (low/high anchoring) $\times$ 2 (male/female) factorial design. Our analysis of the data fabrication detection methods used the summary statistics (i.e., means, standard deviations, and test results) of the four anchoring studies fabricated by each participant or the four anchoring studies that had actually been conducted by each participating lab in the Many Labs project [@doi:10.1027/1864-9335/a000178]. 
 The test results available are the main effect of the anchoring condition, the main effect of gender, and the interaction effect between the anchoring conditions and gender conditions.
 For current purposes, a participant is defined as researcher/lab where the four anchoring studies' summary statistics originate from. 
 All materials, data, and analyses scripts are freely available on the OSF ([https://osf.io/b24pq](https://osf.io/b24pq)) and a preregistration is available at [https://osf.io/tshx8/](https://osf.io/tshx8/). 
@@ -591,9 +593,9 @@ Considering the size of the ML project, the transparency of research results, an
 For each of the thirty-six locations we computed three summary statistics (i.e., sample sizes, means, and standard deviations) for each of the four conditions in the four anchoring studies (i.e., $3\times4\times4$; data: [https://osf.io/5xgcp/](https://osf.io/5xgcp/)). 
 We computed these summary statistics from the raw ML data, which were cleaned using the original analysis scripts from the ML project.
 
-The sampling frame for the participants asked to fabricate data consisted of 2,038 psychology researchers who published a peer-reviewed paper in 2015, as indexed in Web of Science (WoS) with the filter set to the U.S.^[We discovered that we included several non-U.S. researcher against our initial aim. We filtered Web of Science on U.S. origin, but found out that this meant that one of the authors on the paper was U.S. based. As such, corresponding authors might still be non-U.S. Based on a search through the open ended comments of the participant's responses, there was no mention of issues in fabricating the data related to the metric or imperial system.] 
+The sampling frame for the participants asked to fabricate data consisted of 2,038 psychology researchers who published a peer-reviewed paper in 2015, as indexed in Web of Science (WoS) with the filter set to the U.S. 
 We sampled psychology researchers to improve familiarity with the anchoring effect [@doi:10.1126/science.185.4157.1124;@doi:10.1037/e722982011-058]. 
-We filtered for U.S. researchers to ensure familiarity with the imperial measurement system, which is the scale of some of the anchoring studies and in order to reduce heterogeneity across fabricators. 
+We filtered for U.S. researchers to ensure familiarity with the imperial measurement system, which is the scale of some of the anchoring studies and in order to reduce heterogeneity across fabricators.^[We discovered that we included several non-U.S. researcher against our initial aim. We filtered Web of Science on U.S. origin, but found out that this meant that one of the authors on the paper was U.S. based. As such, corresponding authors might still be non-U.S. Based on a search through the open ended comments of the participant's responses, there was no mention of issues in fabricating the data related to the metric or imperial system.] 
 We searched WoS on October 13, 2015. In total, 2,038 unique corresponding e-mails were extracted from 2,014 papers (due to multiple corresponding authors).
 
 From these 2,038 psychology researchers, we e-mailed a random sample of 1,000 researchers to participate in our study (April 25, 2016; [osf.io/s4w8r](https://osf.io/s4w8r)). 
@@ -601,11 +603,11 @@ We used Qualtrics and removed identifying information not essential to the study
 We informed the participating researchers that the study would require them to fabricate data and explicitly mentioned that we would investigate these data with statistical methods to detect data fabrication. 
 We also clarified to the participants that they could stop at any time without providing a reason. 
 If they wanted, participants received a $30 Amazon gift card as compensation for their participation if they were willing to enter their email address. 
-They could win an additional $50 Amazon gift card if they were one of three top fabricators (this procedure is explained in the Data Analysis section). 
+They could win an additional $50 Amazon gift card if they were one of three top fabricators (participants were not informed about how we planned to detect data fabrication; the procedure for this is explained in the Data Analysis section). 
 The provided e-mail addresses were unlinked from individual responses upon sending the bonus gift cards. 
 The full Qualtrics survey is available at [osf.io/rg3qc](https://osf.io/rg3qc).
 
-Each participant was instructed to fabricate 32 summary statistics (4 studies $\times$ 2 anchoring conditions $\times$ 2 sexes $\times$ 2 statistics [mean and sd]) that corresponded to three hypotheses. 
+Each participant was instructed to fabricate 32 summary statistics (4 studies $\times$ 2 anchoring conditions $\times$ 2 sexes $\times$ 2 statistics [mean and SD]) that corresponded to three hypotheses. 
 We instructed participants to fabricate results for the following hypotheses: there is (i) a positive main effect of the anchoring condition, (ii) no effect of sex, and (iii) no interaction effect between condition and sex. 
 We fixed the sample sizes in the anchoring studies to 25 per cell so that participants did not need to fabricate sample sizes. 
 These fabricated summary statistics and their accompanying test results for these three hypotheses serve as the data to examine the properties of statistical tools to detect data fabrication.
@@ -619,7 +621,7 @@ We required participants to copy-paste the yellow cells into Qualtrics.
 This provided a standardized response format that could be automatically processed in the analyses. 
 Technically, participants could provide a response that did not correspond to the instructions but none of them did.
 
-```{r spreadsheet-study1, fig.cap="Example of a filled out template spreadsheet used in the fabrication process of Study 1. Respondents fabricated data in the yellow cells, which were used to automatically compute the results of the hypothesis tests, shown in the column \"Current result\". If the fabricated data confirm the hypotheses, a checkmark appeared in a green cell (one of four template spreadsheets available at https://osf.io/w6v4u).", out.width='100%', echo=FALSE}
+```{r spreadsheet-study1, fig.cap="Example of a filled out template spreadsheet used in the fabrication process of Study 1. Respondents fabricated data in the yellow cells, which were used to automatically compute the results of the hypothesis tests, shown in the column \"Current result\". If the fabricated data confirm the hypotheses, a checkmark appeared in a green cell (one of four template spreadsheets available at https://osf.io/w6v4u).", out.width='100%', echo=FALSE, fig.pos='H'}
 knitr::include_graphics('../figures/spreadsheet.png')
 
 fignr <- fignr + 1
@@ -631,7 +633,7 @@ rng1 <- sum(grepl(tmp[,1], pattern = 'R_') & tmp[,3] == 1)
 ```
 
 Upon completion of the data fabrication, we debriefed respondents within Qualtrics (full survey: [osf.io/rg3qc/](https://osf.io/rg3qc/)). 
-Respondents self-rated their statistical knowledge (1 = extremely poor, 10 = excellent), what statistical analysis programs they used frequently (i.e., at least once per week), whether they had ever conducted an anchoring study themselves, whether they used a random number generator to simulate data in our study, whether they fabricated raw data to get summary statistics, how many combinations of means and standard deviations they created for each study (on average), and a free-text description of their fabrication procedures per study.
+Respondents self-rated their statistical knowledge (1 = extremely poor, 10 = excellent), what statistical analysis programs they used frequently (i.e., at least once per week), whether they had ever conducted an anchoring study themselves, whether they used a random number generator to fabricate data in this study, whether they fabricated raw data to get summary statistics, how many combinations of means and standard deviations they created for each study (on average), and a free-text description of their fabrication procedures per study.
 Lastly we reminded participants that data fabrication is widely condemned by professional organizations, institutions, and funding agencies alike. 
 This reminder was intended to minimize potential carry-over effects of the unethical behavior into actual research practice (@doi:10.1509/jmkr.45.6.633; although a recent multilab replication contested this finding, [osf.io/cwavm/](https://osf.io/cwavm/)).
  <!-- deze naar DOI updaten als tijdig gepubliceerd in AMPSS -->
@@ -653,12 +655,12 @@ Specifically for the variance analyses, we substantially deviated from the prere
 We analyzed the sample variances of the four anchoring studies per lab or participant in fourteen ways.
 For each of the variance analyses, we conducted them using two dispersion of variance measures. One measure inspects the standard deviation of the sample variances (i.e., $SD_z$); one measure inspects the range of the sample variances (i.e., $max_z-min_z$; see also the Theoretical Framework).
 First, we analyzed the 16 sample variances from the four anchoring studies (four per study), combining them into one variance analysis as preregistered. However, only upon analyzing these values, we realized that the variance analyses assume that the included variances are from the same population distribution. 
-Assuming homogeneous population of variances is not necessarily realistic for the different anchoring conditions. 
+Assuming homogeneous populations of variances is not necessarily realistic for the different anchoring conditions. 
 Hence, we included variance analyses based on subgroups, where we analyzed each anchoring study separately (four variance analyses) or analyzed each anchoring condition of each study separately (i.e., the low/high anchoring condition collapsed acrossed gender; eight variance analyses).
 We also conducted one variance analysis that combined all variances across studies but takes into account the subgroups per anchoring condition per study. 
-Of these 28 variance analyses, only the first one described here was preregistered.
+Of these 28 variance analyses (14 for each dispersion of variances measure), only the first one described here was preregistered.
 
-We also combined the reversed Fisher method results with different variance analyses. More specifically, we combined the results from the reversed Fisher method analyses (one for the gender effects and one for the interaction effects) with the variance analysis combining the variances of the four anchoring studies, assuming homogeneous population variances (preregistered). We also included combinations where the variance analysis was conducted per study separately (four results included), per anchoring condition for each study separately (eight results included), or across all studies combined but taking into account heterogeneous variances per anchoring condition for each study (one result included). We only conducted this combination test for the results from the variance analyses using dispersion of variance measure based on the standard deviation of the variances (i.e., $SD_z$; not preregistered). Note that the performance of combining various analyses as we do here is dependent on the performance of the individual results included in the combination (e.g., if all included results perform well the combination method is bound to perform well too).
+We also combined the reversed Fisher method results with the results from the different variance analyses using the original Fisher method. More specifically, we combined the results from the reversed Fisher method analyses (one for the gender effects and one for the interaction effects) with the variance analysis combining the variances of the four anchoring studies, assuming homogeneous population variances (preregistered). We also included combinations where the variance analysis was conducted per study separately (including four variance analysis results), per anchoring condition for each study separately (including eight variance analysis results), or across all studies combined but taking into account heterogeneous variances per anchoring condition for each study (including one variance analysis result). We only conducted this combination test for the results from the variance analyses using dispersion of variance measure based on the standard deviation of the variances (i.e., $SD_z$; not preregistered). Note that the performance of combining various analyses as we do here is dependent on the performance of the individual results included in the combination (e.g., if all included results perform well the combination method is bound to perform well and vice versa).
 
 Finally, we looked at statistically significant effect sizes. We expected fabricated statistically significant effects to be (much) larger than genuine statistically significant effects. As such, we inspected statistically significant anchoring effects four times, once for each anchoring study separately across the participants fabricating data and the original data from the separate labs in the Many Labs project (not preregistered).
 
@@ -702,7 +704,7 @@ plot_p_condition <- ggplot(dat_summary_tmp[dat_summary_tmp$test == 'P-value anch
     xlab(latex2exp::TeX("log10 $P$-value")) +
     ylab("Density") +
     scale_fill_viridis(labels = c("Genuine","Fabricated"), discrete = TRUE) + 
-    theme(legend.position="top") +
+    theme(legend.position="top", legend.text=element_text(size=6),legend.key.size =unit(.4, 'cm')) +
     ggtitle('Anchoring') + 
     scale_y_continuous(breaks = c(0, 0.02, .04), labels = seq(0, .04, .02))
 
@@ -779,7 +781,7 @@ tmp <- c(df$SD_z[-c(1,2)], df$maxz_minz[-c(1,2)])
 tmp <- AUC$auc[grepl(AUC$study, pattern = 'Study') & grepl(AUC$test, pattern = 'Variance analysis')]
 ```
 
-We expected the dispersion of variances to be lower in fabricated- as opposed to genuine data. We computed the AUROC values for the variance analyses with the directional hypothesis that genuine data would show more variation than fabricated data, using either the dispersion of variance as captured by the standard deviation of the variances (i.e., $SD_z$) or the range of the variances (i.e., $max_z-min_z$). AUROC results of all `r dim(df)[1]` analyses (as described in the Data analysis section) are presented in Table `r tabnr`, once for each dispersion of variance measure. Of these `r dim(df)[1]`, we only preregistered the variance analysis inspecting the standardized variances across all studies under both the $SD_z$ and $max_z-min_z$ operationalizations, assuming homogeneous population variances ([https://osf.io/tshx8/](https://osf.io/tshx8/)), which are the results reported in the seconds row of Table `r tabnr`. All other analyses have not been preregistered and should therefore be considered exploratory. 
+We expected the dispersion of variances to be lower in fabricated- as opposed to genuine data. We computed the AUROC values for the variance analyses with the directional hypothesis that genuine data would show more variation than fabricated data, using either the dispersion of variance as captured by the standard deviation of the variances (i.e., $SD_z$) or the range of the variances (i.e., $max_z-min_z$). AUROC results of all `r dim(df)[1]` analyses (as described in the Data analysis section) are presented in Table `r tabnr`, once for each dispersion of variance measure. Of these `r dim(df)[1]`, we only preregistered the variance analysis inspecting the standardized variances across all studies under both the $SD_z$ and $max_z-min_z$ operationalizations, assuming homogeneous population variances ([https://osf.io/tshx8/](https://osf.io/tshx8/)), which are the results reported in the second row of Table `r tabnr`. All other variance analyses have not been preregistered and should therefore be considered exploratory. 
 
 
 ```{r echo = FALSE}
@@ -795,7 +797,7 @@ sel <- AUC[grepl(AUC$test, pattern = 'Variance analysis'), ]
 
 Our preregistered analysis indicates that variance analyses do not perform above chance level when the assumption of homogeneous population variances is violated. More specifically, for the dispersion of variance measure based on the standard deviation of the variances (i.e., $SD_z$), performance is below chance levels, $AUROC=`r round(sel$auc[16], 3)`$, 95% CI [$`r round(sel$ci_lb[16], 3)`$-$`r round(sel$ci_ub[16], 3)`$]; for the dispersion of variance measure based on the range of the variances (i.e., $max_z-min_z$) performance is around chance level, $AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$]. This result also indicates that the range of the variances measure seems more robust to the violations of the assumption of homogeneous variances than the standard deviation of the variances measure.
 
-Our non-preregistered results suggest that (1) taking into account heterogeneous population variances improves the performance of the variance analyses and (2) that the dispersion of variances measured by the range of variances is consistently more robust to violations of homogeneous population variances than the standard deviation of variances. Compared to the (below) chance level performance of the preregistered variance analyses, the variance analyses that take into account heterogeneous population variances perform much better regardless of the dispersion of variance measure used. More specifically, $AUROC=`r round(sel$auc[15], 3)`$, 95% CI [$`r round(sel$ci_lb[15], 3)`$-$`r round(sel$ci_ub[15], 3)`$] for the standard deviation of the variances (i.e., $SD_z$) and $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$] for the range of the variances (i.e., $max_z-min_z$).
+Our exploratory results suggest that (1) taking into account heterogeneous population variances improves the performance of the variance analyses and (2) that the dispersion of variances measured by the range of variances is consistently more robust to violations of homogeneous population variances than the standard deviation of variances. Compared to the (below) chance level performance of the preregistered variance analyses, the variance analyses that take into account heterogeneous population variances perform much better regardless of the dispersion of variance measure used. More specifically, $AUROC=`r round(sel$auc[15], 3)`$, 95% CI [$`r round(sel$ci_lb[15], 3)`$-$`r round(sel$ci_ub[15], 3)`$] for the standard deviation of the variances (i.e., $SD_z$) and $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$] for the range of the variances (i.e., $max_z-min_z$).
 For the analyses assuming homogeneous population variances per study (i.e., rows 3-6 of Table `r tabnr`), we see that $max_z-min_z$ is consistently more robust at detecting data fabrication when compared to $SD_z$.
 Lastly, we see that the AUROC results for variance analyses separated per study or anchoring condition within a study are quite variable (ranging from `r round(min(tmp), 3)`-`r round(max(tmp), 3)`), which suggests that a combined analysis of variances across homogeneous subsets of standard deviations is preferred. <!-- After all, a priori selection of one specific subset seems infeasible in practice. -->
 
@@ -805,7 +807,7 @@ Lastly, we see that the AUROC results for variance analyses separated per study 
 tabnr <- tabnr + 1
 ```
 
-### Combining p-value- and variance analyses
+### Combining $p$-value- and variance analyses
 
 <!-- We combined the results from the different variance analyses with the $p$-value analyses of the nonsignificant gender- and interaction effects. Because we conducted four different sets of variance analyses, we also included four different combinations using the Fisher method. More specifically, we conducted variance analyses assuming homogeneous population variances across all studies, per study but across anchoring conditions, per anchoring condition per study. Table `r tabnr` depicts the results for each of these four combined analyses, where only the result from the third row was preregistered. 
 In the first two rows, we depict the combination of the $p$-value analyses with the reversed Fisher method of the nonsignificant gender effect and the nonsignificant interaction effect, and the overall variance analyses under heterogeneity of variances (first and second row) or homogeneity of variances (third and fourth row). The variance analyses are either combined over all studies (first and third row) or split per study/subgroup (second and fourth row, respectively). -->
@@ -869,7 +871,8 @@ p3 <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) anchoring' &
  xlab(latex2exp::TeX("Effect size ($r$)")) + 
  ylab("Density") + 
  ggtitle('Study 3') +
- scale_fill_viridis(guide=FALSE, discrete = TRUE)
+ scale_fill_viridis(guide = FALSE, discrete = TRUE)+
+ theme(legend.position="top", legend.text=element_text(size=6))
 p4 <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) anchoring' &
   dat_summary$study == 'Study 4',], 
     aes(x = result, fill = fabricated)) + 
@@ -878,8 +881,8 @@ p4 <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) anchoring' &
  xlab(latex2exp::TeX("Effect size ($r$)")) + 
  ylab("Density") + 
  ggtitle('Study 4') +
- scale_fill_viridis(guide=FALSE, discrete = TRUE)
-
+ scale_fill_viridis('', labels = c("Genuine","Fabricated"), discrete = TRUE)+
+ theme(legend.position="bottom", legend.text=element_text(size=6),legend.direction="horizontal",legend.key.size =unit(.4, 'cm'))
 suppressWarnings(gridExtra::grid.arrange(p1, p2, p3, p4,
        ncol = 2))
 
@@ -919,7 +922,7 @@ AUC_norng <- plyr::ddply(dat_summary[sel_norng,], .(test, study), .fun = functio
 AUC_norng <- AUC_norng[!grepl(AUC_norng$test, pattern = 'P-value*'),]
 ```
 
-Fabricated effects might seem more genuine when participants used Random Number Generators (RNGs). Our subsequent inspection is not preregistered. RNGs are typically used in computer-based simulation procedures where data is generated that are supposed to arise from probabilistic processes. Given that our framework of detecting data fabrication rests on the lack of intuitive understanding of humans at drawing values from probability distributions, those participants who used an RNG might come closer to fabricating seemingly genuine data. Hence, those data might be harder to detect.
+Fabricated effects might seem more genuine when participants used Random Number Generators (RNGs). The analyses presented next are not preregistered. RNGs are typically used in computer-based simulation procedures where data is generated that are supposed to arise from probabilistic processes. Given that our framework of detecting data fabrication rests on the lack of intuitive understanding of humans at drawing values from probability distributions, those participants who used an RNG might come closer to fabricating seemingly genuine data. Hence, those data might be harder to detect.
 
 We split our analyses for those `r rng1` participants who indicated using RNGs and the remaing `r count1 - rng1` participants who indicated not to have used RNGs. Figure `r fignr` shows the same density distributions as in Figure `r fignr - 1`, except that this time the density distributions of the fabricated data are split between these two groups. 
 
@@ -948,8 +951,7 @@ plot_p_condition <- ggplot(dat_summary_tmp[dat_summary_tmp$test == 'P-value anch
     geom_density(alpha = .3) +
     xlab(latex2exp::TeX("log10 $P$-value")) +
     ylab("Density") +
-    scale_fill_viridis(discrete = TRUE, labels = c("Fab w/ RNG","Fab w/o RNG", "Genuine")) + 
-    theme(legend.position="top") +
+ scale_fill_viridis(discrete = TRUE, guide=FALSE) +
     ggtitle('Condition') +
     scale_y_continuous(labels = seq(0, .03, .01), breaks = seq(0, .03, .01))
 
@@ -979,7 +981,9 @@ plot_es_interaction <- ggplot(dat_summary[dat_summary$test == 'Effect size (r) i
  geom_density(alpha = .3) + 
  xlab(latex2exp::TeX("Effect size ($r$)")) + 
  ylab("Density") + 
- scale_fill_viridis(discrete = TRUE, guide=FALSE)
+ scale_fill_viridis('', discrete = TRUE, labels = c("Fab w/ RNG","Fab w/o RNG", "Genuine")) + 
+ theme(legend.position="bottom", legend.direction = 'horizontal', legend.text=element_text(size=6),legend.key.size =unit(.4, 'cm')) +
+ guides(fill=guide_legend(nrow=2,byrow=TRUE))
 
 # Plot
 suppressWarnings(gridExtra::grid.arrange(plot_p_gender,
@@ -991,7 +995,7 @@ suppressWarnings(gridExtra::grid.arrange(plot_p_gender,
        ncol = 3))
 ```
 
-Based on Figure `r fignr` we conclude that using RNGs creates less exaggerated summary statistics, but still larger than genuine ones. Furthermore, it seems that the use of RNGs produced somewhat more uniformly distributed statistically  nonsignficant $p$-values than those without RNGs, but that difference is not confirmed by the AUROC values (gender, with RNG $AUROC=`r round(AUC_rng$auc[17], 3)`$ 95% CI [$`r round(AUC_rng$ci_lb[17], 3)`$-$`r round(AUC_rng$ci_ub[17], 3)`$], without RNG $AUROC=`r round(AUC_norng$auc[17], 3)`$ 95% CI [$`r round(AUC_norng$ci_lb[17], 3)`$-$`r round(AUC_norng$ci_ub[17], 3)`$]; interaction, with RNG $AUROC=`r round(AUC_rng$auc[18], 3)`$ 95% CI [$`r round(AUC_rng$ci_lb[18], 3) `$-$`r round(AUC_rng$ci_ub[18], 3) `$], without RNG $AUROC=`r round(AUC_norng$auc[18], 3)`$ 95% CI [$`r round(AUC_norng$ci_lb[18], 3)`$-$`r round(AUC_norng$ci_ub[18], 3)`$]). For the best performing variance analysis (i.e., heterogeneity over all four anchoring studies with $max_z-min_z$ operationalization) classification performance is barely different between those data fabricated with ($AUROC=`r round(AUC_rng$auc[19], 3)`$ 95% CI [$`r round(AUC_rng$ci_lb[19], 3)`$-$`r round(AUC_rng$ci_ub[19], 3)`$]) or without RNGs ($AUROC=`r round(AUC_norng$auc[19], 3)`$ 95% CI [$`r round(AUC_norng$ci_lb[19], 3)`$-$`r round(AUC_norng$ci_ub[19], 3)`$]). For effect sizes, Table `r tabnr` specifies the differences in sample estimates of the AUROC between the groups of fabricated results with and without RNGs (as compared to the genuine data). These results indicate that the fabricated data from participants who used RNGs are relatively more difficult to detect (mean probability of `r round(mean(AUC_rng$auc[5:8]), 3)` that the larger effect is fabricated if presented with one genuine and fabricated effect size), compared to data from participants who did not use a RNG (mean probability of `r round(mean(AUC_norng$auc[5:8]), 3)` that the larger effect is fabricated if presented with one genuine and fabricated effect size; see also Table `r tabnr`). Based on these results, it seems that only effect sizes become less effective at detecting fabricated data, but note that we did not preregister the analyses in this section.
+Based on Figure `r fignr` we conclude that using RNGs results in less exaggerated summary statistics, but still larger than genuine ones. Furthermore, it seems that the use of RNGs produced somewhat more uniformly distributed statistically  nonsignficant $p$-values than those without RNGs, but that difference is not confirmed by the AUROC values (gender, with RNG $AUROC=`r round(AUC_rng$auc[17], 3)`$ 95% CI [$`r round(AUC_rng$ci_lb[17], 3)`$-$`r round(AUC_rng$ci_ub[17], 3)`$], without RNG $AUROC=`r round(AUC_norng$auc[17], 3)`$ 95% CI [$`r round(AUC_norng$ci_lb[17], 3)`$-$`r round(AUC_norng$ci_ub[17], 3)`$]; interaction, with RNG $AUROC=`r round(AUC_rng$auc[18], 3)`$ 95% CI [$`r round(AUC_rng$ci_lb[18], 3) `$-$`r round(AUC_rng$ci_ub[18], 3) `$], without RNG $AUROC=`r round(AUC_norng$auc[18], 3)`$ 95% CI [$`r round(AUC_norng$ci_lb[18], 3)`$-$`r round(AUC_norng$ci_ub[18], 3)`$]). For the best performing variance analysis (i.e., heterogeneity over all four anchoring studies with $max_z-min_z$ operationalization) classification performance is barely different between those data fabricated with ($AUROC=`r round(AUC_rng$auc[19], 3)`$ 95% CI [$`r round(AUC_rng$ci_lb[19], 3)`$-$`r round(AUC_rng$ci_ub[19], 3)`$]) or without RNGs ($AUROC=`r round(AUC_norng$auc[19], 3)`$ 95% CI [$`r round(AUC_norng$ci_lb[19], 3)`$-$`r round(AUC_norng$ci_ub[19], 3)`$]). For effect sizes, Table `r tabnr` specifies the differences in sample estimates of the AUROC between the groups of fabricated results with and without RNGs (as compared to the genuine data). These results indicate that the fabricated data from participants who used RNGs are relatively more difficult to detect (mean probability of `r round(mean(AUC_rng$auc[5:8]), 3)` that the larger effect is fabricated if presented with one genuine and fabricated effect size), compared to data from participants who did not use a RNG (mean probability of `r round(mean(AUC_norng$auc[5:8]), 3)` that the larger effect is fabricated if presented with one genuine and fabricated effect size; see also Table `r tabnr`). Based on these results, it seems that only effect sizes become less effective at detecting fabricated data, but note that we did not preregister the analyses in this section.
 
 ```{r echo = FALSE}
 fignr <- fignr + 1
@@ -1029,18 +1033,18 @@ For the reversed Fisher method, results indicated that participants did not fabr
 
 We noted that the assumption of homogeneous population variances in the variance analyses had not previously been explicated nor tested for robustness to violations. In @doi:10.1177/0956797613480366 it remains implicit that the variances grouped together in an analysis should arise from a homogeneous population distribution. Our results indicate that the classification performance of variance analyses strongly depends dependent on fulfilling this assumption. The alternative operationalization we included inspected the range of standard deviations ($max_z-min_z$) instead of the standard deviation of variances ($SD_z$). Our alternative approach seemed to be more robust to violations of the homogeneity assumption, but was not preregistered and should be studied further. Nonetheless, based on the success of using the dispersion of variances, we recommend to use variance analyses with subgrouping of variances into those that are likely to be from the same population distribution (e.g., based on anchoring condition here) and use the range of standard deviations ($max_z-min_z$), when variance analyses are applied.
 
-We note that the presented results might be particular to the anchoring effect and not replicable with other effects. First, as opposed to many other effects in psychology, many data on the anchoring effect are already available and fabricators may have used these data when fabricating theirs.^[Marcel, we hebben geen informatie over hoeveel mensen dat hier hebben gedaan; dat is eerder iets wat in de transcripten van Studie 2 staat.] Second, mental fabrication strategies may be dependent on the type of effect or measurement that is being fabricated. In the anchoring studies, data needed to be fabricated for numbers that are ranged in the hundreds or thousands. Such relatively large values might feel more unintuitive to think about than smaller numbers in the singles or tens that might appear in other research contexts. Hence, our results might be better at detecting data fabrication because of this increased lack of intuitiveness. Other kinds of studies that are easier for fabricators to think about in terms of fabricating realistic data might prove more difficult to classify. For example, we might question how results based on Likert scale items might show different kinds of results from these anchoring studies. 
+We note that the presented results might be particular to the anchoring effect and not replicable with other effects. First, as opposed to many other effects in psychology, many data on the anchoring effect are already available and fabricators may have used these data when fabricating theirs.^[Marcel, we hebben geen informatie over hoeveel mensen dat hier hebben gedaan; dat is eerder iets wat in de transcripten van Studie 2 staat.] Second, mental fabrication strategies may be dependent on the type of effect or measurement that is being fabricated. In the anchoring studies, data needed to be fabricated for numbers that are in the hundreds or thousands. Such relatively large values might feel more unintuitive to think about than smaller numbers in the singles or tens that might appear in other research contexts. Hence, our results might be better at detecting data fabrication because of this increased lack of intuitiveness. Other kinds of studies that are easier for fabricators to think about in terms of fabricating realistic data might prove more difficult to classify. For example, we might question how results based on Likert scale items might show different kinds of results from these anchoring studies. 
 
 Despite testing various statistical methods to detect data fabrication, we did not test all available statistical methods to detect data fabrication in summary statistics. SPRITE [@doi:10.7287/peerj.preprints.26968v1], GRIM [@doi:10.1177/1948550616673876], and GRIMMER [@doi:10.7287/peerj.preprints.2400v1] are some examples of other statistical methods that test for faulty or fabricated summary statistics [see also @buyse1999]. However, these methods were not applicable in the studies we presented, because they require ordinal scale measures. It seems that, combined with the question of whether current results of detecting fabricated data replicate in Likert scale studies, validating these other methods would be a fruitful avenue for further research.
 
 # Study 2 - detecting fabricated raw data
 
-In Study 2 we tested the performance of statistical methods to detect data fabrication in raw data. 
-Our procedure is comparable to Study 1: We asked actual researchers to fabricate data that they thought would go undetected. 
-However, instead of summary statistics, in Study 2 we asked participants to fabricate lower level data (i.e., raw data) and included a face-to-face interview [@doi:10.5281/zenodo.832490]. 
+In Study 2 we tested the performance of statistical methods to detect fabrication of raw data. 
+Our procedure is comparable to that used in Study 1: We again asked actual researchers to fabricate data that they thought would go undetected. 
+However, instead of summary statistics, in Study 2 we asked participants to fabricate lower level data (i.e., raw data) and included a face-to-face interview in which we debriefed participants on how they fabricated their data [@doi:10.5281/zenodo.832490]. 
 A preregistration of this study occurred during the seeking of funding [@doi:10.3897/rio.2.e8860] and during data collection ([https://osf.io/fc35g](https://osf.io/fc35g)). Just like Study 1, this study was approved by the Tilburg Ethical Review Board (EC-2015.50; [https://osf.io/7tg8g/](https://osf.io/7tg8g/)).
 
-To test the validity of statistical methods to detect data fabrication in raw data, we investigated raw data of Stroop experiments [@doi:10.1037/h0054651]. 
+To test the validity of statistical methods to detect data fabrication in raw data, we investigated raw data of the classic Stroop experiment [@doi:10.1037/h0054651]. 
 In a Stroop experiment, participants are asked to determine the color a word is presented in (i.e., word colors) and where the word also reads a color (i.e., color words). 
 The presented word color (i.e., 'red', 'blue', or 'green') can be either presented in the congruent color (e.g., 'red' presented in red) or an incongruent color (e.g., 'red' presented in green). 
 The dependent variable in a Stroop experiment is the response latency, typically in milliseconds. 
@@ -1054,11 +1058,11 @@ The Stroop effect is often computed as the difference in mean response latencies
 We collected twenty-one genuine data sets on the Stroop task from the Many Labs 3 project [[https://osf.io/n8xa7/](https://osf.io/n8xa7/); @doi:10.1016/j.jesp.2015.10.012]. 
 Many Labs 3 (ML3) includes 20 participant pools from universities and one online sample [the original preregistration mentioned 20 data sets, accidentally overlooking the online sample; @doi:10.3897/rio.2.e8860]. 
 Similar to Study 1, we assumed these data to be genuine due to the minimal individual gains for fabricating data and the transparency of the project. 
-Using the original raw data and analysis script from ML3 ([https://osf.io/qs8tp/](https://osf.io/qs8tp/)), we computed the mean (M) and standard deviation (SD) for each participant their response latencies in both within-subjects conditions of congruent trials and incongruent trials (i.e., two M-SD combinations for each participant). 
+Using the original raw data and analysis script from ML3 ([https://osf.io/qs8tp/](https://osf.io/qs8tp/)), we computed the mean ($M$) and standard deviation ($SD$) of response latencies for each participant in both within-subjects conditions of congruent trials and incongruent trials (i.e., two $M$-$SD$ combinations for each participant). 
 This format was also the basis for the template spreadsheet that we requested participants to use to supply the fabricated data (see also Figure `r fignr` or [https://osf.io/2qrbs/](https://osf.io/2qrbs/)). 
 We calculated the Stroop effect as a $t$-test of the difference between the congruent and incongruent conditions ($H_0:\mu_{\bar{X}_1-\bar{X}_2}=0$).
 
-```{r spreadsheet-study2, fig.cap="Example of a filled out template spreadsheet used in the fabrication process for Study 2. Respondents fabricated data in the yellow cells and green cells, which were used to compute the results of the hypothesis test of the condition effect. If the fabricated data confirm the hypotheses, a checkmark appeared. This template is available at https://osf.io/2qrbs.", out.width='100%', echo=FALSE}
+```{r spreadsheet-study2, fig.cap="Example of a filled out template spreadsheet used in the fabrication process for Study 2. Respondents fabricated data in the yellow cells and green cells, which were used to compute the results of the hypothesis test of the condition effect. If the fabricated data confirmed the hypotheses, a checkmark appeared. This template is available at https://osf.io/2qrbs.", out.width='100%', echo=FALSE}
 knitr::include_graphics('../figures/spreadsheet2.png')
 
 fignr <- fignr + 1
@@ -1069,18 +1073,18 @@ First, we invited 80 Dutch and Flemish psychology researchers who published a pe
 We selected Dutch and Flemish researchers to allow for face-to-face interviews on how the data were fabricated. 
 We chose the period 2005-2015 to prevent a decrease in the probability that the corresponding author would still be reachable via the given corresponding e-mail address. 
 The database was searched on October 10, 2016 and 80 unique e-mails were retrieved from 90 publications. 
-Only two of these 80 participated in the study. 
-Subsequently, we implemented a second, unplanned, and not ethically reviewed sampling stage where we collected e-mails from all PhD-candidates, teachers, and professors of psychology related departments at Dutch universities. 
-This resulted in 1659 additional unique e-mails that we subsequently invited to participate in this study. 
-Due to a malfunction in Qualtrics' quotum sampling, we oversampled, resulting in 28 participants instead of the originally intended 20 participants.
+Two of these 80 researchers we contacted actually ended up participating in our study. 
+Subsequently, we implemented a second, unplanned sampling stage where we collected e-mails from all PhD-candidates, teachers, and professors of psychology related departments at Dutch universities. 
+This resulted in 1,659 additional unique e-mails that we subsequently invited to participate in this study. 
+Due to a malfunction in Qualtrics' quotum sampling, we oversampled, resulting in 28 participants instead of the originally intended 20 participants. The second sampling scheme was not part of the original ethics review, but was considered crucial to obtain sufficiently large sample.
 
-Each participant received instructions on the data fabrication task via Qualtrics but was allowed to fabricate data until the face-to-face interview took place. 
+Each participant received instructions on the data fabrication task via Qualtrics and was allowed to fabricate data until the face-to-face interview took place. 
 In other words, each participant could take the time they wanted or needed to fabricate the data as extensively as they liked. 
 Each participant received downloadable instructions (original: [https://osf.io/7qhy8/](https://osf.io/7qhy8/)) and the template spreadsheet via Qualtrics (see Figure `r fignr - 1`; [https://osf.io/2qrbs/](https://osf.io/2qrbs/)). 
 The interview was scheduled via Qualtrics with JGV, who blinded the rest of the research team from the identifying information of each participant and the date of the interview. 
 All interviews took place between January 31 and March 3, 2017. 
-To incentivize researchers to participate, they received 100 euros for participation; to incentivize them to fabricate (supposedly) hard to detect data they could win an additional 100 euros if they belonged to one out of three top fabricators. 
-JGV transcribed the contents of the interview, CHJH blind-reviewed these transcripts to remove any potentially personally identifiable information (these transcripts are freely available for anyone to use at https://doi.org/10.5281/zenodo.832490](https://doi.org/10.5281/zenodo.832490)).
+To incentivize researchers to participate, they received 100 euros for participation; to incentivize them to fabricate (supposedly) hard to detect data they could win an additional 100 euros if they belonged to one out of three top fabricators. Participants were not informed about how we planned to detect data fabrication.
+JGV transcribed the contents of the interview, CHJH blind-reviewed these transcripts to remove any potentially personally identifiable information (these transcripts are freely available for anyone to use at [https://doi.org/10.5281/zenodo.832490](https://doi.org/10.5281/zenodo.832490)).
 
 ### Data analysis
 
@@ -1100,23 +1104,23 @@ if(!file.exists('../data/study_02/ml3_fabricated_processed_collated.csv')) {
 }
 ```
 
-To detect data fabrication in raw data using statistical tools, we performed a total of sixteen analyses (preregistration: [https://osf.io/ecxvn/](https://osf.io/ecxvn/)). These sixteen analyses consisted of four NBL digit analyses, four terminal digit analyses, two variance analyses, four multivariate association analyses (deviated from preregistration; used parametric instead of non-parametric approach), a combination test of these methods, and effect sizes at the summary statistics level (the latter replicating Study 1 and was not preregistered).
+To detect data fabrication in raw data using statistical tools, we performed a total of sixteen analyses (preregistration: [https://osf.io/ecxvn/](https://osf.io/ecxvn/)). These sixteen analyses consisted of four NBL digit analyses, four terminal digit analyses, two variance analyses, four multivariate association analyses (deviated from preregistration in that we used a parametric approach instead of the planned non-parametric approach to increase precisions), a combination test of these methods, and effect sizes at the summary statistics level (the latter test replicated Study 1 and was not preregistered). For each participant fabricating data or genuine data from each lab in the Many Labs study we had one data set.
 
-For the digit analyses, we separated the $M$s and $SD$s per within-subjects condition and conducted $\chi^2$-tests for each per data set. 
+For the digit analyses, we separated the $M$s and $SD$s per within-subjects condition and conducted $\chi^2$-tests for each per data set.^[Marcel, je vroeg waarom process voor die 4 datasets zou verschillen; iedere participant heeft maar 1 dataset? Of bedoel je hier waarom het voor de Ms en SDs zou verschillen? Dat valt denk ik wel te verdedigen en hebben we al sinds de preregistratie zo gedaan] 
 As such, for one data set, we conducted digit analyses on the digits of (i) the mean response latencies in the congruent condition, (ii) the mean response latencies in the incongruent condition, (iii) the standard deviation of the response latencies in the congruent condition, and (iv) the standard deviation of the response latencies in the incongruent condition. 
 For the NBL, we used the first (or leading) digit, whereas for the terminal digit analyses we tested the same sets but on the final digit.
 
 For the variance analyses, we analyzed the standard deviations of the response latencies separated for the within-subjects conditions. 
-That is, we analyzed the standard deviations of the response latencies in the congruent condition for excessive consistency separately from the standard deviations of the incongruent condition. We conducted this analysis for each genuine- or fabricated dataset, using the $max_z-min_z$ operationalization (not preregistered; based on results from Study 1 indicating it is more robust to violations of the assumption of equal variances).
+That is, we analyzed the 25 standard deviations of the response latencies in the congruent condition for excessive consistency separately from the 25 standard deviations of the incongruent condition. We conducted this analysis for each genuine- or fabricated dataset, using the $max_z-min_z$ operationalization (not preregistered; based on results from Study 1 indicating it is more robust to violations of the assumption of equal variances).
 
-For the multivariate association analyses, we estimated how extreme the observed correlations between the means and standard deviations within and across conditions were. 
-More specifically, we did this for the (i) correlation between the means across conditions, (ii) standard deviations across conditions, (iii) means and standard deviations within the congruent condition, and (iv) means and standard deviations within the incongruent condition. 
-We did this by computing a random-effects estimate of the observed (Fisher transformed) correlations from the Many Labs 3 data. 
+For the multivariate association analyses, we analyzed the correlation between 25 pairs of fabricated statistics and compared this correlation to the corresponding correlation for genuine data. 
+More specifically, we did this for the (i) correlation between the means of congruent- and incongruent conditions, (ii) standard deviations of both conditions, (iii) means and standard deviations within the congruent condition, and (iv) means and standard deviations within the incongruent condition. 
+We compared these correlations to the corresponding correlation for the genuine data after computing a random-effects estimate of the observed (Fisher transformed) correlations from the Many Labs 3 data. 
 The estimated effect distribution served as the parametric model for each of those four relations under investigation ($N\sim(\mu,\tau)$). 
 Using the estimated parametric distribution, we computed two-tailed $p$-values for each fabricated- and genuine dataset.
 
 We also combined the terminal digit analyses, the variance analyses, and the analyses based on multivariate associations using the Fisher method. 
-More specifically, we included the $p$-values of 10 statistical tests: Four terminal digit analyses, two variance analyses, and four analyses of the multivariate associations. We excluded the NBL digit analyses because we a priori expected that psychological measures (e.g., response times) are rarely true ratio scales with sufficient range to show the NBL properties in the first digit, hence that this type of analysis would not be productive in detecting data fabrication in these types of data (preregistration: [doi.org/10.3897/rio.2.e8860](https://doi.org/10.3897/rio.2.e8860)).
+More specifically, we included the $p$-values of 10 statistical tests; four terminal digit analyses, two variance analyses, and four analyses of the multivariate associations. We excluded the NBL digit analyses because we a priori expected that psychological measures (e.g., response times) are rarely true ratio scales with sufficient range to show the NBL properties in the first digit, hence that this type of analysis would not be productive in detecting data fabrication in these types of data (preregistration: [doi.org/10.3897/rio.2.e8860](https://doi.org/10.3897/rio.2.e8860)).
 
 Study 1 showed that effect sizes are a potentially valuable tool to detect data fabrication, which we exploratively replicate in Study 2. This was not preregistered because we had not yet determined results of Study 1 before designing Study 2. Based on the genuine- and fabricated data sets, we computed effect sizes for the Stroop effect based on the effect computation from the Many Labs 3 scripts ([https://osf.io/qs8tp/](https://osf.io/qs8tp/)). Using a $t$-test of the difference between the congruent and incongruent conditions ($H_0:\mu=0$) we computed the $t$-value and its constituent effect size as a correlation using [@doi:10.1525/collabra.71]
 $$
@@ -1127,7 +1131,7 @@ $$
 r=\sqrt{\frac{\frac{t^2}{df_2}}{\frac{t^2}{df_2}+1}}
 $$
 
-Similar to Study 1, we computed the AUROC for each of these statistical methods to detect data fabrication. To recapitulate, if $AUROC=.5$, correctly classifying a randomly drawn dataset in this sample is equal to a coin flip. We regard AUROC values $<.7$ as poor for detecting data fabrication, $.7\leq$ AUROC $<.8$ as fair, $.8\leq$ AUROC $<.9$ as good, and AUROC $\geq.9$ as excellent [@doi:10.1093/jpepsy/jst062]. We also explore whether using Random Number Generators (RNGs) affects the detection of fabricated data in our sample. We conducted all analyses using the `pROC` package [@doi:10.1186/1471-2105-12-77].
+Similar to Study 1, we computed the AUROC for each of these statistical methods to detect data fabrication. We again conducted all analyses using the `pROC` package [@doi:10.1186/1471-2105-12-77]. We also explored whether using Random Number Generators (RNGs) may have affected the detection of fabricated data in our sample by running AUROC analyses comparing genuine data and fabricated data with RNGs, or by comparing genuine data and fabricated data without RNGs.
 
 ## Results
 
@@ -1174,37 +1178,39 @@ AUC_norng <- suppressWarnings(plyr::ddply(dat_raw[sel_norng,], .(test), .fun = f
 
 ### Digit analyses
 
-Figure `r fignr` shows the aggregated first digit distributions of the genuine- and fabricated data side-by-side with the expected first digit distributions according to the NBL. In the first row the first digit distributions of the means are presented, for both the congruent condition (left column) and incongruent condition (right column). The first row indicates that the first digit distributions of the genuine- and fabricated mean response times do not adhere to the NBL. The first digit distributions of the standard deviations (second row) adhere to the NBL more than the means at first glance, but still deviate substantially from what would be expected according to the NBL. These aggregate results already suggest that using the NBL to test for data fabrication is definitely not appropriate (means) or might be appropriate (standard deviations).
+Figure `r fignr` shows the aggregated first digit distributions of the genuine- and fabricated data side-by-side with the expected first digit distributions according to the NBL. In the first row the first digit distributions of the means are presented, for both the congruent condition (left column) and incongruent condition (right column). The first row indicates that the first digit distributions of the genuine- and fabricated mean response times do not adhere to the NBL. The first digit distributions of the standard deviations (second row) adhere to the NBL more than the means at first glance, but still deviate substantially from what would be expected according to the NBL. These aggregate results already suggest that using the NBL to test for data fabrication is definitely not appropriate for means and probably also not appropriate for standard deviations.
 
-```{r echo = FALSE, fig.cap="First digit distributions for the (in)congruent means and standard deviations, aggregated across all Many Labs 3 datasets or across the datasets fabricated by the participants.", out.width='100%'}
+```{r echo = FALSE, fig.cap="First (Benford) digit distributions of the (in)congruent means and standard deviations, aggregated across all Many Labs 3 datasets, across the datasets fabricated by the participants, or the theoretically expected proportions."}
 sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'Mean congruent' & !grepl(dat_digits$type, pattern = 'RNG$')
 p1 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE) + 
+  scale_fill_viridis(guide = FALSE, discrete = TRUE) + 
   scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('Mean congruent [benford]')
+  ggtitle('Mean congruent')
 sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'Mean incongruent' & !grepl(dat_digits$type, pattern = 'RNG$')
 p2 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
   scale_fill_viridis(discrete = TRUE, guide = FALSE) + 
   scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('Mean incongruent [benford]')
+  ggtitle('Mean incongruent')
 sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'SD congruent' & !grepl(dat_digits$type, pattern = 'RNG$')
 p3 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
   scale_fill_viridis(discrete = TRUE, guide = FALSE) + 
   scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('SD congruent [benford]')
+  ggtitle('SD congruent')
 sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'SD incongruent' & !grepl(dat_digits$type, pattern = 'RNG$')
 p4 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) + 
+  scale_fill_viridis('', discrete = TRUE) + 
   scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('SD incongruent [benford]')
+  ggtitle('SD incongruent') +
+  theme(legend.position="bottom", legend.text=element_text(size=6),legend.key.size =unit(.4, 'cm'),legend.direction="horizontal")
+
 
 gridExtra::grid.arrange(p1, p2, p3, p4,
        ncol = 2)
@@ -1218,51 +1224,62 @@ congruent_sd <- sel[3]
 incongruent_sd <- sel[4]
 ```
 
-The AUROC results indicate that using the Newcomb-Benford Law is at best on par with chance level classification of genuine- and fabricated data. More specifically, for the congruent standard deviations, using the results of the NBL test are on par with chance classification ($AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$]). Values from other measures showcase that the fabricated data are actually more in line with the NBL than the genuine data. After all, the NBL test is directional, where fabricated data would be expected to be less in line with the NBL and therefore yield smaller $p$-values, hence we also classified that way. However, for the (in)congruent means and the incongruent standard deviations the AUROC values indicate that we are classifying the wrong way with this test (congruent means: $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$]; incongruent means: $AUROC=`r round(sel$auc[3], 3)`$, 95% CI [$`r round(sel$ci_lb[3], 3)`$-$`r round(sel$ci_ub[3], 3)`$]; incongruent standard deviations: $AUROC=`r round(sel$auc[4], 3)`$, 95% CI [$`r round(sel$ci_lb[4], 3)`$-$`r round(sel$ci_ub[4], 3)`$]).
+The AUROC results indicate that using the Newcomb-Benford Law is at best on par with chance level classification of genuine- and fabricated data. More specifically, for the congruent standard deviations, using the results of the NBL test are on par with chance classification ($AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$]). Values from other measures showcase that the fabricated data are actually *more* in line with the NBL than the genuine data. Consequently, the genuine data and fabricated data are often wrongly classified. This is reflected by the AUROC values that are significantly smaller than .5; congruent means, $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$]; incongruent means, $AUROC=`r round(sel$auc[3], 3)`$, 95% CI [$`r round(sel$ci_lb[3], 3)`$-$`r round(sel$ci_ub[3], 3)`$]; incongruent standard deviations, $AUROC=`r round(sel$auc[4], 3)`$, 95% CI [$`r round(sel$ci_lb[4], 3)`$-$`r round(sel$ci_ub[4], 3)`$].
 <!-- one might argue that changing classification direction would make it work but we don't know why at all -->
 
-Figure `r fignr` shows the aggregated terminal digit distributions of the genuine- and fabricated data side-by-side with the expected terminal digit distributions. In the first row the terminal digit distributions of the means are presented, for both the congruent (left column) and incongruent (right column) conditions. The first row shows that the terminal digit distributions of the genuine- and fabricated mean response times are approximately uniform with only minor differences between the genuine- and fabricated data. The terminal digit distributions of the standard deviations (second row) show slightly more deviation from uniformly distributed digits, but still approximate the expected distribution of terminal digits reasonably well. Based on these aggregate digit distributions, it seems like the classification based on the terminal digit analyses will not be able to differentiate between genuine- and fabricated data particularly well.
+
+Figure `r fignr` shows the aggregated terminal digit distributions of the genuine- and fabricated data side-by-side with the expected terminal digit distributions. In the first row the terminal digit distributions of the means are presented, for both the congruent (left column) and incongruent (right column) conditions. The first row shows that the terminal digit distributions of the genuine- and fabricated mean response times are approximately uniform with only minor differences between the genuine- and fabricated data. The terminal digit distributions of the standard deviations (second row) show slightly more deviation from uniformly distributed digits, but still approximate the expected distribution of terminal digits reasonably well. Based on these aggregate digit distributions, it seems like the classification based on the terminal digit analyses will not be able to differentiate between genuine- and fabricated data particularly well.^[Marcel, je wilde een test over alle terminal digits per persoon/lab en dan aangeven hoeveel getagd worden. Ik heb het nu over de losse tests toegeveogd in algemene termen in de volgende alinea.]
 
 ```{r echo = FALSE, fig.cap="Terminal digit distributions for the (in)congruent means and standard deviations, aggregated across all Many Labs 3 datasets or across the datasets fabricated by the participants.", out.width='100%'}
 # Plots of digit distributions
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'Mean congruent' & !grepl(dat_digits$type, pattern = 'RNG$')
+sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'Mean congruent' & !grepl(dat_digits$type, pattern = 'RNG$') & !dat_digits$type == 'Expected'
 p1 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE, guide = FALSE) +
   scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('Mean congruent [terminal]')
+  ggtitle('Mean congruent') + 
+  geom_hline(yintercept = .1)
 
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'Mean incongruent' & !grepl(dat_digits$type, pattern = 'RNG$')
+sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'Mean incongruent' & !grepl(dat_digits$type, pattern = 'RNG$') & !dat_digits$type == 'Expected'
 p2 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
   scale_fill_viridis(discrete = TRUE, guide = FALSE) +
   scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('Mean incongruent [terminal]')
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'SD congruent' & !grepl(dat_digits$type, pattern = 'RNG$')
+  ggtitle('Mean incongruent') + 
+  geom_hline(yintercept = .1)
+
+sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'SD congruent' & !grepl(dat_digits$type, pattern = 'RNG$') & !dat_digits$type == 'Expected'
 p3 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
   scale_fill_viridis(discrete = TRUE, guide = FALSE) +
   scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('SD congruent [terminal]')
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'SD incongruent' & !grepl(dat_digits$type, pattern = 'RNG$')
+  ggtitle('SD congruent') + 
+  geom_hline(yintercept = .1)
+sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'SD incongruent' & !grepl(dat_digits$type, pattern = 'RNG$') & !dat_digits$type == 'Expected'
 p4 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
   geom_bar(stat="identity",position='dodge') + 
   xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) +
+  scale_fill_viridis('', discrete = TRUE) +
   scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('SD incongruent [terminal]')
+  ggtitle('SD incongruent')  + 
+  geom_hline(yintercept = .1) +
+  theme(legend.position="bottom", legend.text=element_text(size=6),legend.key.size =unit(.4, 'cm'),legend.direction="horizontal")
 
 gridExtra::grid.arrange(p1, p2, p3, p4,
        ncol = 2)
 fignr <- fignr + 1
 
 sel <- AUC[grepl(AUC$test, pattern = 'Terminal'),]
+
+x <- ddply(dat_raw, .(type, test), function (x) {
+  return(data.frame(pos = sum(x$result < .05), neg = sum(!x$result<.05)))
+})
 ```
 
-The AUROC results indicate that using terminal digit analyses is also at best on par with chance level classification of genuine- and fabricated data. More specifically, for the incongruent standard deviations, using the results of the terminal digit analysis are on par with chance classification ($AUROC=`r round(sel$auc[4], 3)`$, 95% CI [$`r round(sel$ci_lb[4], 3)`$-$`r round(sel$ci_ub[4], 3)`$]). Other conditions showcase that the fabricated data are slightly more in line with a uniform digit distribution than the genuine data. The terminal digit test is directional (similar to the NBL), where fabricated data would be expected to be less uniform and therefor yield smaller $p$-values. However, for the (in)congruent means and the incongruent standard deviations the AUROC values indicate that we are classifying the wrong way with this test, albeit less so than with the NBL results presented before (congruent means: $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$]; incongruent means: $AUROC=`r round(sel$auc[3], 3)`$, 95% CI [$`r round(sel$ci_lb[3], 3)`$-$`r round(sel$ci_ub[3], 3)`$]; congruent standard deviations: $AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$]). 
+The AUROC results indicate that using terminal digit analyses is also at best on par with chance level classification of genuine- and fabricated data. More specifically, for the incongruent standard deviations, $AUROC=`r round(sel$auc[4], 3)`$, 95% CI [$`r round(sel$ci_lb[4], 3)`$-$`r round(sel$ci_ub[4], 3)`$]; congruent means, $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$]; incongruent means, $AUROC=`r round(sel$auc[3], 3)`$, 95% CI [$`r round(sel$ci_lb[3], 3)`$-$`r round(sel$ci_ub[3], 3)`$]; congruent standard deviations, $AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$]. The terminal digit analysis classified at most `r max(x$pos[15:18])` of the `r x$pos[15] + x$neg[15]` fabricated datasets as fabricated (and `r max(x$pos[35:38])` of the `r x$pos[35] + x$neg[35]` genuine data as fabricated).
 
 ### Variance analysis
 
@@ -1272,10 +1289,19 @@ sel <- AUC[grepl(AUC$test, pattern = 'Variance analysis'), ]
 # sel
 ```
 
-Results indicate that the fabricated- and genuine data can be perfectly separated based on the variance analyses. More specifically, the AUROC of both the variance analyses for the congruent standard deviations and the incongruent standard deviations is $AUROC=1$ (confidence intervals cannot be reliably computed in this case). We note that these results are likely to be sample specific and do not mean to imply that this method will always be able to separate the genuine- from fabricated data perfectly. However, they also indicate that given the number of standard deviations participants had to fabricate ($k=25$), it was difficult for participants to make them look similar to those found in the genuine data. Nonetheless, upon closer inspection, results of the variance analyses showed a maximum $p$-value of `r round(max(selraw$result), 3)` across both the genuine- and the fabricated data, which indicates that the variance analysis is oversensitive in the absolute sense, despite classifying so well in a relative sense. After all, if we would use the traditional notion of hypothesis testing and say $p<\alpha$ leads to the conclusion that the data are fabricated, $\alpha=.01$ would cause all included genuine- and fabricated datasets to be regarded as fabricated.
+Results indicate that the fabricated- and genuine data can be perfectly separated based on results from the variance analyses. More specifically, the AUROC of both the variance analyses for the congruent standard deviations and the incongruent standard deviations is $AUROC=1$ (confidence intervals cannot be reliably computed in this case). We note that these results are likely to be sample specific and do not mean to imply that this method will always be able to separate the genuine- from fabricated data perfectly. However, they also indicate that given the number of standard deviations participants had to fabricate ($k=25$), it was difficult for participants to make them look similar to those found in the genuine data.
+
+Upon closer inspection of the individual level results of the variance analyses per data set (see Appendix A), all $p$-values are statistically significant if compared to traditional $\alpha$ levels (i.e., .05; maximum `r round(max(selraw$result), 3)` across both the genuine- and the fabricated data)<!-- , which indicates that the variance analysis is oversensitive in the absolute sense, despite classifying so well in a relative sense. After all, if we would use the traditional notion of hypothesis testing and say $p<\alpha$ leads to the conclusion that the data are fabricated, $\alpha=.01$ would cause all included genuine- and fabricated datasets to be regarded as fabricated. -->
 <!-- variance analysis seems to perform quite well but only with adequate control data -->
 
 ### Multivariate associations
+
+```{r echo = FALSE}
+selraw <- dat_raw[grepl(dat_raw$test, pattern = 'Multivariate association'), ]
+sel <- AUC[grepl(AUC$test, pattern = 'Multivariate association'), ]
+```
+
+We expected that fabricated multivariate associations would be different from genuine multivariate associations. Using the parametric test of multivariate associations, results indicate classification is fair to good in the current sample. Figure `r fignr` shows the density distributions of the various multivariate associations (rows 1-2), which already indicates the genuine data are less dispersed and more normally distributed when compared to the fabricated multivariate associations. Using the parametric estimates of the associations to test the various sets of multivariate relations between the (in)congruent means and standard deviations, AUROC values range from `r round(min(sel$auc), 3)` through `r round(max(sel$auc), 3)`. More specifically, the AUROC for the various sets of relations (going clockwise with the first four figures in Figure `r fignr`) are $AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$] for M-SD in the congruent condition, $AUROC=`r round(sel$auc[3], 3)`$, 95% CI [$`r round(sel$ci_lb[3], 3)`$-$`r round(sel$ci_ub[3], 3)`$] for M-SD in the incongruent condition, $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$] for M-M across conditions, $AUROC=`r round(sel$auc[4], 3)`$, 95% CI [$`r round(sel$ci_lb[4], 3)`$-$`r round(sel$ci_ub[4], 3)`$] for SD-SD across conditions. Overall, it seems that comparing multivariate associations to known genuine ones is a good way to detect (potential) data fabrication.
 
 ```{r echo = FALSE, fig.cap="Density distributions of the multivariate relations (first two rows) and the effect sizes (final row), split for the genuine and fabricated data.", out.width='100%'}
 sel <- dat_raw$test == 'Multivariate association, M-SD congruent' 
@@ -1328,10 +1354,11 @@ my_layout <- rbind(1:2, 3:4, rep(5, 2))
 suppressWarnings(gridExtra::grid.arrange(p1, p2, p3, p4, p0, 
        ncol = 2, layout_matrix = my_layout))
 
+fignr <- fignr + 1
+
 sel <- AUC[grepl(AUC$test, pattern = 'Parametric'), ]
 ```
 
-Using the parametric test of multivariate associations, results indicate classification is fair to good in the current sample. Figure `r fignr` shows the density distributions of the various multivariate associations (rows 1-2), which already indicates the genuine data are less spread out and more normally distributed when compared to the fabricated multivariate associations. Using the parametric estimates of the associations to test the various sets of multivariate relations between the (in)congruent means and standard deviations, AUROC values range from `r round(min(sel$auc), 3)` through `r round(max(sel$auc), 3)`. More specifically, the AUROC for the various sets of relations (going clockwise with the first four figures in Figure `r fignr`) are $AUROC=`r round(sel$auc[2], 3)`$, 95% CI [$`r round(sel$ci_lb[2], 3)`$-$`r round(sel$ci_ub[2], 3)`$] for M-SD in the congruent condition, $AUROC=`r round(sel$auc[3], 3)`$, 95% CI [$`r round(sel$ci_lb[3], 3)`$-$`r round(sel$ci_ub[3], 3)`$] for M-SD in the incongruent condition, $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$] for M-M across conditions, $AUROC=`r round(sel$auc[4], 3)`$, 95% CI [$`r round(sel$ci_lb[4], 3)`$-$`r round(sel$ci_ub[4], 3)`$] for SD-SD across conditions.
 <!-- so multivariate similar across measures -->
 
 ### Combining variance, terminal digit, and associational analyses
@@ -1341,9 +1368,7 @@ selraw <- dat_raw[grepl(dat_raw$test, pattern = 'Combination'), ]
 sel <- AUC[grepl(AUC$test, pattern = 'Combination'),]
 ```
 
-We combined both variance analyses, the terminal digit analyses, and the tests of the multivariate associations with the Fisher method. More specifically, we combined the results of the congruent- and incongruent variance analyses (i.e., two per dataset); the terminal digit analysis of the congruent and incongruent means and standard deviations (i.e., four per dataset); the parametric tests of the relation between the (in)congruent means and standard deviations, the relation between the means across conditions, and the relation between the standard deviations across conditions (i.e., four per dataset). 
-
-Results of the combined analysis perform excellent at classifying fabricated- and genuine data in this sample. More specifically, the results for the combination method indicate $AUROC=`r round(sel$auc[1], 3)`$ (95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$]). This combination method is affected by the effectiveness of the individual methods involved; given that the performance of the multivariate associations and variance analyses ranged from sufficient to excellent, it makes sense that this combination method also performs quite well. However, also here we note that the maximum $p$-value of the combination of these tests is `r round(max(selraw$result), 3)`, indicating that in a traditional hypothesis testing sense it is oversensitive at regular alpha levels (i.e., .05 or .01).
+As preregistered, we combined both variance analyses, the terminal digit analyses, and the tests of the multivariate associations with the Fisher method (14 results in total). <!-- . More specifically, we combined the results of the congruent- and incongruent variance analyses (i.e., two per dataset); the terminal digit analysis of the congruent and incongruent means and standard deviations (i.e., four per dataset); the parametric tests of the relation between the (in)congruent means and standard deviations, the relation between the means across conditions, and the relation between the standard deviations across conditions (i.e., four per dataset).  -->Results of the combined analysis perform excellent at classifying fabricated- and genuine data in this sample. More specifically, the results for the combination method indicate $AUROC=`r round(sel$auc[1], 3)`$ (95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$]). This combination method is affected by the effectiveness of the individual methods involved; given that the performance of the multivariate associations and variance analyses ranged from sufficient to excellent, it makes sense that this combination method also performs quite well. However, the maximum $p$-value of the combination of these tests for either the genuine- or fabricated data is `r round(max(selraw$result), 3)` (see also Appendix A). This indicates that all datasets would be classified as fabricated if we did not compare the results from the genuine- and fabricated data, but instead used a prespecified $\alpha$ level (e.g., .05).
 <!-- combination method does not reall add much it seems -->
 
 ### Effect sizes
@@ -1352,13 +1377,11 @@ Results of the combined analysis perform excellent at classifying fabricated- an
 sel <- AUC[grepl(AUC$test, pattern = 'Effect'), ]
 ```
 
-Figure `r fignr` (final row) shows the density distributions of the fabricated- and genuine Stroop effect sizes, which is an excellent classifier of fabricated/genuine data in this sample. More specifically, the classification performance for detecting fabricated data in this sample is $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$] (the 95% CI is truncated at 1). Upon closer inspection of the effect sizes, we note that only three (of 28) fabricated effect sizes fall within the range of genuine effect sizes. As such, this is a particularly good result within this sample.
+Figure `r fignr` (final row) shows the density distributions of the fabricated- and genuine Stroop effect sizes, which is an excellent classifier of fabricated/genuine data in this sample. More specifically, the classification performance for detecting fabricated data in this sample is $AUROC=`r round(sel$auc[1], 3)`$, 95% CI [$`r round(sel$ci_lb[1], 3)`$-$`r round(sel$ci_ub[1], 3)`$] (the 95% CI is truncated at 1). Upon closer inspection of the effect sizes, we note that only three (of 28) fabricated effect sizes fall within the range of genuine effect sizes (see Appendix A for all genuine- and fabricated effects). As such, this is a particularly good result within this sample (we did not preregister this analysis).
 
 <!-- effect sizes good = replicated -->
 
 ```{r echo = FALSE}
-fignr <- fignr + 1
-
 count2rng <- plyr::ddply(dat_raw, .(id), function (x) {
     return(x$rng)
 })
@@ -1367,6 +1390,9 @@ count2rng <- table(count2rng$V1)
 ```
 
 ### Fabricating effects with Random Number Generators (RNGs)
+
+Using Random Number Generators (RNGs) in the raw data fabrication procedure did not seem to have a substantial effect on how genuine the fabricated results appeared. We explored this in our data (i.e., not preregist
+1.23-07 als het .000000123 is. Want je mag niet .000 opschrijven volgens APA, maar het komt ook dommig over.ered) and Table `r tabnr` presents the AUROC values split on participants who said they used ($k=`r count2rng[2]`$) or did not use RNGs ($k=`r count2rng[1]`$) to fabricate data (based on manual coding of the interview transcripts). Noteworthy from our exploration is that the effect size distribution seems approximately similar for both data fabricated with and without RNGs (Figure `r fignr`). Given these minor and inconsistent changes to the density distributions, we do not regard RNGs as having substantial effects on the effectiveness of statistical methods to detect data fabrication in this sample.
 
 ```{r echo = FALSE}
 df <- data.frame(test = as.character(AUC_rng$test),
@@ -1382,84 +1408,8 @@ df <- data.frame(test = as.character(AUC_rng$test),
 df$test <- as.character(df$test)
 df$test[5] <- 'Combination w Fisher method'
 names(df) <- c('Test', 'With RNG (k=19)', 'Without RNG (k=9)')
-knitr::kable(df, caption = "AUROC values with 95% confidence intervals for each test, when split for those with Random Number Generators (RNGs) and those without.")
-```
-
-Using Random Number Generators (RNGs) in the raw data fabrication procedure  slightly changes results but not substantively so. AUROC values for all of these tests are presented side by side in Table `r tabnr`, split on those participants who said they used ($k=`r count2rng[2]`$) or did not use RNGs ($k=`r count2rng[1]`$) to fabricate data (based on manual coding of the interview transcripts).. For leading digits, Figure `r fignr` indicates the digit distributions split for those fabricated with and without RNGs and results indicate relatively minor differences; Figure `r fignr + 1` shows the digit distributions of terminal digits, where results again indicate minor differences. Figure `r fignr + 2` shows the same results as Figure `r fignr - 1`, where the raw data looks slightly more genuine for multivariate associations fabricated with RNGs when compared to those raw data fabricated without RNG. Going clockwise through Figure `r fignr`, we see a slight normalization of results for M-SD congruent associations, virtually no changes for M-SD incongruent associations, a reasonable amount of normalization for M-M associations across conditions, an almost linear increase in SD-SD associations across conditions, and virtually no changes for the fabricated effect sizes. The effect size distribution is approximately similar for both data fabricated with and without RNGs. Given these minor and inconsistent changes to the density distributions, we do not regard RNGs as having substantial effects on the effectiveness of statistical methods to detect data fabrication in this sample.
-
-<!-- so mixed results wrt effect sizes -->
-
-```{r echo = FALSE, fig.cap="First digit distributions for the (in)congruent means and standard deviations, aggregated across all Many Labs 3 datasets or across the datasets fabricated by the participants.", out.width='100%'}
-sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'Mean congruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p1 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE) + 
-  scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('Mean congruent [benford]')
-sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'Mean incongruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p2 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) + 
-  scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('Mean incongruent [benford]')
-sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'SD congruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p3 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) + 
-  scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('SD congruent [benford]')
-sel <- dat_digits$analysis == 'benford' & dat_digits$measure == 'SD incongruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p4 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) + 
-  scale_x_discrete(breaks = 1:9, limits = 1:9) +
-  ggtitle('SD incongruent [benford]')
-
-gridExtra::grid.arrange(p1, p2, p3, p4,
-       ncol = 2)
-tabnr <- tabnr + 1
-fignr <- fignr + 1
-```
-
-```{r echo = FALSE, fig.cap="Terminal digit distributions for the (in)congruent means and standard deviations, aggregated across all Many Labs 3 datasets or across the datasets fabricated by the participants.", out.width='100%'}
-# Plots of digit distributions
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'Mean congruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p1 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE) +
-  scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('Mean congruent [terminal]')
-
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'Mean incongruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p2 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) +
-  scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('Mean incongruent [terminal]')
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'SD congruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p3 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) +
-  scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('SD congruent [terminal]')
-sel <- dat_digits$analysis == 'terminal' & dat_digits$measure == 'SD incongruent' & grepl(dat_digits$type, pattern = '(RNG|Expected|Genuine)')
-p4 <- ggplot(dat_digits[sel,],aes(digit,prop,fill=type))+
-  geom_bar(stat="identity",position='dodge') + 
-  xlab('Digit') + ylab('Proportion') + 
-  scale_fill_viridis(discrete = TRUE, guide = FALSE) +
-  scale_x_discrete(breaks = 0:9, limits = 0:9) +
-  ggtitle('SD incongruent [terminal]')
-
-gridExtra::grid.arrange(p1, p2, p3, p4,
-       ncol = 2)
-fignr <- fignr + 1
+knitr::kable(df, caption = "AUROC values with 95 percent confidence intervals for each test, when split for those with Random Number Generators (RNGs) and those without.", booktabs = TRUE, longtable = TRUE) %>%
+  kable_styling(latex_options = c('striped', 'repeat_header'))
 ```
 
 ```{r echo = FALSE, fig.cap="Density distributions of the multivariate relations (first two rows) and the effect sizes (final row), split for the genuine data, the fabricated data without using Random Number Generators RNGs), and fabricated data with using RNGs.", out.width='100%'}
@@ -1471,7 +1421,7 @@ p0 <- ggplot(dat_raw[dat_raw$test == 'Effect size (r)',],
  xlim(0, 1) + 
  xlab(latex2exp::TeX("Effect size ($r$)")) + 
  ylab("Density") + 
- scale_fill_viridis(discrete = TRUE) + 
+ scale_fill_viridis('', discrete = TRUE) + 
  ggtitle('Effect size (r)')
 
 sel <- dat_raw$test == 'Multivariate association, M-SD congruent' 
@@ -1515,19 +1465,28 @@ my_layout <- rbind(1:2, 3:4, rep(5, 2))
 suppressWarnings(gridExtra::grid.arrange(p1, p2, p3, p4, p0, 
        ncol = 2, layout_matrix = my_layout))
 fignr <- fignr + 1
+tabnr <- tabnr + 1
 ```
 
 ## Discussion
 
-Our second study investigated how well statistical methods can discern between individual genuine- and fabricated raw data. To that respect, results indicate that digit analyses of raw data perform at chance level, variance analyses of raw data perform excellent, and multivariate relations between variables in the raw data perform fairly to excellent. Moreover, the summary statistic effect size strikes a surprisingly good balance between efficacy and parsimony for classifying fabricated- from genuine raw data (only superceded in performance by the more complex variance analyses). It is somewhat ironic that the summary statistic of the effect performs so well in classifying the genuine- from fabricated data. This replicates the finding from Study 1 that effect sizes are a valuable piece of information to discern genuine- from fabricated data. Random Number Generators (RNGs) had no substantial affect on the classification of fabricated- from genuine raw data. 
+Our second study investigated how well statistical methods can discern between individual genuine- and fabricated of raw- or processed data at the individual level. To this end, we replicated the procedure from Study 1 and asked researchers to fabricate data for individual participants for the classic Stroop task. We also collected (arguably) genuine data from the labs involved in the Many Labs study, which included the classic Stroop task. As such, we had both genuine- and fabricated data on the same effect.
 
-Our results confirmed our prediction that leading digit analyses (i.e., NBL) are not fruitful in detecting fabricated response times. The Newcomb-Benford Law is frequently observed in various natural phenomena (e.g., population numbers) but Figure `r fignr - 6` (clearly) indicates this is not the case for summary statistics of response times. Response times are untruncated ratio measures in theory that technically should satisfy the NBL's requirements, but in practice response time measures are truncated severely (e.g., nobody can respond within <50 milliseconds and few take longer than 2000 milliseconds). In other words, if there is no evidence that already calibrated the data against the  NBL, we recommend against using it as a generic method to detect data fabrication in experimental studies. 
+Using these data we attempted to classify genuine- and fabricated individual level data using digit analyses, variance analyses, multivariate associations, and effect sizes. Results of preregistered analyses indicate that digit analyses of raw data performed at chance level, variance analyses of raw data performed excellent, and multivariate relations between variables in the raw data performed fairly to excellent. Moreover and not preregistered, the summary statistic effect size appeared to strike a surprisingly good balance between efficacy and parsimony for classifying fabricated- from genuine raw data (only superseded in performance by the more complex variance analyses). It is somewhat ironic that the summary statistic of the effect performs so well in classifying the genuine- from fabricated data. This replicates the finding from Study 1 that effect sizes are a valuable piece of information to discern genuine- from fabricated data. Random Number Generators (RNGs) did not appear to have a consistent relation with classification performance with raw data. 
 
-Going against our predictions, participants fabricated raw data that was almost indistinguishable from the genuine raw data when looking at terminal digit analyses. Given the theoretical framework we use, where humans are bad at fabricating stochastic processes that underlie data collection procedures, we expected that participants would be unable to fabricate uniformly distributed terminal digits. Our sample indicates this is not the case. Moreover, given that these stochastic processes are expected to be better included when data is fabricated with RNGs, it was a surprise that this did not affect classification performance. This raises questions with respect to whether the framework of human's lack of intuitive understanding of probabilities manifests itself in fabricated raw data.
+Our results confirmed our prediction that leading digit analyses (i.e., NBL) are not fruitful in detecting fabricated response times. The Newcomb-Benford Law is frequently observed in various natural phenomena (e.g., population numbers) but Figure `r fignr - 6` (clearly) indicates this is not the case for summary statistics of response times. Response times are untruncated ratio measures in theory that technically satisfy the NBL's requirements, but in practice response time measures are truncated severely (e.g., nobody can respond within <50 milliseconds and few take longer than 2000 milliseconds). If the NBL is being considered for applications to detect (potential) misconduct, there need to indications that the data generation process is in line with the requirements of the NBL, but we consider that this is hardly the case for experimental studies in the social sciences. 
 
-Study 2 replicated the effectiveness of variance analyses and effect sizes to detect data fabrication, but failed to replicate the effect of RNGs on detection. With these mixed results with respect to the effect of RNGs, we note the same limitation as for the terminal digit analysis, which is that our theoretical framework of intuitions for probabilities might not manifest itself in fabricated data. Hence, further research might look into correlating the (lack of) expertise on probabilities and the kind of data that is fabricated. With respect to variance analyses and effect sizes, our results suggest that these are the most promising methods.
+Going against our predictions, participants fabricated raw data that was almost indistinguishable from the genuine raw data when looking at terminal digit analyses. Given the theoretical framework we use, wherein humans are expected to be poor at fabricating stochastic processes that underlie data collection procedures, we expected that our participants would be unable to fabricate more uniformly distributed terminal digits than terminal digit distributions arising from genuine data. Our sample indicates this is not the case. Moreover, given that these stochastic processes are expected to be better included when data is fabricated with RNGs, it was a surprise that this did not affect classification performance. This raises questions with respect to whether the framework of human's lack of intuitive understanding of probabilities manifests itself in fabricated raw data, and if so, under which conditions.
 
-We originally planned to extend Study 2 with a qualitative exploration of the fabrication process. We transcribed all 28 interviews, but due to time constraints did not get around to doing so. We note that all transcripts are available online () and that the initial work can be found online as well. We invite anyone with an interest to look at these documents and build on our work further.
+Study 2 replicated the effectiveness of variance analyses (preregistered) and effect sizes (not preregistered) to detect data fabrication, but failed to replicate the potential effect of RNGs on detection rates (not preregistered). With these mixed results with respect to the effect of RNGs, we note the same limitation as for the terminal digit analysis, which is that our theoretical framework of intuitions for probabilities might not manifest itself in fabricated data, and if it does, under which conditions. Hence, further research might look into correlating the (lack of) expertise on probabilities and the kind of data being fabricated. With respect to variance analyses and effect sizes, our results suggest that these are the most promising methods when genuine data are available (we further discuss this in the General Discussion).
+
+<!-- Hier minstens 1 alinea over.
+Bijv, hoe ga je dit dan in de praktijk gebruiken?
+Kijk, je hebt hier gebruik kunnen maken van exhte data. Hoe ga je dat doen als die er niet zijn, of maar heel beperkt? Ga je dan de (supposedly fabricated) data vergelijken met de output van een model?
+Je kunt er niet onderuit om iets te zeggen over de praktijk
+ -->
+
+We originally planned to extend Study 2 with a qualitative exploration of the fabrication process. We transcribed all 28 interviews, but due to time constraints we did not get around to conducting the qualitative analyses. We note that all transcripts are available online (without reuse restrictions; [https://doi.org/10.5281/zenodo.832490](https://doi.org/10.5281/zenodo.832490)) and that the initial work can be found online as well. We invite anyone with an interest to look at these documents and further build on our work.
 
 <!-- methods don't exclude other reasons for deviation from probabilistic processes, might be incorrect random assignment or such -->
 
@@ -1535,16 +1494,18 @@ We originally planned to extend Study 2 with a qualitative exploration of the fa
 
 <!-- Hoe zit het met het gebruik van effect sizes? En als je dat gebruikt, wat gebruik je dan als referentiegroep? Ik zou ook product sqrt(reliabiliy) noemen. -->
 
-We presented the first two empirical studies on detecting individual sets of fabricated data, where the fabricated data pertained to existing experiments and detection occurred purely by using statistical methods. By comparing results from genuine- and fabricated data across summary statistics and raw data, it seems like classification based on statistically significant effect sizes strikes the best balance between parsimony, effectiveness, and usability. Variance analyses on the other hand are a well performing option that is somewhat more complex in its application. We bundled our functions for the variance- and digit analyses and the (reversed) Fisher method in the `ddfab` (short for detecting data fabrication) package for `R`, which is available through GitHub (https://github.com/chartgerink/ddfab) for application in further research and development.
+We presented the first two empirical studies on detecting individual sets of fabricated data, where the fabricated data pertained to existing experiments and detection occurred purely by using statistical methods. By comparing results from genuine- and fabricated data across summary statistics and raw data, it seems like classification based on statistically significant effect sizes strikes the best balance between parsimony, effectiveness, and usability. Variance analyses on the other hand are a well performing option that is somewhat more complex in its application. The digit analyses based on the Newcomb-Benford law and the terminal digit principle do not perform well. We bundled our functions for the variance- and digit analyses and the (reversed) Fisher method in the `ddfab` (short for detecting data fabrication) package for `R`, which is available through GitHub (https://github.com/chartgerink/ddfab) for application in further research and development.
 
-We designed the current study to have sufficient information to detect data fabrication within a given set of data, but not necessarily to infer our  results to a larger population. As such, the sample sizes of the presented studies provide little certainty when used to make inferences. This was not our primary goal, but could be the goal of further research. Our studies have highlighted that variance- and effect size analysis are methods that look promising to detect problematic data. Our descriptive results with confidence intervals may be regarded as an initial step in understanding the effectiveness of these methods to detect data fabrication. Next, we highlight some of the difficulties that remain.
+We designed the current studies to have sufficient information to detect data fabrication within a given set of data, but not necessarily to generalize our results to a larger population. As such, the sample sizes of the presented studies and the type of effect we chose as the empirical context necessarily restrict the drawing of more general inferences. Further research should ocnsider whether these results also apply to other types of data or effects. Nevertheless, our studies have highlighted that variance- and effect size analysis and multivariate associations are methods that look promising to detect problematic data. Our descriptive results with confidence intervals may be regarded as an initial step in understanding the effectiveness of these methods to detect data fabrication. Next, we highlight some of the difficulties that remain.
 
-All presented results throughout the two studies pertain to relative comparisons between genuine- and fabricated data. Hence, all statements about the performance of classification is dependent on the availability of unbiased genuine data to compare to and cannot readily be done by using generic decision criteria such as $alpha$-levels. As we saw for example in the variance analyses for Study 2, there was excellent relative classification, but absolute classification as many researchers are used to by comparing $p<\alpha$ remained problematic. More specifically, we would have classified all datasets as fabricated if we had used the traditional hypothesis testing approach. It is for exactly this reason we refrain from formulating general decision rules for the methods presented in this paper. One potential exception might be for really excessively large effect sizes (e.g., $r>.95$) as an initial screening of a set of effects.
+All presented results throughout the two studies pertain to relative comparisons between genuine- and fabricated data. Hence, all statements about the performance of classification depends on the availability of unbiased genuine data to compare to and cannot readily be done by using generic decision criteria such as $alpha$-levels. As we saw for example in the variance analyses for Study 2, there was excellent relative classification, but absolute classification as many researchers are used to by comparing $p<\alpha$ remained problematic. More specifically, we would have classified all datasets as fabricated if we had used the traditional hypothesis testing approach [see also @doi:10.1177/0956797613480366]. It is for exactly this reason we refrain from formulating general decision rules for the methods presented in this paper. This might also have implications for general applications of statistical methods to detect potentially problematic data, such as the recent application by @doi:10.1111/anae.13938. @doi:10.1111/anae.13938 used the same method applied in the Fujii case to approximately 5000 clinical trials without any further validation of the methods. Our results suggest that in practice aberrant effects are best detected in relative fashion, for example in a meta-analysis (corroborating our own anecdotal experience), or to look for excessively large effect sizes (e.g., $r>.95$) as an initial screening of a set of effects (especially when that effect size is larger than the reliability of the product of the measures involved). Using absolute classification (i.e., $p<\alpha$) can be problematic, considering that many of the methods we tested (e.g., variance analyses, digit analyses) are not specific enough, flagging both genuine- and fabricated data as problematic.
 
-Because we included the Many Labs data [@;@] we had (arguably) unbiased estimates of the effects under investigation, which is key for relative comparisons. If we had used the peer-reviewed literature on the anchoring effect (Study 1) or the Stroop effect (Study 2), we would likely find inflated effect size estimates of the anchoring- or Stroop effects due to publication bias. These inflated effect size estimates would likely result in worsened classification of genuine- and fabricated data because publication bias results in inflated effect sizes [@doi:10.1037/gpr0000034] and our studies indicate fabricating data has a similar effect. That they have the same effect in turn conflates the detection of fabricated data. Collecting an unbiased genuine effect distribution thus requires careful attention; when such care is not taken detection rates are likely to be conservative. We recommend retrieving unbiased effect size distributions for an effect from large-scale replication projects, such as Registered Replication Reports [e.g., @doi:10.1177/1745691616664694] and building systemic efforts to reduce publication bias [see also @doi:10.3390/publications6020021].
+<!-- 10.1126/science.aac6184  -->
+<!-- 10.1126/science.1256151 -->
+<!-- https://wayback.archive.org/web/20180823093137/http://stanford.edu/~dbroock/broockman_kalla_aronow_lg_irregularities.pdf -->
+Because we included the Many Labs data [@doi:10.1027/1864-9335/a000178;@doi:10.1016/j.jesp.2015.10.012] we had (arguably) unbiased estimates of the effects under investigation, which is key for relative comparisons. If we had used the peer-reviewed literature on the anchoring effect (Study 1) or the Stroop effect (Study 2), we would likely find inflated effect size estimates of the anchoring- or Stroop effects due to publication bias. These inflated effect size estimates would likely result in worsened classification of genuine- and fabricated data because publication bias results in inflated effect sizes [@doi:10.1037/gpr0000034] and our studies indicate fabricating data has a similar effect. That publication bias and fabricating data seem to have the same effect in turn conflates the detection of fabricated data. Collecting an unbiased genuine effect distribution thus requires careful attention; when assumably genuine effects are collected from a literature ridden with publication bias, detection of data fabrication may be undermined. We recommend retrieving unbiased effect size distributions for an effect from large-scale replication projects, such as Registered Replication Reports [e.g., @doi:10.1177/1745691616664694] and building systemic efforts to reduce publication bias [see also @doi:10.3390/publications6020021].
 
-Our results depend on the (majority of the) Many Labs data being genuine. If it turns out at any point that this is not the case, our results are invalidated. We remain confident that the Many Labs data are genuine for a variety of reasons of which we present a few next.
-First, the sheer amount of people involved results in a distribution of responsibility that also limits the effect if one person were to fabricate data. Second, the number of people involved also minimizes the individual reward it would have to fabricate data given that any utility would have to be shared across all researchers involved. Third, the projects actively made all individual research files available and participating researchers in the ML were made aware of this from the very start. Fourth, the analyses of the Many Labs are not conducted by the same individuals who collected the data. We cannot exclude the possibility of malicious actors in the ML studies, but also have no evidence that suggests there would be.
+Our results depend on the (majority of the) Many Labs data being genuine. We remain confident that the Many Labs data are genuine for a variety of reasons. First, the sheer number of people involved in these projects results in a distribution of responsibility that also limits the effect if one person were to fabricate data. Second, the number of people involved also minimizes the individual reward it would have to fabricate data given that any utility would have to be shared across all researchers involved. Third, the projects actively made all individual research files available and participating researchers in the ML were made aware of this from the very start. Fourth, the analyses of the Many Labs are not conducted by the same individuals who collected the data. We of course cannot exclude the possibility of malicious actors in the ML studies, but also have no evidence that suggests there would be.
 
 ```{r echo = FALSE}
 prevalence <- .02
@@ -1553,26 +1514,71 @@ alpha <- .05
 ppv <- (1000 * prevalence * power) / ((1000 * prevalence * power) + (1000 * (1-prevalence) * alpha))
 ```
 
-Highly relevant to the application of these kinds of methods beyond these studies is that our study design implies a high prevalence of data fabrication, which directly affects the positive predictive value of these statistical methods. The positive predictive value is the chance of getting a true positive when a positive result is found. More specifically, Study 1 by design has a prevalence of `r round((39/(39+36)) * 100, 0)`% of data fabrication and Study 2 has a prevalence of `r round(28/(21+28)*100, 0)`%. This greatly affects the positive predictive value (PPV) of these methods if they would be applied in a more general setting. After all, even if we could classify all fabricated data correctly and falsely regard genuine data as fabricated in 5% of the cases, then with a prevalence of 2% [@doi:10.1371/journal.pone.0005738] the positive predictive value would only be `r round(ppv * 100, 0)`%. This is a best case scenario that would cause approximately 1 out of 3 cases of 'detected data fabrication' to be false. Given that we saw that the variance analyses for example are oversensitive, it is likely that PPV will be even lower. The likely low prevalence of data fabrication thus makes widespread application of any statistical method to detect data fabrication problematic.
+Highly relevant to the application of these kinds of methods in screening for problems in the published literature [e.g., @doi:10.1128/mBio.00809-16;@doi:10.1111/anae.13938] or during peer review is that the diagnostic value of any instrument is dependent on the base rate of afflicted cases (here: fabricated data). In our study design, we built in a high prevalence of data fabrication, which directly affects the positive predictive value of these statistical methods. The positive predictive value is the chance of getting a true positive when a positive result is found. More specifically, Study 1 by design has a prevalence of `r round((39/(39+36)) * 100, 0)`% of data fabrication and Study 2 has a prevalence of `r round(28/(21+28)*100, 0)`%. This greatly affects the positive predictive value (PPV) of these methods if they would be applied in a more general setting. After all, even if we could classify all fabricated data correctly and falsely regard genuine data as fabricated in 5% of the cases, then with a prevalence of 2% [@doi:10.1371/journal.pone.0005738] the positive predictive value would only be `r round(ppv * 100, 0)`%. This is a best case scenario that would cause approximately 1 out of 3 cases of 'detected data fabrication' to be false. Hence, we do not recommend attempting to detect data fabrication on statistical methods alone.
 
-We recommend against widespread application of these statistical methods to detect potential data fabrication. As we explained just now, a low prevalence will drastically decrease its effectiveness. If prevalence appears to be much higher than expected, we might revisit this recommendation. These statistical methods used throughout our studies can still be used as screening tools in review processes and as tools in formal misconduct investigations where prevalence is supposedly higher than in the general population of research results. As we mentioned before, excessively large effect sizes might be used as a screening approach for further manual investigation, but we note that results from these individual tests might provide confirmation bias in any subsequent inspection of the results. As such, if any of these statistical tools are used, we recommend to solely use them to screen for indications of potential data anomalies, which are subsequently further inspected by a  blinded researcher to prevent confirmation bias.
+We do advise to use some of the more successful statistical methods as screening tools in review processes and as additional tools in formal misconduct investigations where prevalence is supposedly higher than in the general population of research results. We note that this should only happen in combination with evidence from other sources than statistical methods. As we mentioned before, excessively large effect sizes might be used as a screening approach for further manual or in-depth investigation, but we warn against the potential for confirmation bias that results from these earlier tests might create. As such, if any of these statistical tools are used, we recommend to solely use them to screen for indications of potential data anomalies, which are subsequently further inspected by a  blinded researcher to prevent confirmation bias and using a rigorous protocol that involves due care and due process.
 
-We note that our studies have been regarded as unethical by some due to the nature of asking participants to fabricate data [see for example @ellemers]. We understand and respect that asking researchers to show one of the most widely condemned scientific behaviors is risky. While designing these studies, we also asked ourselves whether this was an appropriate design and ultimately regarded it was for a set of reasons. First, there was little utility in simulating potential data fabrication strategies because there is little to no knowledge of how researchers actually fabricate data. Second, the cases of data fabrication known to us are severely self-selected (i.e., based on detection bias), which would limit the ecological validity of any tests we could do on those. These two reasons made it necessary for us to collect fabricated data. After we had come to that decision, we also regarded that we should minimize the negative effect it had on the researchers participating. We attempted to minimize this negative effect by using findings from psychology research to decrease potential carry-over of this controlled misbehavior. Despite that some of our participants indicated that they felt initial unease with fabricating data for the study, no participants reached out afterwards indicating feeling conflicted. Moreover, we actively attempt to maximize returns of the data collected by sharing all the information we gathered openly and without restrictions. We consider these reasons to balance the design and ask of our study from our participants.
+We note that our studies have been regarded as unethical by some due to the nature of asking participants to fabricate data [see for example @ellemers]. We understand and respect that asking researchers to show one of the most widely condemned scientific behaviors is risky. While designing these studies, we also asked ourselves whether this was an appropriate design and ultimately regarded it was appropriate for several reasons. First, there was little utility in simulating potential data fabrication strategies because there is little to no knowledge of how researchers actually fabricate data. Second, the cases of data fabrication known to us are severely self-selected (i.e., based on detection bias), which would limit the ecological validity of any tests we could do on those. These two reasons made it necessary for us to collect fabricated data. After we had come to that decision, we also regarded that we should minimize the negative effect it had on the researchers participating. We attempted to minimize this negative effect by using findings from psychology research to decrease potential carry-over of this controlled misbehavior. Despite that some of our participants indicated that they felt initial unease with fabricating data for the study, no participants reached out afterwards indicating feeling conflicted. Moreover, we actively attempt to maximize returns of the data collected by sharing all the information we gathered openly and without restrictions. We consider these reasons to balance the design and ask of our study from our participants.
 
-Another ethical issue is the dual use of these kinds of statistical methods to detect data fabrication. Dual use is the ethical issue where the development of knowledge can be used for both good- and evil purposes, hence, whether we should want to morally conduct this research. A traditional example is the research into biological agents that might be used for chemical warfare. For our research, a data fabricator might use our research to test their fabricated data until it goes undetected based on these methods. There is no inherent way to control whether malicious actors do this and one might argue that this is sufficient reason to not conduct this kind of research to begin with. However, borrowing from copyright law [@isbn:9781400851911], we argue that the potential ethical uses of these methods (improved detection of fabricated data by a potential many) outweigh the potential unethical uses of these methods (undermining detection by a potential few). Secrecy in this respect would actually enhance the ability of malicious actors to remain undetected, because when they find a way to exploit the system fewer people can investigate suspicions they might have. Hence, we regard the ethical issue of dual use to ultimately weigh in favor of doing the research, although we recognize that this might start a competition in undermining detection of problematic data.
+Another ethical issue is the dual use of these kinds of statistical methods to detect data fabrication. Dual use is the ethical issue where the development of knowledge can be used for both good- and evil purposes, hence, whether we should want to morally conduct this research. A traditional example is the research into biological agents that might be used for chemical warfare. For our research, a data fabricator might use our research to test their fabricated data until it goes undetected based on these methods. There is no inherent way to control whether malicious actors do this and one might argue that this is sufficient reason to shy away from conducting this kind of research to begin with. However, we argue that the potential ethical uses of these methods are substantial (improved detection of fabricated data by a potential many) and outweigh the potential unethical uses of these methods (undermining detection by a potential few). Secrecy in this respect would actually enhance the ability of malicious actors to remain undetected, because when they find a way to exploit the system fewer people can investigate suspicions they might have. Hence, we regard the ethical issue of dual use to ultimately weigh in favor of doing the research, although we recognize that this might start a competition in undermining detection of problematic data.
 
-Some of our participants in Study 2 indicated using the Many Labs (or other open) data to fabricate their own dataset. During the interviews, some participants indicated that they thought this would make it more difficult to detect their data as fabricated. We did not investigate evidence for this claim specifically (this could be avenue for further research) but we note that our detection in Study 2 performed well despite some participants using genuine data. Moreover, we note that open data might actually facilitate the detection of fabricated data for two reasons. First, open data improves the unbiased estimation of effect sizes, where the peer-reviewed literature inflates estimated effect sizes due to publication bias. As we mentioned before, having these unbiased effect size estimates seem key to detecting issues. Second, if data are fabricated based on existing data, it is more likely to be detected if it is based on open data than when based on closed data. For example, in the LaCour case, data was fabricated based on open data [@]. Researchers detected that this data had been fabricated because it seemed to be a(n almost) linear transformation of an open dataset [@]. As such, we see no concrete evidence to support the claim that open data could lead to worsened detection of fabricated data, but we also recognize that this does not exclude it as an option. We see the effect of open data on detection of data fabrication as a fruitful avenue for further research.  
+Some of our participants in Study 2 indicated using the Many Labs (or other open) data to fabricate their own dataset. During the interviews, some participants indicated that they thought this would make it more difficult to detect their data as fabricated. We did not investigate evidence for this claim specifically (this could be avenue for further research) but we note that our detection in Study 2 performed well despite some participants using genuine data. Moreover, we note that open data might actually facilitate the detection of fabricated data for two reasons. First, open data from preregistered projects improves the unbiased estimation of effect sizes, where the peer-reviewed literature inflates estimated effect sizes due to publication bias. As we mentioned before, having these unbiased effect size estimates seem key to detecting issues. Second, if data are fabricated based on existing data, it is more likely to be detected if it is based on open data than when based on closed data. For example, in the LaCour case data were fabricated based on open data [@@doi:10.1126/science.aac6184;@doi:10.1126/science.1256151]. Researchers detected that this data had been fabricated because it seemed to be a(n almost) linear transformation of variables in an open dataset [@lg-irreg]. As such, we see no concrete evidence to support the claim that open data could lead to worsened detection of fabricated data, but we also recognize that this does not exclude it as an option. We see the effect of open data on detection of data fabrication as a fruitful avenue for further research.  
 
-All in all, we see a need for unbiased effect size estimates to provide meaningful comparisons of genuine- and potentially fabricated data, but even when those are available the (potentially) low positive predictive value of widespread detection of data fabrication is going extremely difficult. Hence, we recommend meta-research to focus on more effective systemic reforms to make progress on the root cause of data fabrication possible. The root cause is likely to be the incentive system that rewards bean-counts of outputs and does not put them in the context of a larger collective scientific effort where validity counts. In other words, rewarding scientists for behaviors that are not primarily in science's interest. Our premise in these two research studies was after the fact detection of a problem, but we recognize that prior to the fact addressing of the underlying causes that give rise to data fabrication is much more sustainable and effective. Nonetheless, we also recognize that there will always be malintent involved for some researchers, and we recommend that meta-research engage in more penetration testing of how those with malintent can fool a system.
+All in all, we see a need for unbiased effect size estimates to provide meaningful comparisons of genuine- and potentially fabricated data, but even when those are available the (potentially) low positive predictive value of widespread detection of data fabrication is going extremely difficult. Hence, we recommend meta-research to focus on more effective systemic reforms to make progress on the root cause of data fabrication possible. The root cause is likely to be the incentive system that rewards bean-counts of outputs and does not put them in the context of a larger collective scientific effort where validity counts. Our premise in these two research studies was after the fact detection of a problem, but we recognize that prior to the fact addressing of the underlying causes that give rise to data fabrication is more sustainable and effective. Nonetheless, we also recognize that there will always be dishonesty involved for some researchers, and we recommend that research engage in more penetration testing of how those with dishonesty can fool a system.
 
 ```{r echo = FALSE}
-sel <- dat_raw[grepl(dat_raw$test, pattern = 'Variance analysis, congruent'), ]
-sel <- sel[,c(1,2,4)]
-knitr::kable(sel[with(sel, order(result)),], caption = "Raw results of the variance analyses congruent, sorted on test result [for JMW and MvA, not final manuscript]", digits = 5)
-sel <- dat_raw[grepl(dat_raw$test, pattern = 'Variance analysis, incongruent'), ]
-sel <- sel[,c(1,2,4)]
-knitr::kable(sel[with(sel, order(result)),], caption = "Raw results of the variance analyses incongruent, sorted on test result [for JMW and MvA, not final manuscript]", digits = 5)
+# sel <- dat_raw[grepl(dat_raw$test, pattern = 'Variance analysis, congruent'), ]
+# sel <- sel[,c(1,2,4)]
+# knitr::kable(sel[with(sel, order(result)),], caption = "Raw results of the variance analyses congruent, sorted on test result [for JMW and MvA, not final manuscript]", digits = 5)
+# sel <- dat_raw[grepl(dat_raw$test, pattern = 'Variance analysis, incongruent'), ]
+# sel <- sel[,c(1,2,4)]
+# knitr::kable(sel[with(sel, order(result)),], caption = "Raw results of the variance analyses incongruent, sorted on test result [for JMW and MvA, not final manuscript]", digits = 5)
 
 ```
 
+\newpage
+
+## Appendix A
+
+```{r appendix-b-congruent, echo = FALSE}
+sel <- dat_raw[grepl(dat_raw$test, pattern = 'Variance analysis, congruent'), ]
+sel <- sel[ ,c(1,2,4)]
+sel <- sel[with(sel, order(result)),]
+sel$result[sel$result < .001] <- '<.001'
+
+knitr::kable(sel, caption = 'Results for the variance analysis of the congruent standard deviations per lab in the Many labs or per participant fabricating data. Variance analysis based on bootstrapped p-value from 100,000 iterations. Sorted from smallest- to largest p-value.', booktabs = TRUE, longtable = TRUE, row.names = FALSE, digits = 3) %>%
+  kable_styling(latex_options = c('striped', 'repeat_header'))
+```
+
+```{r appendix-b-incongruent, echo = FALSE}
+sel <- dat_raw[grepl(dat_raw$test, pattern = 'Variance analysis, incongruent'), ]
+sel <- sel[ ,c(1,2,4)]
+sel <- sel[with(sel, order(result)),]
+sel$result[sel$result < .001] <- '<.001'
+
+knitr::kable(sel[with(sel, order(result)),], caption = 'Results for the variance analysis of the incongruent standard deviations per lab in the Many labs or per participant fabricating data. Sorted from smallest- to largest p-value.', booktabs = TRUE, longtable = TRUE, row.names = FALSE, digits = 3) %>%
+  kable_styling(latex_options = c('striped', 'repeat_header'))
+```
+
+```{r echo = FALSE}
+sel <- dat_raw[grepl(dat_raw$test, pattern = 'Combination w Fisher'), ]
+sel <- sel[ ,c(1,2,4)]
+sel <- sel[with(sel, order(result)),]
+sel$result[sel$result < .001] <- '<.001'
+
+knitr::kable(sel[with(sel, order(result)),], caption = 'Results for the combination method using the original Fisher method per lab in the Many labs or per participant fabricating data. Sorted from smallest- to largest p-value.', booktabs = TRUE, longtable = TRUE, row.names = FALSE, digits = 3) %>%
+  kable_styling(latex_options = c('striped', 'repeat_header'))
+```
+
+```{r echo = FALSE}
+sel <- dat_raw[grepl(dat_raw$test, pattern = 'Effect size'), ]
+sel <- sel[ ,c(1,2,4)]
+
+knitr::kable(sel[with(sel, order(result, decreasing = TRUE)),], caption = 'Effect sizes of the classic Stroop effect per lab in the Many labs or per participant fabricating data. Sorted from largest- to smallest effect size.', booktabs = TRUE, longtable = TRUE, row.names = FALSE) %>%
+  kable_styling(latex_options = c('striped', 'repeat_header'))
+```
+
+\newpage
+
 # References
+
